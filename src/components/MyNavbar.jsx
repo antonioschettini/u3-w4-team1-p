@@ -121,7 +121,6 @@ function MyNavbar() {
               }
               className="d-flex flex-column no-caret nav-dropdown-profilo"
               align="end"
-              dropdownMenuClassName="shadow-lg border-0 p-3"
             >
               <div
                 className="d-flex align-items-center mb-2"

@@ -1,31 +1,31 @@
-import { Col, Container, Row } from "react-bootstrap";
-import RightLanguageAndUrl from "./RightLanguageAndUrl";
-import WhoVisited from "./WhoVisited";
-import ProfileHero from "./ProfileHero";
-import Attività from "./Attività";
-import ConsigliatoPerTe from "./ConsigliatoPerTe";
-import Analisi from "./Analisi";
-import PeopleYouMayKnow from "./PeopleYouMayKnow";
-import CompetenzeCard from "./CompetenzeCard";
-import EsperienzaCard from "./EsperienzaCard";
-import FormazioneCard from "./FormazioneCard";
-import Interests from "./Interests";
-import { fetchSavedProfiles } from "../../../redux/actions";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import InformazioniBio from "./InformazioniBio";
+import { Col, Container, Row } from "react-bootstrap"
+import RightLanguageAndUrl from "./RightLanguageAndUrl"
+import WhoVisited from "./WhoVisited"
+import ProfileHero from "./ProfileHero"
+import Attività from "./Attività"
+import ConsigliatoPerTe from "./ConsigliatoPerTe"
+import Analisi from "./Analisi"
+import PeopleYouMayKnow from "./PeopleYouMayKnow"
+import CompetenzeCard from "./CompetenzeCard"
+import EsperienzaCard from "./EsperienzaCard"
+import FormazioneCard from "./FormazioneCard"
+import Interests from "./Interests"
+import { fetchSavedProfiles } from "../../../redux/actions"
+import { useEffect } from "react"
+import { useDispatch } from "react-redux"
+import InformazioniBio from "./InformazioniBio"
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   useEffect(() => {
-    dispatch(fetchSavedProfiles());
-  }, []);
+    dispatch(fetchSavedProfiles())
+  }, [])
 
   return (
     <>
       <Container
         fluid={true}
-        className="d-flex justify-content-center m-0 mx-md-5"
+        className="d-flex justify-content-center m-0 mx-md-5 container-mw"
       >
         <Row className="justify-content-center px-0 px-md-5">
           {/* Sezione centrale main */}
@@ -49,7 +49,7 @@ const Profile = () => {
         </Row>
       </Container>
     </>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile

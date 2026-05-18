@@ -59,3 +59,68 @@
   height: 130px;
   object-fit: cover;
 }
+
+.no-caret .dropdown-toggle::after {
+  display: none !important;
+}
+
+.icona-bold {
+  stroke: currentColor;
+  stroke-width: 2px;
+  padding: 2px;
+  overflow: visible;
+}
+
+.nav-link-color-e {
+  color: #666666;
+}
+
+.nav-link-color:hover .nav-link-color-e {
+  color: black;
+}
+
+.focus-input .focus-input-text {
+  background-color: white;
+  transition: all 0.3s ease;
+}
+.focus-input .focus-input-control {
+  transition: all 0.3s ease;
+}
+
+.focus-input .focus-input-width {
+  width: 250px;
+
+  transition: all 0.3s ease;
+}
+
+.focus-input:focus-within .focus-input-text {
+  background-color: #dedede;
+  border-color: black;
+  border-width: 2px;
+}
+
+.focus-input:focus-within .focus-input-control {
+  background-color: #dedede;
+  border-color: black;
+  border-width: 2px;
+}
+.focus-input:focus-within .focus-input-width {
+  width: 50vw;
+}
+@media screen and (min-width: 992px) {
+  .focus-input:focus-within .focus-input-width {
+    width: 600px;
+  }
+}
+
+.container-mw {
+  max-width: 1128px !important;
+}
+
+.nav-dropdown-profilo .dropdown-menu {
+  box-shadow: 0 0 3rem rgba(0, 0, 0, 0.2) !important;
+  border: 0 !important;
+  padding: 1rem !important;
+  border-radius: 0.5rem !important;
+  margin-top: 0.5rem !important;
+}
