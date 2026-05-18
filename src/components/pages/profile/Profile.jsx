@@ -19,8 +19,8 @@ const Profile = () => {
         fluid={true}
         className="d-flex justify-content-center m-0 mx-md-5"
       >
-        <Row className="justify-content-center px-5">
-          {/* Colonna a Sinistra */}
+        <Row className="justify-content-center px-0 px-md-5">
+          {/* Sezione centrale main */}
           <Col xs={12} md={8}>
             <ProfileHero />
             <ConsigliatoPerTe />
