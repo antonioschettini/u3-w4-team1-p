@@ -35,7 +35,7 @@
 }
 
 .blurred {
-  filter: blur(1px);
+  filter: blur(4px);
 }
 /* Css ProfileHero */
 /* Altezza del banner in modo che non si schiacci */

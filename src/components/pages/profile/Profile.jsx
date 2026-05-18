@@ -10,8 +10,16 @@ import CompetenzeCard from "./CompetenzeCard";
 import EsperienzaCard from "./EsperienzaCard";
 import FormazioneCard from "./FormazioneCard";
 import Interests from "./Interests";
+import { fetchSavedProfiles } from "../../../redux/actions";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchSavedProfiles());
+  }, []);
+
   return (
     <>
       <Container
