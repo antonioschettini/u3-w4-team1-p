@@ -2,7 +2,7 @@ import { Briefcase, PlusCircle } from "react-bootstrap-icons";
 
 function EsperienzaCard() {
   return (
-    <div className="card mb-3" style={{ border: "1.5px dashed #c0cdd8" }}>
+    <div className="card mb-3 shadow-sm" style={{ border: "1.5px dashed #c0cdd8" }}>
       <div className="card-body">
         <h5 className="card-title">Esperienza</h5>
         <p className="text-muted small">
