@@ -10,7 +10,10 @@ import PeopleYouMayKnow from "./PeopleYouMayKnow";
 const Profile = () => {
   return (
     <>
-      <Container>
+      <Container
+        fluid={true}
+        className="d-flex justify-content-center m-0 mx-md-5"
+      >
         <Row className="justify-content-center px-5">
           <Col xs={12} md={8}>
             <ProfileHero />
