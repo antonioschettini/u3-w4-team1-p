@@ -9,6 +9,7 @@ import PeopleYouMayKnow from "./PeopleYouMayKnow";
 import CompetenzeCard from "./CompetenzeCard";
 import EsperienzaCard from "./EsperienzaCard";
 import FormazioneCard from "./FormazioneCard";
+import Interests from "./Interests";
 
 const Profile = () => {
   return (
@@ -31,6 +32,7 @@ const Profile = () => {
             <RightLanguageAndUrl />
             <WhoVisited />
             <PeopleYouMayKnow />
+            <Interests />
           </Col>
         </Row>
       </Container>
