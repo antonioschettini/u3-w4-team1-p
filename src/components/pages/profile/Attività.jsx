@@ -1,6 +1,6 @@
 import { PlusCircle, Pencil, ChatLeftTextFill } from "react-bootstrap-icons";
 
-function Attivita() {
+function Attività() {
   return (
     <div className="card mb-3 shadow-sm">
       <div className="card-body">
@@ -36,4 +36,4 @@ function Attivita() {
   );
 }
 
-export default Attivita;
+export default Attività;
