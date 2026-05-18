@@ -10,6 +10,7 @@ import CompetenzeCard from "./CompetenzeCard";
 import EsperienzaCard from "./EsperienzaCard";
 import FormazioneCard from "./FormazioneCard";
 import Interests from "./Interests";
+import InformazioniBio from "./InformazioniBio";
 
 const Profile = () => {
   return (
@@ -19,15 +20,18 @@ const Profile = () => {
         className="d-flex justify-content-center m-0 mx-md-5"
       >
         <Row className="justify-content-center px-5">
+          {/* Colonna a Sinistra */}
           <Col xs={12} md={8}>
             <ProfileHero />
             <ConsigliatoPerTe />
             <Analisi />
             <Attività />
+            <InformazioniBio />
             <CompetenzeCard />
             <EsperienzaCard />
             <FormazioneCard />
           </Col>
+          {/* Colonna a Destra (aside) */}
           <Col xs={4} className="flex-column">
             <RightLanguageAndUrl />
             <WhoVisited />
