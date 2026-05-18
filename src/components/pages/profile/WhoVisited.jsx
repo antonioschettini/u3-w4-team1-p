@@ -9,11 +9,11 @@ const WhoVisited = () => {
             Altri profili consultati
           </p>
         </div>
-        <p className="text-secondary" style={{ fontSize: "0.7rem" }}>
+        <p className="text-secondary mb-0" style={{ fontSize: "0.7rem" }}>
           Visibile solo a te
         </p>
       </div>
-      <div className="d-flex flex-column pt-3">
+      <div className="d-flex flex-column">
         <BlurredProfileCard />
         <BlurredProfileCard />
         <BlurredProfileCard />
