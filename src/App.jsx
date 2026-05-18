@@ -1,10 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import BlaBla from "./components/pages/profile/Blabla";
+import Profile from "./components/pages/profile/Profile";
 
 function App() {
   return (
     <>
-      <BlaBla></BlaBla>
+      <Profile />
     </>
   );
 }
