@@ -6,14 +6,14 @@ const RightLanguageAndUrl = () => {
       <div className="d-flex flex-column border-bottom border-1 border-tertiary">
         <div className="d-flex justify-content-between align-items-center">
           <p className="fw-semibold m-0 fs-5">Lingua del profilo</p>
-          <Pencil className="fs-5" style={{ color: "#404040" }} />
+          <Pencil className="fs-5 pencil" />
         </div>
         <p className="text-secondary mt-2">Italiano</p>
       </div>
       <div className="d-flex flex-column pt-3">
         <div className="d-flex justify-content-between align-items-center">
           <p className="fw-semibold m-0 fs-5">Profilo Pubblico e URL</p>
-          <Pencil className="fs-5" style={{ color: "#404040" }} />
+          <Pencil className="fs-5 pencil" />
         </div>
         <p className="text-secondary mb-0 mt-2 text-break">
           www.linkedin.com/in/andrea-saderi-9b0aa5152

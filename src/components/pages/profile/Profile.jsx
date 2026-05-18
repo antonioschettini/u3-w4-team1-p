@@ -12,7 +12,7 @@ const Profile = () => {
     <>
       <Container>
         <Row className="justify-content-center px-5">
-          <Col xs={8}>
+          <Col xs={12} md={8}>
             <ProfileHero />
             <ConsigliatoPerTe />
             <Analisi />

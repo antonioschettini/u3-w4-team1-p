@@ -2,6 +2,15 @@
 #root {
   background-color: #f4f2ee;
 }
+
+.pencil {
+  color: #404040;
+  cursor: pointer;
+}
+
+.pencil:hover {
+  color: black;
+}
 /* WhoVisited */
 
 .visualizza-btn {
