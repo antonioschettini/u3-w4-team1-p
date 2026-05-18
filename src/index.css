@@ -26,3 +26,25 @@
 .blurred {
   filter: blur(1px);
 }
+/* Css ProfileHero */
+/* Altezza del banner in modo che non si schiacci */
+.hero-banner {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* posizione imm profilo verso l'alto per farla entrare nel banner */
+.profile-pic-container {
+  margin-top: -75px;
+  padding-left: 15px;
+  z-index: 2;
+}
+
+/* Dimensioni fisse della foto profilo */
+.profile-pic {
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
+}
