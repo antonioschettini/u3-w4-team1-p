@@ -1,4 +1,4 @@
-import { Container, Row } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 import RightLanguageAndUrl from "./RightLanguageAndUrl";
 import WhoVisited from "./WhoVisited";
 
@@ -7,8 +7,10 @@ const Profile = () => {
     <>
       <Container>
         <Row>
-          <RightLanguageAndUrl />
-          <WhoVisited />
+          <Col xs={3} className="flex-column">
+            <RightLanguageAndUrl />
+            <WhoVisited />
+          </Col>
         </Row>
       </Container>
     </>
