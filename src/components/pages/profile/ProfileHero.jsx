@@ -1,8 +1,19 @@
 import { Row, Col, Card, Button, Image } from "react-bootstrap";
 import { Pencil } from "react-bootstrap-icons";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchMioProfilo } from "../../../redux/actions";
 
 const ProfileHero = () => {
+  const dispatch = useDispatch();
+  const profilo = useSelector((state) => state.profilo.mioProfilo);
+
+  // appena la pagina di carica parte la fetch
+  useEffect(() => {
+    dispatch(fetchMioProfilo());
+  }, []); // o in caso capiamo successivamente a quale cambiamento far partire la fetch (dispatch)
   return (
+    // aggiornamento con i dati reali
     <Card className="shadow-sm mb-3">
       <div className="position-relative">
         {/* Immagine Bacheca */}
@@ -34,7 +45,7 @@ const ProfileHero = () => {
         {/* Foto profilo */}
         <div className="profile-pic-container position-relative">
           <Image
-            src="immprofilo.jpeg"
+            src={profilo?.image}
             roundedCircle
             className="border border-white border-4 profile-pic"
             alt="Foto profilo"
@@ -44,20 +55,22 @@ const ProfileHero = () => {
           {/* Informazioni profilo */}
           <Col>
             {/* Nome */}
-            <h2 className="fw-bold m-0">Antonio Schettini</h2>
+            {/* Nome e Cognome presi dal server */}
+            <h2 className="fw-bold m-0">
+              {profilo?.name} {profilo?.surname}
+            </h2>
             {/* Occupazione */}
             <p className="lead fs-6 mt-1 mb-2 text-dark">
-              Studente Full Stack Developer presso EPICODE Institute of
-              Technology
+              {profilo?.title || "Nessuna qualifica inserita"}
             </p>
             {/* dove vivo */}
             <p className="text-muted small m-0">
-              Bari, Puglia, Italia ·{" "}
+              {profilo?.area || "Italia"} ·{" "}
               <span className="text-primary fw-semibold">
                 Informazioni di contatto
               </span>
-              {/* collegamenti */}
             </p>
+            {/* collegamenti */}
             <p className="text-primary small fw-semibold mt-1">
               100 collegamenti
             </p>
@@ -121,7 +134,8 @@ const ProfileHero = () => {
                       Disponibile a lavorare
                     </h6>
                     <p className="small m-0 text-muted mt-1">
-                      Bari +4 altre | In sede · Ibrido · Da remoto
+                      {profilo?.area || "Bari"} +4 altre | In sede · Ibrido · Da
+                      remoto
                     </p>
                     <span className="text-primary small fw-semibold d-block mt-1 cursor-pointer">
                       Mostra dettagli
