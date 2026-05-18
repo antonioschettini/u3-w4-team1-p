@@ -15,12 +15,10 @@ const Profile = () => {
         <Analisi />
         <Attività />
 
-        <Row>
-          <Col xs={3} className="flex-column">
-            <RightLanguageAndUrl />
-            <WhoVisited />
-          </Col>
-        </Row>
+        <Col xs={3} className="flex-column">
+          <RightLanguageAndUrl />
+          <WhoVisited />
+        </Col>
       </Container>
     </>
   );
