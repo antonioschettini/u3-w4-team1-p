@@ -1,6 +1,6 @@
 const BlurredProfileCard = () => {
   return (
-    <div className="d-flex justify-content-between align-items-start border-top border-1 border-tertiary pt-3 mb-3">
+    <div className="d-flex justify-content-start align-items-start border-top border-1 border-tertiary pt-3 mb-3">
       <div
         className="rounded-circle me-2 overflow-hidden flex-shrink-0"
         style={{ width: "35px", height: "35px" }}
