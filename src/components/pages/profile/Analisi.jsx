@@ -17,7 +17,7 @@ function StatCard({ value, label, hint }) {
 
 function Analisi() {
   return (
-    <div className="card mb-3">
+    <div className="card mb-3 shadow-sm">
       <div className="card-body">
         <h5 className="card-title">Analisi</h5>
         <p className="text-muted small">
