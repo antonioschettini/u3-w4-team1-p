@@ -22,7 +22,7 @@ const PeopleYouMayKnow = () => {
           </Spinner>
         ) : (
           profiles
-            .slice(0, 5)
+            .slice(500, 505)
             .map((profile) => (
               <PeopleCard key={profile._id} profile={profile} />
             ))
