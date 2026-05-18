@@ -1,12 +1,15 @@
 import { Row, Col, Card, Button, Image } from "react-bootstrap";
 import { Pencil } from "react-bootstrap-icons";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchMioProfilo } from "../../../redux/actions";
+import ProfileInfoModal from "./ProfileInfoModal";
 
 const ProfileHero = () => {
   const dispatch = useDispatch();
   const profilo = useSelector((state) => state.profilo.mioProfilo);
+  //  Questo è l'interruttore del modale all'inizio è spento (false)
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   // appena la pagina di carica parte la fetch
   useEffect(() => {
@@ -36,11 +39,15 @@ const ProfileHero = () => {
       <Card.Body className="position-relative">
         {/* 2. seconda matita */}
         <Button
-          variant="light"
-          className="position-absolute top-0 end-0 m-3 rounded-circle d-flex align-items-center justify-content-center p-2 shadow-sm border-0"
-          style={{ width: "36px", height: "36px" }}
+          variant="link"
+          className="position-absolute top-0 end-0 m-3 d-flex align-items-center justify-content-center p-2 border-0 text-decoration-none "
+          style={{ width: "36px", height: "36px", cursor: "pointer" }}
         >
-          <Pencil size={16} className="text-black" />
+          <Pencil
+            style={{ cursor: "pointer" }}
+            size={16}
+            className="text-black"
+          />
         </Button>
         {/* Foto profilo */}
         <div className="profile-pic-container position-relative">
@@ -63,10 +70,15 @@ const ProfileHero = () => {
             <p className="lead fs-6 mt-1 mb-2 text-dark">
               {profilo?.title || "Nessuna qualifica inserita"}
             </p>
-            {/* dove vivo */}
+            {/* Dove vivo e Informazioni di contatto */}
             <p className="text-muted small m-0">
               {profilo?.area || "Italia"} ·{" "}
-              <span className="text-primary fw-semibold">
+              {/* Quando clicchi qui sotto, l'interruttore diventa 'true' e apre il Modale */}
+              <span
+                className="text-primary fw-semibold"
+                style={{ cursor: "pointer" }}
+                onClick={() => setShowInfoModal(true)}
+              >
                 Informazioni di contatto
               </span>
             </p>
@@ -153,6 +165,13 @@ const ProfileHero = () => {
           </Col>
         </Row>
       </Card.Body>
+      {/*  Modale info contatto
+          Le passiamo lo stato (showInfoModal), la funzione per chiuderla (setShowInfoModal(false)) e i dati del profilo */}
+      <ProfileInfoModal
+        show={showInfoModal}
+        handleClose={() => setShowInfoModal(false)}
+        profilo={profilo}
+      />
     </Card>
   );
 };
