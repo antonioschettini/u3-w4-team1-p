@@ -1,5 +1,6 @@
 import { Container, Row } from "react-bootstrap";
 import RightLanguageAndUrl from "./RightLanguageAndUrl";
+import WhoVisited from "./WhoVisited";
 
 const Profile = () => {
   return (
@@ -7,6 +8,7 @@ const Profile = () => {
       <Container>
         <Row>
           <RightLanguageAndUrl />
+          <WhoVisited />
         </Row>
       </Container>
     </>
