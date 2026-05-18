@@ -9,6 +9,7 @@ import PeopleYouMayKnow from "./PeopleYouMayKnow";
 import CompetenzeCard from "./CompetenzeCard";
 import EsperienzaCard from "./EsperienzaCard";
 import FormazioneCard from "./FormazioneCard";
+import Interests from "./Interests";
 
 const Profile = () => {
   return (
@@ -17,7 +18,7 @@ const Profile = () => {
         fluid={true}
         className="d-flex justify-content-center m-0 mx-md-5"
       >
-        <Row className="justify-content-center px-5">
+        <Row className="justify-content-center px-0 px-md-5">
           <Col xs={12} md={8}>
             <ProfileHero />
             <ConsigliatoPerTe />
@@ -31,6 +32,7 @@ const Profile = () => {
             <RightLanguageAndUrl />
             <WhoVisited />
             <PeopleYouMayKnow />
+            <Interests />
           </Col>
         </Row>
       </Container>
