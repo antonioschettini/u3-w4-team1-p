@@ -7,9 +7,7 @@ const WhoVisited = () => {
         <div className="d-flex justify-content-between align-items-center">
           <p className="fw-semibold m-0">Altri profili consultati</p>
         </div>
-        <p className="text-secondary mb-0" style={{ fontSize: "0.8rem" }}>
-          Visibile solo a te
-        </p>
+        <p className="text-secondary mb-0">Visibile solo a te</p>
       </div>
       <div className="d-flex flex-column">
         <BlurredProfileCard />

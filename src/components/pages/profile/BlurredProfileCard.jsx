@@ -14,7 +14,7 @@ const BlurredProfileCard = () => {
 
       <div className="d-flex flex-column">
         <p className="fw-semibold m-0">Qualcuno presso stoca automatics...</p>
-        <button className="visualizza-btn rounded-pill px-2 py-1 mt-1">
+        <button className="visualizza-btn rounded-pill px-2 py-1 mt-2">
           Visualizza
         </button>
       </div>

@@ -5,6 +5,7 @@ import ProfileHero from "./ProfileHero";
 import Attività from "./Attività";
 import ConsigliatoPerTe from "./ConsigliatoPerTe";
 import Analisi from "./Analisi";
+import PeopleYouMayKnow from "./PeopleYouMayKnow";
 
 const Profile = () => {
   return (
@@ -20,6 +21,7 @@ const Profile = () => {
           <Col xs={4} className="flex-column">
             <RightLanguageAndUrl />
             <WhoVisited />
+            <PeopleYouMayKnow />
           </Col>
         </Row>
       </Container>
