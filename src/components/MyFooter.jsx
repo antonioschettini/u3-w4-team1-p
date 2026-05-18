@@ -68,7 +68,7 @@ function MyFooter() {
 
           <Col xs={12} md={6}>
             <a href ="#" className="text-muted small d-block mb-1 text-decoration-none">Seleziona lingua</a>
-            <select className="form-select form-select-sm w-25">
+            <select className="form-select form-select-sm w-50">
               <option>Italiano </option>
               <option>English</option>
             </select>
