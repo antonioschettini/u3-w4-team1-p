@@ -1,15 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css"
-import MyNavbar from "./components/MyNavbar"
-import { BrowserRouter, Routes } from "react-router"
+import Profile from "./components/pages/profile/Profile"
+import MyFooter from "./components/MyFooter"
 
 function App() {
   return (
-    <>
-      <BrowserRouter>
-        <MyNavbar />
-        <Routes></Routes>
-      </BrowserRouter>
-    </>
+    <div className="d-flex flex-column align-items-center ">
+      <Profile />
+      <MyFooter />
+    </div>
   )
 }
 
