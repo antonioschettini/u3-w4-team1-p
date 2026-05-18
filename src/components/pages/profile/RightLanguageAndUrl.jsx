@@ -12,7 +12,7 @@ const RightLanguageAndUrl = () => {
           <p className="fw-semibold m-0">Lingua del profilo</p>
           <Pencil style={{ color: "#404040" }} />
         </div>
-        <p className="text-secondary mt-2" style={{ fontSize: "0.8rem" }}>
+        <p className="text-secondary mt-2" style={{ fontSize: "0.7rem" }}>
           Italiano
         </p>
       </div>
@@ -21,7 +21,7 @@ const RightLanguageAndUrl = () => {
           <p className="fw-semibold m-0">Profilo Pubblico e URL</p>
           <Pencil style={{ color: "#404040" }} />
         </div>
-        <p className="text-secondary mb-0 mt-2" style={{ fontSize: "0.8rem" }}>
+        <p className="text-secondary mb-0 mt-2" style={{ fontSize: "0.7rem" }}>
           www.linkedin.com/in/andrea-saderi-9b0aa5152
         </p>
       </div>
