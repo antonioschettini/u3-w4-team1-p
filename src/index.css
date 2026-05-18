@@ -1,1 +1,27 @@
+/* PROFILE RIGHT SIDE */
 
+/* WhoVisited */
+
+.visualizza-btn {
+  font-size: 0.7rem;
+  background-color: white;
+  color: #404040;
+  width: fit-content;
+  border: 1px solid #404040;
+  transition:
+    color 0.2s ease,
+    border-color 0.2s ease,
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.visualizza-btn:hover {
+  border-color: black;
+  color: black;
+  background-color: rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0px 0px 0px 1px black;
+}
+
+.blurred {
+  filter: blur(1px);
+}
