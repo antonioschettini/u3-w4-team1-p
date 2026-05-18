@@ -3,7 +3,8 @@
 /* WhoVisited */
 
 .visualizza-btn {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
+  font-weight: 500;
   background-color: white;
   color: #404040;
   width: fit-content;

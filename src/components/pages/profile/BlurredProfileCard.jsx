@@ -13,7 +13,7 @@ const BlurredProfileCard = () => {
       </div>
 
       <div className="d-flex flex-column">
-        <p className="fw-semibold m-0" style={{ fontSize: "0.8rem" }}>
+        <p className="fw-semibold m-0" style={{ fontSize: "0.7rem" }}>
           Qualcuno presso stoca automatics...
         </p>
         <button className="visualizza-btn rounded-pill p-0 p-1 mt-1">
