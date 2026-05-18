@@ -3,7 +3,7 @@ import { Pencil } from "react-bootstrap-icons";
 
 const ProfileHero = () => {
   return (
-    <Card className="shadow-sm">
+    <Card className="shadow-sm mb-3">
       <div className="position-relative">
         {/* Immagine Bacheca */}
         <Card.Img

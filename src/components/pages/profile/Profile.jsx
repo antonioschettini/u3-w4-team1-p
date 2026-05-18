@@ -10,14 +10,14 @@ const Profile = () => {
   return (
     <>
       <Container>
-        <Row>
-          <Col xs={9}>
+        <Row className="justify-content-center px-5">
+          <Col xs={8}>
             <ProfileHero />
             <ConsigliatoPerTe />
             <Analisi />
             <Attività />
           </Col>
-          <Col xs={3} className="flex-column">
+          <Col xs={4} className="flex-column">
             <RightLanguageAndUrl />
             <WhoVisited />
           </Col>

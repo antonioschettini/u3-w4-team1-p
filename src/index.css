@@ -1,5 +1,7 @@
 /* PROFILE RIGHT SIDE */
-
+#root {
+  background-color: #f4f2ee;
+}
 /* WhoVisited */
 
 .visualizza-btn {
