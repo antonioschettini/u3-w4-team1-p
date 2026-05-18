@@ -2,7 +2,7 @@ import { Pencil } from "react-bootstrap-icons";
 
 const RightLanguageAndUrl = () => {
   return (
-    <div className="d-none d-sm-flex flex-column border border-1 border-secondary-subtle rounded-2 p-3 h-auto my-2">
+    <div className="d-none d-sm-flex flex-column border border-1 border-secondary-subtle rounded-2 p-3 h-auto mb-2">
       <div className="d-flex flex-column border-bottom border-1 border-tertiary">
         <div className="d-flex justify-content-between align-items-center">
           <p className="fw-semibold m-0">Lingua del profilo</p>
