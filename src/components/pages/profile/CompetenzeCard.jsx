@@ -1,4 +1,4 @@
-import { Star, PlusCircle } from "react-bootstrap-icons";
+import { Star, PlusCircle, XLg, Pencil } from "react-bootstrap-icons";
 
 function CompetenzeCard() {
   return (
@@ -7,7 +7,17 @@ function CompetenzeCard() {
       style={{ border: "1.5px dashed #c0cdd8" }}
     >
       <div className="card-body">
-        <h5 className="card-title">Competenze</h5>
+        <div className="d-flex justify-content-between align-items-center mb-1">
+          <h5 className="card-title mb-0">Esperienza</h5>
+          <div className="d-flex gap-2">
+            <button className="btn btn-light btn-sm">
+              <Pencil size={16} />
+            </button>
+            <button className="btn btn-light btn-sm">
+              <XLg size={20} />
+            </button>
+          </div>
+        </div>
         <p className="text-muted small">
           Fai capire se hai un profilo adatto per le nuove opportunità: il 50%
           dei recruiter usa i dati sulle competenze per coprire le posizioni

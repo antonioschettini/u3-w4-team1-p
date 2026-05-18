@@ -25,7 +25,7 @@ function Analisi() {
           Visibile solo a te
         </p>
 
-        <div className="d-flex border-top">
+        <div className="d-flex flex-wrap border-top">
           <StatCard
             icon={<PersonFill size={20} className="text-secondary" />}
             value={1}

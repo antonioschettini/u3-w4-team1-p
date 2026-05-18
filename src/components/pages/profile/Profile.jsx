@@ -5,16 +5,21 @@ import ProfileHero from "./ProfileHero";
 import Attività from "./Attività";
 import ConsigliatoPerTe from "./ConsigliatoPerTe";
 import Analisi from "./Analisi";
+import PeopleYouMayKnow from "./PeopleYouMayKnow";
 import CompetenzeCard from "./CompetenzeCard";
 import EsperienzaCard from "./EsperienzaCard";
 import FormazioneCard from "./FormazioneCard";
+import Interests from "./Interests";
 
 const Profile = () => {
   return (
     <>
-      <Container>
+      <Container
+        fluid={true}
+        className="d-flex justify-content-center m-0 mx-md-5"
+      >
         <Row className="justify-content-center px-5">
-          <Col xs={8}>
+          <Col xs={12} md={8}>
             <ProfileHero />
             <ConsigliatoPerTe />
             <Analisi />
@@ -26,6 +31,8 @@ const Profile = () => {
           <Col xs={4} className="flex-column">
             <RightLanguageAndUrl />
             <WhoVisited />
+            <PeopleYouMayKnow />
+            <Interests />
           </Col>
         </Row>
       </Container>
