@@ -20,6 +20,7 @@ const WhoVisited = () => {
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         ) : (
+          profiles &&
           profiles
             .slice(0, 5)
             .map((profile) => (
