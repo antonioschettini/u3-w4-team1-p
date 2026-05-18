@@ -3,7 +3,9 @@ import { createSlice } from "@reduxjs/toolkit"; // create slice fa in un colpo s
 // setto lo stato iniziale all'avvio
 const initialState = {
   mioProfilo: null,
-  loading: true, // se in futuro vogliamo inserire le logiche di errore e caricamento
+  usersData: null,
+  loadingProfilo: true, // se in futuro vogliamo inserire le logiche di errore e caricamento
+  loadingUsers: true, // se in futuro vogliamo inserire le logiche di errore e caricamento
   error: null,
 };
 
@@ -15,14 +17,18 @@ const profiloSlice = createSlice({
     // si avvia il reducers quando i dati arrivano con successo
     salvaProfilo: (state, action) => {
       state.mioProfilo = action.payload;
-      state.loading = false;
+      state.loadingProfilo = false;
       state.error = null;
+    },
+    saveUsersData: (state, action) => {
+      state.usersData = action.payload;
+      state.loadingUsers = false;
     },
   },
 });
 
 // esporto le azioni generate da createslice
-export const { salvaProfilo } = profiloSlice.actions;
+export const { salvaProfilo, saveUsersData } = profiloSlice.actions;
 
 //esporto il reducer
 export default profiloSlice.reducer;

@@ -8,7 +8,7 @@ function EsperienzaCard() {
     >
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-center mb-1">
-          <h5 className="card-title mb-0">Esperienza</h5>
+          <h5 className="card-title mb-0">Esperienze</h5>
           <div className="d-flex gap-2">
             <button className="btn btn-light btn-sm">
               <Pencil size={16} />
