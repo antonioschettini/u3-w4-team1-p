@@ -1,12 +1,7 @@
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
- 
-
-  return (
-    <>
-    
-    </>
-  )
+  return <></>;
 }
 
-export default App
+export default App;
