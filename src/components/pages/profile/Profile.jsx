@@ -1,35 +1,35 @@
-import { Col, Container, Row } from "react-bootstrap"
-import RightLanguageAndUrl from "./RightLanguageAndUrl"
-import WhoVisited from "./WhoVisited"
-import ProfileHero from "./ProfileHero"
-import Attività from "./Attività"
-import ConsigliatoPerTe from "./ConsigliatoPerTe"
-import Analisi from "./Analisi"
-import PeopleYouMayKnow from "./PeopleYouMayKnow"
-import CompetenzeCard from "./CompetenzeCard"
-import EsperienzaCard from "./EsperienzaCard"
-import FormazioneCard from "./FormazioneCard"
-import Interests from "./Interests"
-import { fetchSavedProfiles, fetchMioProfilo } from "../../../redux/actions"
-import { useEffect, useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
-import InformazioniBio from "./InformazioniBio"
-import Caricamento from "../../status/Caricamento"
-import AvvisoErrore from "../../status/AvvisoErrore"
-import ExperienceModal from "./ExperienceModal"
+import { Col, Container, Row } from "react-bootstrap";
+import RightLanguageAndUrl from "./RightLanguageAndUrl";
+import WhoVisited from "./WhoVisited";
+import ProfileHero from "./ProfileHero";
+import Attività from "./Attività";
+import ConsigliatoPerTe from "./ConsigliatoPerTe";
+import Analisi from "./Analisi";
+import PeopleYouMayKnow from "./PeopleYouMayKnow";
+import CompetenzeCard from "./CompetenzeCard";
+import EsperienzaCard from "./EsperienzaCard";
+import FormazioneCard from "./FormazioneCard";
+import Interests from "./Interests";
+import { fetchSavedProfiles, fetchMioProfilo } from "../../../redux/actions";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import InformazioniBio from "./InformazioniBio";
+import Caricamento from "../../status/Caricamento";
+import AvvisoErrore from "../../status/AvvisoErrore";
+import ExperienceModal from "./ExperienceModal";
 
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // Leggiamo lo stato del caricamento, dell'errore e del profilo da Redux
-  const loading = useSelector((state) => state.profilo.loadingProfilo)
-  const errore = useSelector((state) => state.profilo.error)
-  const profilo = useSelector((state) => state.profilo.mioProfilo)
-  const [showExperienceModal, setShowExperienceModal] = useState(false)
+  const loading = useSelector((state) => state.profilo.loadingProfilo);
+  const errore = useSelector((state) => state.profilo.error);
+  const profilo = useSelector((state) => state.profilo.mioProfilo);
+  const [showExperienceModal, setShowExperienceModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchSavedProfiles())
-    dispatch(fetchMioProfilo())
-  }, [dispatch])
+    dispatch(fetchSavedProfiles());
+    dispatch(fetchMioProfilo());
+  }, [dispatch]);
 
   return (
     <div className="d-flex justify-content-center">
@@ -84,7 +84,7 @@ const Profile = () => {
         onHide={() => setShowExperienceModal(false)}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
