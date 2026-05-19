@@ -25,7 +25,7 @@ function MyNavbar() {
   const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block"
 
   return (
-    <Navbar expand="lg" className="bg-white">
+    <Navbar expand="lg" className="bg-white min-vw-100">
       <Container fluid className="d-flex flex-nowrap container-mw">
         <Navbar.Brand href="#home">
           <Linkedin color="#0A66C2" size={35} />

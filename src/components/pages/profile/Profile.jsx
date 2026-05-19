@@ -23,31 +23,33 @@ const Profile = () => {
 
   return (
     <>
-      <Container
-        fluid={true}
-        className="d-flex justify-content-center m-0 mx-md-5 container-mw"
-      >
-        <Row className="justify-content-center px-0 px-md-5">
-          {/* Sezione centrale main */}
-          <Col xs={12} md={8}>
-            <ProfileHero />
-            <ConsigliatoPerTe />
-            <Analisi />
-            <Attività />
-            <InformazioniBio />
-            <CompetenzeCard />
-            <EsperienzaCard />
-            <FormazioneCard />
-          </Col>
-          {/* Colonna a Destra (aside) */}
-          <Col xs={4} className="flex-column">
-            <RightLanguageAndUrl />
-            <WhoVisited />
-            <PeopleYouMayKnow />
-            <Interests />
-          </Col>
-        </Row>
-      </Container>
+      <div className=" min-vw-100 d-flex justify-content-center">
+        <Container
+          fluid={true}
+          className="d-flex justify-content-center m-0 mx-md-5 container-mw mt-3"
+        >
+          <Row className="justify-content-center px-0 px-md-5">
+            {/* Sezione centrale main */}
+            <Col xs={12} md={8}>
+              <ProfileHero />
+              <ConsigliatoPerTe />
+              <Analisi />
+              <Attività />
+              <InformazioniBio />
+              <CompetenzeCard />
+              <EsperienzaCard />
+              <FormazioneCard />
+            </Col>
+            {/* Colonna a Destra (aside) */}
+            <Col xs={4} className="flex-column">
+              <RightLanguageAndUrl />
+              <WhoVisited />
+              <PeopleYouMayKnow />
+              <Interests />
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </>
   )
 }

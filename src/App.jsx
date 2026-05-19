@@ -8,7 +8,7 @@ function App() {
   return (
     <BrowserRouter>
       <div className="d-flex flex-column">
-        <MyNavbar />
+        <MyNavbar />{" "}
         <Routes>
           <Route path="/" element={<Profile />} />
         </Routes>
