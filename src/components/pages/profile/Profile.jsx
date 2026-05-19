@@ -30,50 +30,52 @@ const Profile = () => {
   }, [dispatch])
 
   return (
-    <Container
-      fluid={true}
-      className="d-flex justify-content-center m-0 mx-md-5"
-    >
-      <Row className="justify-content-center px-0 px-md-5">
-        {/* Controllo errori */}
-        {errore && (
-          <Col xs={12} md={12} className="mb-3">
-            <AvvisoErrore messaggio={errore} />
-          </Col>
-        )}
-        {/* Controllo caricamento */}
-        {loading && (
-          <Col xs={12}>
-            <Caricamento />
-          </Col>
-        )}
-        {/* Controllo se non ci sono caricamenti ed i dati sono arrivati */}
-
-        {!loading && profilo && (
-          <>
-            {/* Sezione centrale main */}
-            <Col xs={12} md={8}>
-              <ProfileHero />
-              <ConsigliatoPerTe />
-              <Analisi />
-              <Attività />
-              <InformazioniBio />
-              <CompetenzeCard />
-              <EsperienzaCard />
-              <FormazioneCard />
+    <div className=" min-vw-100 d-flex justify-content-center">
+      <Container
+        fluid={true}
+        className="d-flex justify-content-center m-0 mx-md-5 container-mw mt-3"
+      >
+        <Row className="justify-content-center px-0 px-md-5">
+          {/* Controllo errori */}
+          {errore && (
+            <Col xs={12} md={12} className="mb-3">
+              <AvvisoErrore messaggio={errore} />
             </Col>
-
-            {/* Colonna a Destra (aside) */}
-            <Col xs={12} md={4} className="d-flex flex-column">
-              <RightLanguageAndUrl />
-              <WhoVisited />
-              <PeopleYouMayKnow />
-              <Interests />
+          )}
+          {/* Controllo caricamento */}
+          {loading && (
+            <Col xs={12}>
+              <Caricamento />
             </Col>
-          </>
-        )}
-      </Row>
-    </Container>
+          )}
+          {/* Controllo se non ci sono caricamenti ed i dati sono arrivati */}
+
+          {!loading && profilo && (
+            <>
+              {/* Sezione centrale main */}
+              <Col xs={12} md={8}>
+                <ProfileHero />
+                <ConsigliatoPerTe />
+                <Analisi />
+                <Attività />
+                <InformazioniBio />
+                <CompetenzeCard />
+                <EsperienzaCard />
+                <FormazioneCard />
+              </Col>
+
+              {/* Colonna a Destra (aside) */}
+              <Col xs={12} md={4} className="d-flex flex-column">
+                <RightLanguageAndUrl />
+                <WhoVisited />
+                <PeopleYouMayKnow />
+                <Interests />
+              </Col>
+            </>
+          )}
+        </Row>
+      </Container>
+    </div>
   )
 }
 
