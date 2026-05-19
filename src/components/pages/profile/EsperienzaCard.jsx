@@ -1,13 +1,13 @@
 import { Briefcase, PlusCircle, Pencil } from "react-bootstrap-icons";
 
-function EsperienzaCard() {
+function EsperienzaCard(props) {
   return (
     <div className="card mb-3 shadow-sm">
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-center mb-1">
           <h5 className="card-title mb-0">Esperienze</h5>
           <div className="d-flex gap-2">
-            <button className="btn btn-light btn-sm">
+            <button className="btn btn-light btn-sm" onClick={props.showModal}>
               <Pencil size={16} />
             </button>
           </div>
@@ -40,7 +40,10 @@ function EsperienzaCard() {
           </div>
         </div>
 
-        <button className="btn btn-outline-primary btn-sm rounded-pill mt-3">
+        <button
+          className="btn btn-outline-primary btn-sm rounded-pill mt-3"
+          onClick={props.showModal}
+        >
           <PlusCircle size={13} className="me-1" />
           Aggiungi esperienza
         </button>
