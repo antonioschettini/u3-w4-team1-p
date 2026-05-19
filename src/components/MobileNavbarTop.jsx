@@ -20,11 +20,11 @@ function MobileNavbarTop() {
   const handleShow = () => setShow(true);
 
   return (
-    <Navbar expand="lg" className="bg-white min-vw-100 py-1">
+    <Navbar expand="lg" className="bg-white py-1">
       <Container fluid className="d-flex flex-nowrap container-mw">
         <Button className="bg-transparent border-0" onClick={handleShow}>
           <Image
-            src={profilo?.image || "https://placehold.co/150"}
+            src={profilo?.image}
             roundedCircle
             width={"24px"}
             height={"24px"}
@@ -33,9 +33,9 @@ function MobileNavbarTop() {
         <Offcanvas show={show} onHide={handleClose} style={{ width: "70vw" }}>
           <Offcanvas.Header className=" border-bottom">
             <Offcanvas.Title>
-              <Link className=" text-decoration-none">
+              <Link to="/profile" className=" text-decoration-none">
                 <Image
-                  src={profilo?.image || "https://placehold.co/150"}
+                  src={profilo?.image}
                   roundedCircle
                   width={"70px"}
                   height={"70px"}
