@@ -87,11 +87,12 @@
 .focus-input .focus-input-control {
   transition: all 0.3s ease;
 }
+@media screen and (min-width: 576px) {
+  .focus-input .focus-input-width {
+    width: 250px;
 
-.focus-input .focus-input-width {
-  width: 250px;
-
-  transition: all 0.3s ease;
+    transition: all 0.3s ease;
+  }
 }
 
 .focus-input:focus-within .focus-input-text {
@@ -105,8 +106,10 @@
   border-color: black;
   border-width: 2px;
 }
-.focus-input:focus-within .focus-input-width {
-  width: 50vw;
+@media screen and (min-width: 576px) {
+  .focus-input:focus-within .focus-input-width {
+    width: 50vw;
+  }
 }
 @media screen and (min-width: 992px) {
   .focus-input:focus-within .focus-input-width {
