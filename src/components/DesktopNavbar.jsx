@@ -30,7 +30,7 @@ function DesktopNavbar() {
   return (
     <Navbar expand="lg" className="bg-white py-1">
       <Container fluid className="d-flex flex-nowrap container-mw">
-        <Link to="/">
+        <Link to="/" className=" navbar-brand">
           <Linkedin color="#0A66C2" size={35} />
         </Link>
         <Form className="me-auto focus-input w-100">
