@@ -7,7 +7,7 @@ import {
   Linkedin,
   PeopleFill,
   Search,
-} from "react-bootstrap-icons"
+} from "react-bootstrap-icons";
 import {
   Form,
   Container,
@@ -16,22 +16,23 @@ import {
   InputGroup,
   Image,
   Button,
-} from "react-bootstrap"
-import { Link } from "react-router"
-import { useState } from "react"
-import { useSelector } from "react-redux"
+} from "react-bootstrap";
+import { Link, useNavigate } from "react-router";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 function DesktopNavbar() {
-  const [isSearchFocused, setIsSearchFocused] = useState(false)
-  const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block"
-  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block";
+  const profilo = useSelector((state) => state.profilo.mioProfilo);
+  const navigate = useNavigate();
 
   return (
-    <Navbar expand="lg" className="bg-white min-vw-100 py-1">
+    <Navbar expand="lg" className="bg-white py-1">
       <Container fluid className="d-flex flex-nowrap container-mw">
-        <Navbar.Brand href="#home">
+        <Link to="/" className=" navbar-brand">
           <Linkedin color="#0A66C2" size={35} />
-        </Navbar.Brand>
+        </Link>
         <Form className="me-auto focus-input w-100">
           <InputGroup className="d-flex flex-nowrap focus-input-width">
             <InputGroup.Text
@@ -109,7 +110,7 @@ function DesktopNavbar() {
               title={
                 <div className="d-flex flex-column align-items-center nav-link-color-e">
                   <Image
-                    src={profilo?.image}
+                    src={profilo?.image || "https://placehold.co/150"}
                     roundedCircle
                     width={"24px"}
                     height={"24px"}
@@ -124,28 +125,33 @@ function DesktopNavbar() {
               className="d-flex flex-column no-caret nav-dropdown-profilo"
               align="end"
             >
-              <div
-                className="d-flex align-items-center mb-2"
+              <Link
+                className="d-flex align-items-center mb-2 text-decoration-none"
                 style={{ width: "280px" }}
+                to="/profile"
               >
                 <Image
-                  src={profilo?.image}
+                  src={profilo?.image || "https://placehold.co/150"}
                   roundedCircle
                   width={"40px"}
                   height={"40px"}
                   className="me-2"
                 />
                 <div className="d-flex flex-column ">
-                  <h6 className="fw-bold mb-0">
+                  <h6 className="fw-bold mb-0 text-black">
                     {profilo?.name} {profilo?.surname}
                   </h6>
                   <small className="text-muted">{profilo?.title}</small>
                 </div>
-              </div>
+              </Link>
               <div className="d-flex gap-2 mb-2">
                 <Button
                   variant="outline-primary"
                   className="rounded-pill fw-semibold text-start"
+                  onClick={(e) => {
+                    e.preventDefault;
+                    navigate("/profile");
+                  }}
                 >
                   Visualizza Profilo
                 </Button>
@@ -196,7 +202,7 @@ function DesktopNavbar() {
         </div>
       </Container>
     </Navbar>
-  )
+  );
 }
 
-export default DesktopNavbar
+export default DesktopNavbar;

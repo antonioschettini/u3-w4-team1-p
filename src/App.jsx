@@ -5,15 +5,17 @@ import Profile from "./components/pages/profile/Profile";
 import MyNavbar from "./components/MyNavbar";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Messaggistica from "./components/Messaggistica";
+import NotFound from "./components/pages/notfound/NotFound";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column">
-        <MyNavbar />{" "}
+      <div className="d-flex flex-column w-100">
+        <MyNavbar />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Messaggistica />
       </div>

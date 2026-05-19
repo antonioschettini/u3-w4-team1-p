@@ -20,20 +20,20 @@ import ExperienceModal from "./ExperienceModal";
 import MyFooter from "../../MyFooter";
 
 const Profile = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
   // Leggiamo lo stato del caricamento, dell'errore e del profilo da Redux
-  const loading = useSelector((state) => state.profilo.loadingProfilo);
-  const errore = useSelector((state) => state.profilo.error);
-  const profilo = useSelector((state) => state.profilo.mioProfilo);
-  const [showExperienceModal, setShowExperienceModal] = useState(false);
+  const loading = useSelector((state) => state.profilo.loadingProfilo)
+  const errore = useSelector((state) => state.profilo.error)
+  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const [showExperienceModal, setShowExperienceModal] = useState(false)
 
   useEffect(() => {
-    dispatch(fetchSavedProfiles());
-    dispatch(fetchMioProfilo());
-  }, [dispatch]);
+    dispatch(fetchSavedProfiles())
+    dispatch(fetchMioProfilo())
+  }, [dispatch])
 
   return (
-    <div className=" min-vw-100 d-flex justify-content-center">
+    <div className="d-flex justify-content-center">
       <Container
         fluid={true}
         className="d-flex justify-content-center m-0 container-mw mt-3"
@@ -86,7 +86,7 @@ const Profile = () => {
       />
     <MyFooter />
     </div>
-  );
-};
+  )
+}
 
-export default Profile;
+export default Profile
