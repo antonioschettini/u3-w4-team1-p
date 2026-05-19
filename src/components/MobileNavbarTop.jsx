@@ -48,7 +48,7 @@ function MobileNavbarTop() {
                     {profilo?.title}
                   </p>
                   <small className=" fw-normal text-muted mb-2 fs-6">
-                    {profilo.area}
+                    {profilo?.area}
                   </small>
                 </div>
               </Link>
