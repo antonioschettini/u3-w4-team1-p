@@ -11,12 +11,11 @@ import EsperienzaCard from "./EsperienzaCard";
 import FormazioneCard from "./FormazioneCard";
 import Interests from "./Interests";
 import { fetchSavedProfiles, fetchMioProfilo } from "../../../redux/actions";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import InformazioniBio from "./InformazioniBio";
 import Caricamento from "../../status/Caricamento";
 import AvvisoErrore from "../../status/AvvisoErrore";
-import ExperienceModal from "./ExperienceModal";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -24,8 +23,6 @@ const Profile = () => {
   const loading = useSelector((state) => state.profilo.loadingProfilo);
   const errore = useSelector((state) => state.profilo.error);
   const profilo = useSelector((state) => state.profilo.mioProfilo);
-  const [showExperienceModal, setShowExperienceModal] = useState(false);
-  const [esperienzaSelezionata, setEsperienzaSelezionata] = useState(null);
 
   useEffect(() => {
     dispatch(fetchSavedProfiles());
@@ -62,10 +59,7 @@ const Profile = () => {
                 <Analisi />
                 <Attività />
                 <InformazioniBio />
-                <EsperienzaCard
-                  showModal={() => setShowExperienceModal(true)}
-                  setEsperienzaSelezionata={setEsperienzaSelezionata}
-                />
+                <EsperienzaCard />
                 <CompetenzeCard />
                 <FormazioneCard />
               </Col>
@@ -81,15 +75,6 @@ const Profile = () => {
           )}
         </Row>
       </Container>
-      <ExperienceModal
-        show={showExperienceModal}
-        esperienzaSelezionata={esperienzaSelezionata}
-        onHide={() => {
-          setShowExperienceModal(false);
-          setEsperienzaSelezionata(null); // resetto lo stato quando chiudo il modale
-        }}
-        onFetchSuccess={() => dispatch(fetchMioProfilo())}
-      />
     </div>
   );
 };
