@@ -5,7 +5,7 @@ function Home() {
   return (
     <Container>
       <Row className="mt-3">
-        <Col xs={12} md={3} className="d-none d-md-block">
+        <Col xs={12} md={3} className="d-none d-sm-block">
           <LeftSidebar />
         </Col>
       </Row>
