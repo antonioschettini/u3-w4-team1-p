@@ -17,20 +17,19 @@ import InformazioniBio from "./InformazioniBio";
 import Caricamento from "../../status/Caricamento";
 import AvvisoErrore from "../../status/AvvisoErrore";
 import ExperienceModal from "./ExperienceModal";
-import MyFooter from "../../MyFooter";
 
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // Leggiamo lo stato del caricamento, dell'errore e del profilo da Redux
-  const loading = useSelector((state) => state.profilo.loadingProfilo)
-  const errore = useSelector((state) => state.profilo.error)
-  const profilo = useSelector((state) => state.profilo.mioProfilo)
-  const [showExperienceModal, setShowExperienceModal] = useState(false)
+  const loading = useSelector((state) => state.profilo.loadingProfilo);
+  const errore = useSelector((state) => state.profilo.error);
+  const profilo = useSelector((state) => state.profilo.mioProfilo);
+  const [showExperienceModal, setShowExperienceModal] = useState(false);
 
   useEffect(() => {
-    dispatch(fetchSavedProfiles())
-    dispatch(fetchMioProfilo())
-  }, [dispatch])
+    dispatch(fetchSavedProfiles());
+    dispatch(fetchMioProfilo());
+  }, [dispatch]);
 
   return (
     <div className="d-flex justify-content-center">
@@ -84,9 +83,8 @@ const Profile = () => {
         show={showExperienceModal}
         onHide={() => setShowExperienceModal(false)}
       />
-    <MyFooter />
     </div>
-  )
-}
+  );
+};
 
-export default Profile
+export default Profile;
