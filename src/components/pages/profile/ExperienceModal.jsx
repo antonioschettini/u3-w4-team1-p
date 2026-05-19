@@ -20,7 +20,7 @@ const ExperienceModal = (props) => {
   const [startYear, setStartYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
   const [endYear, setEndYear] = useState("");
-  const [image, setImage] = useState({});
+  const [image, setImage] = useState(null);
   const currYear = new Date().getFullYear();
   const months = [
     "gennaio",
