@@ -1,18 +1,17 @@
-/* PROFILE RIGHT SIDE */
+/* css PROFILE RIGHT SIDE */
 #root {
   background-color: #f4f2ee;
 }
-
 .pencil {
   color: #404040;
   cursor: pointer;
 }
-
 .pencil:hover {
   color: black;
 }
+/* fine css PROFILE RIGHT SIDE */
 
-/* WhoVisited */
+/* css WhoVisited */
 .visualizza-btn {
   font-size: 0.9rem;
   font-weight: 500;
@@ -26,17 +25,16 @@
     background-color 0.2s ease,
     box-shadow 0.2s ease;
 }
-
 .visualizza-btn:hover {
   border-color: black;
   color: black;
   background-color: rgba(0, 0, 0, 0.05);
   box-shadow: inset 0px 0px 0px 1px black;
 }
-
 .blurred {
   filter: blur(4px);
 }
+/* Fine Css WhoVisited */
 
 /* Css ProfileHero */
 /* Altezza del banner in modo che non si schiacci */
@@ -46,40 +44,36 @@
   object-fit: cover;
   object-position: center;
 }
-
 /* posizione imm profilo verso l'alto per farla entrare nel banner */
 .profile-pic-container {
   margin-top: -75px;
   padding-left: 15px;
   z-index: 2;
 }
-
 /* Dimensioni fisse della foto profilo */
 .profile-pic {
   width: 130px;
   height: 130px;
   object-fit: cover;
 }
+/* Fine Css ProfileHero */
 
+/* Css Navbar */
 .no-caret .dropdown-toggle::after {
   display: none !important;
 }
-
 .icona-bold {
   stroke: currentColor;
   stroke-width: 2px;
   padding: 2px;
   overflow: visible;
 }
-
 .nav-link-color-e {
   color: #666666;
 }
-
 .nav-link-color:hover .nav-link-color-e {
   color: black;
 }
-
 .focus-input .focus-input-text {
   background-color: white;
   transition: all 0.3s ease;
@@ -94,13 +88,11 @@
     transition: all 0.3s ease;
   }
 }
-
 .focus-input:focus-within .focus-input-text {
   background-color: #dedede;
   border-color: black;
   border-width: 2px;
 }
-
 .focus-input:focus-within .focus-input-control {
   background-color: #dedede;
   border-color: black;
@@ -116,11 +108,9 @@
     width: 600px;
   }
 }
-
 .container-mw {
   max-width: 1128px !important;
 }
-
 .nav-dropdown-profilo .dropdown-menu {
   box-shadow: 0 0 3rem rgba(0, 0, 0, 0.2) !important;
   border: 0 !important;
@@ -128,3 +118,4 @@
   border-radius: 0.5rem !important;
   margin-top: 0.5rem !important;
 }
+/* Fine Css Navbar */
