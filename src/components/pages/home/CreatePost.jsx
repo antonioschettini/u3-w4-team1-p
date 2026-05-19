@@ -13,7 +13,7 @@ function CreatePost() {
   const [show, setShow] = useState(false);
 
   return (
-   <div style={{ maxWidth: 800 }}>
+    <div style={{ maxWidth: 800 }}>
       <div className="card shadow-sm mb-3">
         <div className="card-body">
           <div className="d-flex align-items-center gap-2 mb-3">
@@ -85,7 +85,22 @@ function CreatePost() {
             placeholder="Di cosa vuoi parlare?"
           />
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="d-flex justify-content-between">
+          <div>
+            <label
+              htmlFor="upload-foto"
+              style={{ cursor: "pointer" }}
+              title="Aggiungi foto"
+            >
+              <ImageFill size={24} color="#5f9b41" />
+            </label>
+            <input
+              id="upload-foto"
+              type="file"
+              accept="image/*"
+              style={{ display: "none" }}
+            />
+          </div>
           <Button
             variant="primary"
             className="rounded-pill"
