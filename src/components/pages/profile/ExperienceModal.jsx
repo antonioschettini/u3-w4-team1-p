@@ -185,7 +185,7 @@ const ExperienceModal = (props) => {
                 >
                   <option>Month</option>
                   {months.map((month) => (
-                    <option>{month}</option>
+                    <option key={month}>{month}</option>
                   ))}
                 </select>
               </div>
@@ -198,7 +198,7 @@ const ExperienceModal = (props) => {
                 >
                   <option>Year</option>
                   {years.map((year) => (
-                    <option>{year}</option>
+                    <option key={year}>{year}</option>
                   ))}
                 </select>
               </div>
