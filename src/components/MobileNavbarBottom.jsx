@@ -10,10 +10,7 @@ import { Link } from "react-router"
 
 function MobileNavbarBottom() {
   return (
-    <Navbar
-      expand="lg"
-      className="bg-white min-vw-100 py-1 fixed-bottom border-top"
-    >
+    <Navbar expand="lg" className="bg-white py-1 fixed-bottom border-top">
       <Container fluid className=" p-0">
         <div className="d-flex w-100 justify-content-between align-items-end">
           <Link

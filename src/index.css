@@ -141,3 +141,18 @@
   box-shadow: inset 0px 0px 0px 1px #004182;
 }
 /* Fine Css Modale Experiences */
+
+/* NotFound.css */
+.card-linkedin {
+  border: 1px solid #dcdcdc !important;
+  border-radius: 8px !important;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  margin: 0 auto;
+}
+.btn-linkedin {
+  background-color: #0a66c2 !important;
+  border: none !important;
+  font-weight: 600;
+}
+/* fine NotFound.css */
