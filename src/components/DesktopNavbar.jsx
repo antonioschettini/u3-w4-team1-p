@@ -27,7 +27,7 @@ function DesktopNavbar() {
   const profilo = useSelector((state) => state.profilo.mioProfilo)
 
   return (
-    <Navbar expand="lg" className="bg-white min-vw-100 py-1">
+    <Navbar expand="lg" className="bg-white py-1">
       <Container fluid className="d-flex flex-nowrap container-mw">
         <Navbar.Brand href="#home">
           <Linkedin color="#0A66C2" size={35} />

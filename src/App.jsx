@@ -8,8 +8,8 @@ import Messaggistica from "./components/Messaggistica"
 function App() {
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column">
-        <MyNavbar />{" "}
+      <div className="d-flex flex-column w-100">
+        <MyNavbar />
         <Routes>
           <Route path="/" element={<Profile />} />
         </Routes>

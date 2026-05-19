@@ -20,7 +20,7 @@ function MobileNavbarTop() {
   const handleShow = () => setShow(true)
 
   return (
-    <Navbar expand="lg" className="bg-white min-vw-100 py-1">
+    <Navbar expand="lg" className="bg-white py-1">
       <Container fluid className="d-flex flex-nowrap container-mw">
         <Button className="bg-transparent border-0" onClick={handleShow}>
           <Image

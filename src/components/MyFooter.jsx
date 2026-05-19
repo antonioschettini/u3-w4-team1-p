@@ -1,10 +1,10 @@
-import { QuestionCircle, Gear, Shield } from "react-bootstrap-icons";
-import { Container, Row, Col } from "react-bootstrap";
+import { QuestionCircle, Gear, Shield } from "react-bootstrap-icons"
+import { Container, Row, Col } from "react-bootstrap"
 
 function MyFooter() {
   return (
     <footer className="bg-trasparent py-4 mt-4 w-100">
-      <Container>
+      <Container className="container-mw">
         <Row className="mb-3">
           <Col xs={12} md={4}>
             <a
@@ -169,7 +169,7 @@ function MyFooter() {
         </Row>
       </Container>
     </footer>
-  );
+  )
 }
 
-export default MyFooter;
+export default MyFooter
