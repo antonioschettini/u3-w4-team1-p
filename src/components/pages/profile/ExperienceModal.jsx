@@ -3,6 +3,7 @@ import { Button, Form, Modal } from "react-bootstrap";
 
 const ExperienceModal = (props) => {
   const [isOn, setIsOn] = useState(false);
+  const [isCurrentJob, setIsCurrentJob] = useState(false);
   const currYear = new Date().getFullYear();
   const years = [];
   for (let i = 1990; i <= currYear; i++) {
@@ -99,11 +100,16 @@ const ExperienceModal = (props) => {
             required
           />
           <div id="check-container" className="d-flex mt-4">
-            <Form.Check type="checkbox" className="me-2" />
+            <Form.Check
+              type="checkbox"
+              className="me-2"
+              checked={isCurrentJob}
+              onChange={(e) => setIsCurrentJob(e.target.checked)}
+            />
             <p className="fw-semibold">Attualmente ricopro questo ruolo</p>
           </div>
           {/* DATA DI INIZIO */}
-          <p className="mb-0 mt-4">Data di inizio</p>
+          <p className="mb-0 mt-3">Data di inizio</p>
           <div className="d-flex gap-2">
             <div className="flex-column w-50">
               <p className="text-secondary mb-0">Mese</p>
@@ -130,6 +136,37 @@ const ExperienceModal = (props) => {
               </select>
             </div>
           </div>
+          {!isCurrentJob && (
+            <>
+              <p className="mb-0 mt-4">Data di fine</p>
+              <div className="d-flex gap-2">
+                <div className="flex-column w-50">
+                  <p className="text-secondary mb-0">Mese</p>
+                  <select
+                    className="border-black w-100 rounded-2 p-1 text-secondary"
+                    id="start-month"
+                  >
+                    <option>Month</option>
+                    {months.map((month) => (
+                      <option>{month}</option>
+                    ))}
+                  </select>
+                </div>
+                <div className="flex-column w-50">
+                  <p className="text-secondary mb-0">Anno</p>
+                  <select
+                    className="border-black w-100 rounded-2 p-1 text-secondary"
+                    id="start-year"
+                  >
+                    <option>Year</option>
+                    {years.map((year) => (
+                      <option>{year}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </>
+          )}
           <p className="mb-0 mt-4">Località</p>
           <Form.Control
             className="border-black px-2 py-1"
