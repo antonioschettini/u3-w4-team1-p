@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { postNewExperience } from "../../../redux/actions";
+
+const mioToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
 
 const ExperienceModal = (props) => {
   const userId = useSelector((rs) => rs.profilo.mioProfilo?._id);
@@ -57,6 +60,70 @@ const ExperienceModal = (props) => {
     "Altro",
   ];
 
+  // Aggiunta la funzione per la modifica
+  useEffect(() => {
+    if (props.esperienzaSelezionata) {
+      // se c'è un esperienza passata come props, autocompila i campi
+      const exp = props.esperienzaSelezionata;
+      setTitle(exp?.role || "");
+      setCompany(exp?.company || "");
+      setArea(exp?.area || "");
+      setDescription(exp?.description || "");
+
+      if (exp?.startDate) {
+        const dataInizio = new Date(exp.startDate);
+        setStartYear(dataInizio.getFullYear().toString());
+        setStartMonth(months[dataInizio.getMonth()]);
+      }
+      if (exp?.endDate) {
+        const dataFine = new Date(exp.endDate);
+        setEndYear(dataFine.getFullYear().toString());
+        setEndMonth(months[dataFine.getMonth()]);
+        setIsCurrentJob(false);
+      } else {
+        setIsCurrentJob(true);
+      }
+    } else {
+      // Se non c'è nessuna esperienza selezionata, svuota i campi
+      setTitle("");
+      setCompany("");
+      setArea("");
+      setDescription("");
+      setStartMonth("");
+      setStartYear("");
+      setEndMonth("");
+      setEndYear("");
+      setIsCurrentJob(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.esperienzaSelezionata, props.show]);
+
+  const eseguiModificaPut = async (datiInviati) => {
+    try {
+      const expId = props.esperienzaSelezionata._id;
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/${expId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${mioToken}`,
+          },
+          body: JSON.stringify(datiInviati),
+        },
+      );
+      if (response.ok) {
+        alert("Modifica inviata con successo");
+        if (props.onFetchSuccess) props.onFetchSuccess(); // Aggiorna la lista nella pagina principale
+        props.onHide(); // Chiude la finestrella
+      } else {
+        alert("Errore durante il salvataggio della modifica");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Modal
       show={props.show}
@@ -66,7 +133,10 @@ const ExperienceModal = (props) => {
     >
       <Modal.Header closeButton>
         <Modal.Title className="fw-semibold fs-5">
-          Aggiungi esperienza
+          {/* Mostra una scritta diversa in base all'azione */}
+          {props.esperienzaSelezionata
+            ? "Modifica esperienza"
+            : "Aggiungi esperienza"}
         </Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ maxHeight: "400px", overflowY: "scroll" }}>
@@ -108,19 +178,28 @@ const ExperienceModal = (props) => {
             if (!userId) {
               return;
             } else {
-              postNewExperience(
-                {
-                  role: title,
-                  company: company,
-                  description: description,
-                  area: area,
-                  startDate: startDate,
-                  endDate: endDate,
-                  image: image,
-                },
-                userId,
-              );
-              props.onHide;
+              // Creiamo l'oggetto con le modifiche inserite dall'utente
+              const datiDaInviare = {
+                role: title,
+                company: company,
+                description: description,
+                area: area,
+                startDate: startDate,
+                endDate: endDate,
+                image: image,
+              };
+
+              // controllo sdoppiamento per logica put
+
+              if (props.esperienzaSelezionata) {
+                // Se siamo arrivati qui cliccando la matita, eseguiamo la PUT
+                eseguiModificaPut(datiDaInviare);
+              } else {
+                // Se stiamo creando una nuova esperienza, uso il modale per la post
+                postNewExperience(datiDaInviare, userId);
+                if (props.onFetchSuccess) props.onFetchSuccess();
+                props.onHide();
+              }
             }
           }}
         >
@@ -365,7 +444,10 @@ const ExperienceModal = (props) => {
               Ti consigliamo di aggiungere le 5 competenze più utilizzate in
               questo ruolo. Appariranno anche nella sezione Competenze.
             </p>
-            <button className="modal-btn rounded-pill px-2 py-1 d-flex align-items-center mt-3">
+            <button
+              type="button"
+              className="modal-btn rounded-pill px-2 py-1 d-flex align-items-center mt-3"
+            >
               <Plus />
               <span className="ms-1">Aggiungi competenza</span>
             </button>
