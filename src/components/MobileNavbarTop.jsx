@@ -1,4 +1,4 @@
-import { ChatDotsFill, GearFill, Search } from "react-bootstrap-icons";
+import { ChatDotsFill, GearFill, Search } from "react-bootstrap-icons"
 import {
   Form,
   Container,
@@ -7,17 +7,17 @@ import {
   Image,
   Button,
   Offcanvas,
-} from "react-bootstrap";
-import { Link } from "react-router";
-import { useSelector } from "react-redux";
-import { useState } from "react";
+} from "react-bootstrap"
+import { Link } from "react-router"
+import { useSelector } from "react-redux"
+import { useState } from "react"
 
 function MobileNavbarTop() {
-  const profilo = useSelector((state) => state.profilo.mioProfilo);
-  const [show, setShow] = useState(false);
+  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const [show, setShow] = useState(false)
 
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -33,7 +33,11 @@ function MobileNavbarTop() {
         <Offcanvas show={show} onHide={handleClose} style={{ width: "70vw" }}>
           <Offcanvas.Header className=" border-bottom">
             <Offcanvas.Title>
-              <Link to="/profile" className=" text-decoration-none">
+              <Link
+                to="/profile"
+                className=" text-decoration-none"
+                onClick={handleClose}
+              >
                 <Image
                   src={profilo?.image || "https://placehold.co/150"}
                   roundedCircle
@@ -93,7 +97,7 @@ function MobileNavbarTop() {
         </Link>
       </Container>
     </Navbar>
-  );
+  )
 }
 
-export default MobileNavbarTop;
+export default MobileNavbarTop
