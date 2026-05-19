@@ -35,7 +35,7 @@ const Messaggistica = () => {
         {/* foto profilo e titolo */}
         <div className="d-flex align-items-center gap-2">
           <Image
-            src={profilo?.image || "https://via.placeholder.com/150"}
+            src={profilo?.image || "https://placehold.co/150"}
             roundedCircle
             width="28"
             height="28"
