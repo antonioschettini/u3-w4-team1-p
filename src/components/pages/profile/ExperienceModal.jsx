@@ -20,6 +20,7 @@ const ExperienceModal = (props) => {
   const [startYear, setStartYear] = useState("");
   const [endMonth, setEndMonth] = useState("");
   const [endYear, setEndYear] = useState("");
+  const [image, setImage] = useState({});
   const currYear = new Date().getFullYear();
   const months = [
     "gennaio",
@@ -185,6 +186,7 @@ const ExperienceModal = (props) => {
                 area: area,
                 startDate: startDate,
                 endDate: endDate,
+                image: image,
               };
 
               // controllo sdoppiamento per logica put
@@ -459,13 +461,16 @@ const ExperienceModal = (props) => {
                 tipi di file multimediali supportati
               </a>
             </p>
-            <button
-              type="button"
-              className="modal-btn rounded-pill px-2 py-1 d-flex align-items-center mt-3"
-            >
+            <label className="modal-btn rounded-pill px-2 py-1 d-flex align-items-center mt-3">
               <Plus />
               <span className="ms-1">Aggiungi contenuto multimediale</span>
-            </button>
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => setImage(e.target.files[0])}
+              />
+            </label>
           </section>
         </Form>
       </Modal.Body>

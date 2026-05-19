@@ -3,7 +3,7 @@ import { Bookmark } from "react-bootstrap-icons";
 function RightSidebar() {
   return (
     <>
-      <div style={{ width: 300, flexShrink: 0 }}>
+     <div className="d-none d-lg-block" style={{ width: 300, flexShrink: 0 }}>
         {/* Card 1 — Notizie */}
         <div className="card shadow-sm mb-2">
           <div className="card-body">

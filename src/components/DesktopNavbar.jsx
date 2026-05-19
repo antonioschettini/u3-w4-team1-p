@@ -7,7 +7,7 @@ import {
   Linkedin,
   PeopleFill,
   Search,
-} from "react-bootstrap-icons";
+} from "react-bootstrap-icons"
 import {
   Form,
   Container,
@@ -16,16 +16,16 @@ import {
   InputGroup,
   Image,
   Button,
-} from "react-bootstrap";
-import { Link, useNavigate } from "react-router";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+} from "react-bootstrap"
+import { Link, useNavigate } from "react-router"
+import { useState } from "react"
+import { useSelector } from "react-redux"
 
 function DesktopNavbar() {
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block";
-  const profilo = useSelector((state) => state.profilo.mioProfilo);
-  const navigate = useNavigate();
+  const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block"
+  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const navigate = useNavigate()
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -144,13 +144,16 @@ function DesktopNavbar() {
                   <small className="text-muted">{profilo?.title}</small>
                 </div>
               </Link>
-              <div className="d-flex gap-2 mb-2">
+              <NavDropdown.Item
+                as={"div"}
+                className="d-flex gap-2 mb-2 bg-transparent"
+              >
                 <Button
                   variant="outline-primary"
                   className="rounded-pill fw-semibold text-start"
                   onClick={(e) => {
-                    e.preventDefault;
-                    navigate("/profile");
+                    e.preventDefault()
+                    navigate("/profile")
                   }}
                 >
                   Visualizza Profilo
@@ -161,7 +164,7 @@ function DesktopNavbar() {
                 >
                   Verifica Ora
                 </Button>
-              </div>
+              </NavDropdown.Item>
 
               <NavDropdown.Divider />
               <div className="py-1">
@@ -202,7 +205,7 @@ function DesktopNavbar() {
         </div>
       </Container>
     </Navbar>
-  );
+  )
 }
 
-export default DesktopNavbar;
+export default DesktopNavbar

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Modal, Spinner, Button } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import { fetchMioProfilo } from "../../../redux/actions";
-const mioToken =
+export const mioToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
 import Caricamento from "../../status/Caricamento";
 import AvvisoErrore from "../../status/AvvisoErrore";
