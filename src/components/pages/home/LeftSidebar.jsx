@@ -13,6 +13,7 @@ function LeftSidebar() {
 
   return (
     <>
+     <div style={{ width: 220, flexShrink: 0 }}>
       {/* Card 1 — profilo */}
       <div className="card shadow-sm mb-2 overflow-hidden">
         <img src="/immbacheca.jpeg" alt="banner" style={{ height: 60, width: "100%", objectFit: "cover" }} />
@@ -82,6 +83,7 @@ function LeftSidebar() {
             </div>
           ))}
         </div>
+      </div>
       </div>
     </>
   );
