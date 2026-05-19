@@ -1,20 +1,19 @@
 import { Row, Col, Card, Button, Image } from "react-bootstrap";
 import { Pencil } from "react-bootstrap-icons";
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchMioProfilo } from "../../../redux/actions";
+import { useState } from "react";
+import { useSelector } from "react-redux";
+// import { fetchMioProfilo } from "../../../redux/actions";
 import ProfileInfoModal from "./ProfileInfoModal";
 
 const ProfileHero = () => {
-  const dispatch = useDispatch();
   const profilo = useSelector((state) => state.profilo.mioProfilo);
   //  Questo è l'interruttore del modale all'inizio è spento (false)
   const [showInfoModal, setShowInfoModal] = useState(false);
 
-  // appena la pagina di carica parte la fetch
-  useEffect(() => {
-    dispatch(fetchMioProfilo());
-  }, []); // o in caso capiamo successivamente a quale cambiamento far partire la fetch (dispatch)
+  // // appena la pagina di carica parte la fetch
+  // useEffect(() => {
+  //   dispatch(fetchMioProfilo());
+  // }, []); // o in caso capiamo successivamente a quale cambiamento far partire la fetch (dispatch)
   return (
     // aggiornamento con i dati reali
     <Card className="shadow-sm mb-3">
@@ -146,8 +145,8 @@ const ProfileHero = () => {
                       Disponibile a lavorare
                     </h6>
                     <p className="small m-0 text-muted mt-1">
-                      {profilo?.area || "Bari"} +4 altre | In sede · Ibrido · Da
-                      remoto
+                      {profilo?.area || "Italia"} +4 altre | In sede · Ibrido ·
+                      Da remoto
                     </p>
                     <span className="text-primary small fw-semibold d-block mt-1 cursor-pointer">
                       Mostra dettagli
@@ -166,7 +165,7 @@ const ProfileHero = () => {
         </Row>
       </Card.Body>
       {/*  Modale info contatto
-          Le passiamo lo stato (showInfoModal), la funzione per chiuderla (setShowInfoModal(false)) e i dati del profilo */}
+          passiamo lo stato (showInfoModal), la funzione per chiuderla (setShowInfoModal(false)) + i dati profilo*/}
       <ProfileInfoModal
         show={showInfoModal}
         handleClose={() => setShowInfoModal(false)}

@@ -21,7 +21,8 @@ const PeopleYouMayKnow = () => {
             <span className="visually-hidden">Loading...</span>
           </Spinner>
         ) : (
-          profiles
+          profiles &&
+          profiles // Aggiunto controllo sicurezza in caso di errore di server non è possibile mappare o slice di null
             .slice(500, 505)
             .map((profile) => (
               <PeopleCard key={profile._id} profile={profile} />

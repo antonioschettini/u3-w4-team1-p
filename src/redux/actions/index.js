@@ -1,4 +1,4 @@
-import { salvaProfilo, saveUsersData } from "../reducers";
+import { salvaProfilo, saveUsersData, erroreProfilo } from "../reducers";
 
 export const fetchMioProfilo = () => {
   return async (dispatch) => {
@@ -25,6 +25,11 @@ export const fetchMioProfilo = () => {
       }
     } catch (error) {
       console.log(error);
+      dispatch(
+        erroreProfilo(
+          "Impossibile caricare il profilo. Il server potrebbe essere temporaneamente non raggiungibile.",
+        ),
+      );
     }
   };
 };
@@ -54,6 +59,9 @@ export const fetchSavedProfiles = () => {
       }
     } catch (error) {
       console.log(error);
+      dispatch(
+        erroreProfilo("Errore nel caricamento della lista dei profili."),
+      );
     }
   };
 };

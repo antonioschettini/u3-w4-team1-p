@@ -10,25 +10,47 @@ import CompetenzeCard from "./CompetenzeCard"
 import EsperienzaCard from "./EsperienzaCard"
 import FormazioneCard from "./FormazioneCard"
 import Interests from "./Interests"
-import { fetchSavedProfiles } from "../../../redux/actions"
+import { fetchSavedProfiles, fetchMioProfilo } from "../../../redux/actions"
 import { useEffect } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import InformazioniBio from "./InformazioniBio"
+import Caricamento from "../../status/Caricamento"
+import AvvisoErrore from "../../status/AvvisoErrore"
 
 const Profile = () => {
   const dispatch = useDispatch()
+  // Leggiamo lo stato del caricamento, dell'errore e del profilo da Redux
+  const loading = useSelector((state) => state.profilo.loadingProfilo)
+  const errore = useSelector((state) => state.profilo.error)
+  const profilo = useSelector((state) => state.profilo.mioProfilo)
+
   useEffect(() => {
     dispatch(fetchSavedProfiles())
-  }, [])
+    dispatch(fetchMioProfilo())
+  }, [dispatch])
 
   return (
-    <>
-      <div className=" min-vw-100 d-flex justify-content-center">
-        <Container
-          fluid={true}
-          className="d-flex justify-content-center m-0 mx-md-5 container-mw mt-3"
-        >
-          <Row className="justify-content-center px-0 px-md-5">
+    <Container
+      fluid={true}
+      className="d-flex justify-content-center m-0 mx-md-5"
+    >
+      <Row className="justify-content-center px-0 px-md-5">
+        {/* Controllo errori */}
+        {errore && (
+          <Col xs={12} md={12} className="mb-3">
+            <AvvisoErrore messaggio={errore} />
+          </Col>
+        )}
+        {/* Controllo caricamento */}
+        {loading && (
+          <Col xs={12}>
+            <Caricamento />
+          </Col>
+        )}
+        {/* Controllo se non ci sono caricamenti ed i dati sono arrivati */}
+
+        {!loading && profilo && (
+          <>
             {/* Sezione centrale main */}
             <Col xs={12} md={8}>
               <ProfileHero />
@@ -40,17 +62,18 @@ const Profile = () => {
               <EsperienzaCard />
               <FormazioneCard />
             </Col>
+
             {/* Colonna a Destra (aside) */}
-            <Col xs={4} className="flex-column">
+            <Col xs={12} md={4} className="d-flex flex-column">
               <RightLanguageAndUrl />
               <WhoVisited />
               <PeopleYouMayKnow />
               <Interests />
             </Col>
-          </Row>
-        </Container>
-      </div>
-    </>
+          </>
+        )}
+      </Row>
+    </Container>
   )
 }
 
