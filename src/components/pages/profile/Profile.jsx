@@ -34,7 +34,7 @@ const Profile = () => {
       fluid={true}
       className="d-flex justify-content-center m-0 mx-md-5"
     >
-      <Row className="justify-content-center px-0 px-md-5">
+      <Row className="justify-content-center px-2 px-md-3">
         {/* Controllo errori */}
         {errore && (
           <Col xs={12} md={12} className="mb-3">
