@@ -59,8 +59,8 @@ const Profile = () => {
                 <Analisi />
                 <Attività />
                 <InformazioniBio />
-                <CompetenzeCard />
                 <EsperienzaCard />
+                <CompetenzeCard />
                 <FormazioneCard />
               </Col>
 
