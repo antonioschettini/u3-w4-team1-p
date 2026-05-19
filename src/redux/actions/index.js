@@ -65,3 +65,31 @@ export const fetchSavedProfiles = () => {
     }
   };
 };
+
+export const postNewExperience = async (formData, userId) => {
+  const mioToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
+  try {
+    const response = await fetch(
+      "https://striveschool-api.herokuapp.com/api/profile/" +
+        userId +
+        "/experiences",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${mioToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      },
+    );
+    if (response.ok) {
+      const data = await response.json();
+      console.log(data);
+    } else {
+      throw new Error("Error posting new experience.");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

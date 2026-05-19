@@ -1,27 +1,23 @@
 import { useState } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
+import { postNewExperience } from "../../../redux/actions";
 
 const ExperienceModal = (props) => {
+  const userId = useSelector((rs) => rs.profilo.mioProfilo?._id);
   const [isOn, setIsOn] = useState(false);
+  const [title, setTitle] = useState("");
+  const [area, setArea] = useState("");
+  const [company, setCompany] = useState("");
   const [isCurrentJob, setIsCurrentJob] = useState(false);
   const [description, setDescription] = useState("");
   const [summary, setSummary] = useState("");
+  const [startMonth, setStartMonth] = useState("");
+  const [startYear, setStartYear] = useState("");
+  const [endMonth, setEndMonth] = useState("");
+  const [endYear, setEndYear] = useState("");
   const currYear = new Date().getFullYear();
-  const years = [];
-  for (let i = 1990; i <= currYear; i++) {
-    years.push(i);
-  }
-  const searchMethods = [
-    "Linkedin",
-    "Sito web dell'azienda",
-    "Indeed",
-    "Altri siti di offerte di lavoro",
-    "Segnalazione",
-    "Contattati dal recruiter",
-    "Agenzia di selezione del personale",
-    "Altro",
-  ];
   const months = [
     "gennaio",
     "febbraio",
@@ -35,6 +31,29 @@ const ExperienceModal = (props) => {
     "ottobre",
     "novembre",
     "dicembre",
+  ];
+  const years = [];
+  const monthIndex = months.indexOf(startMonth) + 1;
+  const monthPadded = String(monthIndex).padStart(2, "0");
+
+  const startDate = `${startYear}-${monthPadded}-01`;
+
+  const endDate = isCurrentJob
+    ? null
+    : `${endYear}-${String(months.indexOf(endMonth) + 1).padStart(2, "0")}-01`;
+
+  for (let i = 1990; i <= currYear; i++) {
+    years.push(i);
+  }
+  const searchMethods = [
+    "Linkedin",
+    "Sito web dell'azienda",
+    "Indeed",
+    "Altri siti di offerte di lavoro",
+    "Segnalazione",
+    "Contattati dal recruiter",
+    "Agenzia di selezione del personale",
+    "Altro",
   ];
 
   return (
@@ -80,7 +99,29 @@ const ExperienceModal = (props) => {
         <p className="text-secondary my-4" style={{ fontSize: "0.8rem" }}>
           * Indica che è obbligatorio
         </p>
-        <Form>
+        <Form
+          id="experience-form"
+          onSubmit={(e) => {
+            console.log(userId);
+            e.preventDefault();
+            if (!userId) {
+              return;
+            } else {
+              postNewExperience(
+                {
+                  role: title,
+                  company: company,
+                  description: description,
+                  area: area,
+                  startDate: startDate,
+                  endDate: endDate,
+                },
+                userId,
+              );
+              props.onHide;
+            }
+          }}
+        >
           <section>
             <p className="mb-0">Titolo*</p>
             <Form.Control
@@ -89,13 +130,15 @@ const ExperienceModal = (props) => {
               id="title"
               placeholder="Esempio: Retail Salses Manager"
               required
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
           </section>
           <section className="mt-4">
             <p className="mb-0">Tipo di impiego</p>
             <select
               className="border-black w-100 rounded-2 p-1 text-secondary"
-              id="title"
+              id="job-type"
             >
               <option>Seleziona</option>
               <option>A tempo pieno</option>
@@ -115,6 +158,8 @@ const ExperienceModal = (props) => {
               type="text"
               id="company"
               placeholder="Esempio: Microsoft"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
               required
             />
           </section>
@@ -136,6 +181,7 @@ const ExperienceModal = (props) => {
                 <select
                   className="border-black w-100 rounded-2 p-1 text-secondary"
                   id="start-month"
+                  onChange={(e) => setStartMonth(e.target.value)}
                 >
                   <option>Month</option>
                   {months.map((month) => (
@@ -148,6 +194,7 @@ const ExperienceModal = (props) => {
                 <select
                   className="border-black w-100 rounded-2 p-1 text-secondary"
                   id="start-year"
+                  onChange={(e) => setStartYear(e.target.value)}
                 >
                   <option>Year</option>
                   {years.map((year) => (
@@ -164,7 +211,8 @@ const ExperienceModal = (props) => {
                     <p className="text-secondary mb-0">Mese</p>
                     <select
                       className="border-black w-100 rounded-2 p-1 text-secondary"
-                      id="start-month"
+                      id="end-month"
+                      onChange={(e) => setEndMonth(e.target.value)}
                     >
                       <option>Month</option>
                       {months.map((month) => (
@@ -176,7 +224,8 @@ const ExperienceModal = (props) => {
                     <p className="text-secondary mb-0">Anno</p>
                     <select
                       className="border-black w-100 rounded-2 p-1 text-secondary"
-                      id="start-year"
+                      id="end-year"
+                      onChange={(e) => setEndYear(e.target.value)}
                     >
                       <option>Year</option>
                       {years.map((year) => (
@@ -189,12 +238,15 @@ const ExperienceModal = (props) => {
             )}
           </section>
           <section className="mt-4">
-            <p className="mb-0 mt-4">Località</p>
+            <p className="mb-0 mt-4">Località*</p>
             <Form.Control
               className="border-black px-2 py-1 shadow-none"
               type="text"
-              id="title"
+              id="area"
               placeholder="Esempio: Milano, Italia"
+              value={area}
+              onChange={(e) => setArea(e.target.value)}
+              required
             />
           </section>
           <section className="mt-4">
@@ -334,9 +386,10 @@ const ExperienceModal = (props) => {
       </Modal.Body>
       <Modal.Footer>
         <Button
+          form="experience-form"
           className="rounded-pill"
           variant="primary"
-          onClick={props.onHide}
+          type="submit"
         >
           Salva
         </Button>
