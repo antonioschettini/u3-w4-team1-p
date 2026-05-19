@@ -33,7 +33,7 @@ function MobileNavbarTop() {
         <Offcanvas show={show} onHide={handleClose} style={{ width: "70vw" }}>
           <Offcanvas.Header className=" border-bottom">
             <Offcanvas.Title>
-              <Link className=" text-decoration-none">
+              <Link to="/profile" className=" text-decoration-none">
                 <Image
                   src={profilo?.image}
                   roundedCircle
