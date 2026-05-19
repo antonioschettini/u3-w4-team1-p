@@ -1,4 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css"
+import Home from "./components/pages/home/Home"
 import Profile from "./components/pages/profile/Profile"
 import MyFooter from "./components/MyFooter"
 import MyNavbar from "./components/MyNavbar"
@@ -11,6 +12,7 @@ function App() {
       <div className="d-flex flex-column">
         <MyNavbar />{" "}
         <Routes>
+           <Route path="/" element={<Home />} />
           <Route path="/" element={<Profile />} />
         </Routes>
         <Messaggistica />
