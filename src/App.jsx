@@ -5,6 +5,7 @@ import MyFooter from "./components/MyFooter";
 import MyNavbar from "./components/MyNavbar";
 import { BrowserRouter, Route, Routes } from "react-router";
 import Messaggistica from "./components/Messaggistica";
+import NotFound from "./components/pages/notfound/NotFound";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
         <Messaggistica />
         <MyFooter />

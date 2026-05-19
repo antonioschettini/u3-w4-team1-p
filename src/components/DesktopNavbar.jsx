@@ -131,7 +131,7 @@ function DesktopNavbar() {
                 to="/profile"
               >
                 <Image
-                  src={profilo?.image}
+                  src={profilo?.image || "https://placehold.co/150"}
                   roundedCircle
                   width={"40px"}
                   height={"40px"}

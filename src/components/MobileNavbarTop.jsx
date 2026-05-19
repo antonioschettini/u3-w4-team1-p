@@ -24,7 +24,7 @@ function MobileNavbarTop() {
       <Container fluid className="d-flex flex-nowrap container-mw">
         <Button className="bg-transparent border-0" onClick={handleShow}>
           <Image
-            src={profilo?.image}
+            src={profilo?.image || "https://placehold.co/150"}
             roundedCircle
             width={"24px"}
             height={"24px"}
@@ -35,7 +35,7 @@ function MobileNavbarTop() {
             <Offcanvas.Title>
               <Link to="/profile" className=" text-decoration-none">
                 <Image
-                  src={profilo?.image}
+                  src={profilo?.image || "https://placehold.co/150"}
                   roundedCircle
                   width={"70px"}
                   height={"70px"}
