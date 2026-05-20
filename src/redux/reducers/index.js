@@ -36,9 +36,12 @@ const profiloSlice = createSlice({
     },
   },
 });
-
 // esporto le azioni generate da createslice
-export const { avviaCaricamentoProfilo, salvaProfilo, erroreProfilo, saveUsersData } = profiloSlice.actions;
-
+export const {
+  avviaCaricamentoProfilo,
+  salvaProfilo,
+  erroreProfilo,
+  saveUsersData,
+} = profiloSlice.actions;
 //esporto il reducer
 export default profiloSlice.reducer;
