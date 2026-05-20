@@ -34,7 +34,12 @@ const PeopleCard = (props) => {
         <p className="m-0" style={{ fontSize: "0.8rem" }}>
           {title}
         </p>
-        <button className="visualizza-btn rounded-pill px-2 py-1 mt-1 d-flex align-items-center mt-3">
+        <button
+          className="visualizza-btn rounded-pill px-2 py-1 mt-1 d-flex align-items-center mt-3"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        >
           <PersonPlusFill />
           <span className="ms-1">Aggiungi</span>
         </button>
