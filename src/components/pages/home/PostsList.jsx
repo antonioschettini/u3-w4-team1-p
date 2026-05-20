@@ -7,6 +7,7 @@ import {
   fetchMioProfilo,
   fetchSavedProfiles,
   fetchCommenti,
+  eliminaCommentoServer,
 } from "../../../redux/actions";
 import {
   Trash,
@@ -27,17 +28,23 @@ const PostsList = () => {
   const loading = useSelector((state) => state.profilo.loadingPost);
   const error = useSelector((state) => state.profilo.errorPost);
   const mioProfilo = useSelector((state) => state.profilo.mioProfilo);
-  //  Prendiamo tutti gli utenti scaricati
   const tuttiGliUtenti = useSelector((state) => state.profilo.usersData) || [];
   const [postNascosti, setPostNascosti] = useState([]);
-  // Stato per ricordare a quali post abbiamo messo Consiglia
-  const [postPiaciuti, setPostPiaciuti] = useState({});
-  // Stato per ricordare di quali post abbiamo aperto i commenti
-  const [commentiAperti, setCommentiAperti] = useState({});
-  const [testoNuovoCommento, setTestoNuovoCommento] = useState({});
-  // stato per prendere tutti i commenti
   const tuttiICommenti =
     useSelector((state) => state.profilo.listaCommenti) || [];
+  const [commentiAperti, setCommentiAperti] = useState({});
+  const [testoNuovoCommento, setTestoNuovoCommento] = useState({});
+
+  // salvataggio nello storage per commenti o post
+  const [postPiaciuti, setPostPiaciuti] = useState(() => {
+    const salvati = localStorage.getItem("postPiaciuti");
+    return salvati ? JSON.parse(salvati) : {};
+  });
+
+  const [commentiPiaciuti, setCommentiPiaciuti] = useState(() => {
+    const salvati = localStorage.getItem("commentiPiaciuti");
+    return salvati ? JSON.parse(salvati) : {};
+  });
 
   useEffect(() => {
     dispatch(fetchPosts());
@@ -46,19 +53,33 @@ const PostsList = () => {
     dispatch(fetchCommenti());
   }, [dispatch]);
 
+  // salvataggio automatico dei like e posti al montaggio /aggiornamento pagina
+  useEffect(() => {
+    localStorage.setItem("postPiaciuti", JSON.stringify(postPiaciuti));
+  }, [postPiaciuti]);
+
+  useEffect(() => {
+    localStorage.setItem("commentiPiaciuti", JSON.stringify(commentiPiaciuti));
+  }, [commentiPiaciuti]);
+
   const nascondiPostDalloSchermo = (id) => {
     setPostNascosti([...postNascosti, id]);
   };
 
-  // Funzione per accendereospegnere il cuoricino like
   const mettiMiPiace = (postId) => {
     setPostPiaciuti({
       ...postPiaciuti,
-      [postId]: !postPiaciuti[postId], // Se era true diventa false, e viceversa
+      [postId]: !postPiaciuti[postId],
     });
   };
 
-  // Funzione per aprire/chiudere la zona commenti
+  const mettiMiPiaceCommento = (commentId) => {
+    setCommentiPiaciuti({
+      ...commentiPiaciuti,
+      [commentId]: !commentiPiaciuti[commentId],
+    });
+  };
+
   const toggleCommenti = (postId) => {
     setCommentiAperti({
       ...commentiAperti,
@@ -70,9 +91,7 @@ const PostsList = () => {
     const testo = testoNuovoCommento[postId];
     if (!testo || testo.trim() === "") return;
 
-    // Spediamo il commento vero al server usando l'API
     dispatch(aggiungiCommentoServer(testo, postId));
-
     setTestoNuovoCommento({ ...testoNuovoCommento, [postId]: "" });
   };
 
@@ -85,23 +104,17 @@ const PostsList = () => {
         if (postNascosti.includes(post._id)) return null;
 
         const isMioPost = post.username === mioProfilo?.username;
-
-        // Cerchiamo chi ha scritto questo post in mezzo a tutti gli utenti!
         const autoreDelPost = tuttiGliUtenti.find(
           (utente) => utente.username === post.username,
         );
 
-        //  vontrolliamo se abbiamo cliccato Consiglia su questo specifico post
         const miPiace = postPiaciuti[post._id];
-
-        //  Controlliamo se abbiamo aperto i commenti per questo post
         const mostraCommenti = commentiAperti[post._id];
 
-        // filter per i commenti da endpoint
         let commentiDiQuestoPost = tuttiICommenti.filter(
           (c) => c.elementId === post._id,
         );
-        // se non ci sono commenti ne invento uno
+
         if (commentiDiQuestoPost.length === 0) {
           commentiDiQuestoPost = [
             {
@@ -121,10 +134,9 @@ const PostsList = () => {
             style={{ borderRadius: "0.8rem" }}
           >
             <Card.Body className="p-0">
-              {/* INTESTAZIONE */}
+              {/* Intestazione del post */}
               <div className="d-flex justify-content-between align-items-start p-3 pb-1">
                 <div className="d-flex gap-2">
-                  {/*Mostriamo l'immagine dell'autore o un'icona vuota */}
                   {autoreDelPost?.image ? (
                     <img
                       src={autoreDelPost.image}
@@ -145,7 +157,6 @@ const PostsList = () => {
                     >
                       {post.username}
                     </h6>
-                    {/* Mostriamo il lavoro dell'autore (title) se esiste */}
                     <small
                       className="text-secondary"
                       style={{ fontSize: "0.75rem", lineHeight: "1.1" }}
@@ -187,12 +198,12 @@ const PostsList = () => {
                 </div>
               </div>
 
-              {/* TESTO DEL POST */}
+              {/* Testo del post */}
               <Card.Text className="text-dark small px-3 mt-2 mb-2">
                 {post.text}
               </Card.Text>
 
-              {/* FOTO DEL POST Appare solo se il post ha un'immagine salvata */}
+              {/* foto del post */}
               {post.image && (
                 <div className="w-100 bg-light text-center border-top border-bottom border-light-subtle mb-2">
                   <img
@@ -204,7 +215,7 @@ const PostsList = () => {
                 </div>
               )}
 
-              {/*  Consigliato da che appare se metti mi piace */}
+              {/* consigliato con il mio eventuale mi piace */}
               {miPiace && (
                 <div
                   className="px-3 pb-2 text-secondary d-flex align-items-center gap-1"
@@ -217,16 +228,14 @@ const PostsList = () => {
                 </div>
               )}
 
-              {/* BOTTONI: CONSIGLIA E COMMENTA */}
+              {/* bottoni consiglia e commenta */}
               <div className="d-flex gap-1 border-top pt-1 pb-1 px-2 mx-2">
                 <Button
                   variant="transparent"
-                  // Se mi piace è true, il testo diventa rosso, altrimenti grigio
                   className={`flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2 border-0 rounded-2 fw-semibold ${miPiace ? "text-danger" : "text-secondary"}`}
                   style={{ fontSize: "0.85rem" }}
                   onClick={() => mettiMiPiace(post._id)}
                 >
-                  {/* Se mi piace è true, metto il cuore pieno rosso, altrimenti quello vuoto */}
                   {miPiace ? <HeartFill size={18} /> : <Heart size={18} />}
                   <span>Consiglia</span>
                 </Button>
@@ -235,17 +244,17 @@ const PostsList = () => {
                   variant="transparent"
                   className="text-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2 border-0 rounded-2 fw-semibold"
                   style={{ fontSize: "0.85rem" }}
-                  onClick={() => toggleCommenti(post._id)} // Apre/chiude i commenti
+                  onClick={() => toggleCommenti(post._id)}
                 >
                   <Chat size={18} />
                   <span>Commenta</span>
                 </Button>
               </div>
 
-              {/* SEZIONE COMMENTI (Visibile solo se hai premuto Commenta) */}
+              {/* sezione commenti */}
               {mostraCommenti && (
                 <div className="px-3 pb-3 pt-2 bg-light border-top rounded-bottom-3">
-                  {/* BOX DI SCRITTURA MIO COMMENTO */}
+                  {/* box di scrittura mio commento */}
                   <div className="d-flex gap-2 mt-2 align-items-start mb-3">
                     {mioProfilo?.image ? (
                       <img
@@ -288,19 +297,106 @@ const PostsList = () => {
                     </div>
                   </div>
 
-                  {/* 🌟 LISTA DEI COMMENTI DEGLI ALTRI (O MIEI VECCHI) */}
-                  {commentiDiQuestoPost.slice(-5).reverse().map((comm) => (
-                    <div key={comm._id} className="d-flex gap-2 mb-2">
-                      <PersonFill size={35} className="text-secondary" />
-                      <div className="bg-white px-3 py-2 rounded-3 border w-100">
-                        <div className="fw-semibold text-dark small">
-                          {/* Se l'autore è vuoto, mostriamo un nome generico */}
-                          {comm.author || "Utente LinkedIn"}
+                  {/* lista dei commenti */}
+                  {commentiDiQuestoPost
+                    .slice(-5)
+                    .reverse()
+                    .map((comm) => {
+                      // controll se l'autore coincide con lo username, con l'email, oppure con nome e cognome
+                      const mioNomeCompleto = `${mioProfilo?.name} ${mioProfilo?.surname}`;
+                      // controlli per riconoscere se è un mio commento
+                      const isMioCommento =
+                        comm.author === mioProfilo?.username ||
+                        comm.author === mioProfilo?.email ||
+                        comm.author === mioNomeCompleto ||
+                        comm.author === "antonio.schettini93+epicode@gmail.com";
+                      comm.author?.toLowerCase().includes("schettini");
+
+                      // Sceglie i dati del profilo corretti per mostrare la foto corretta
+                      const utenteCheHaCommentato = isMioCommento
+                        ? mioProfilo
+                        : tuttiGliUtenti.find(
+                            (utente) =>
+                              utente.username === comm.author ||
+                              utente.email === comm.author ||
+                              `${utente.name} ${utente.surname}` ===
+                                comm.author,
+                          );
+
+                      return (
+                        <div key={comm._id} className="d-flex gap-2 mb-2">
+                          {/* foto utente che ha commentato */}
+                          {utenteCheHaCommentato?.image ? (
+                            <img
+                              src={utenteCheHaCommentato.image}
+                              alt="autore commento"
+                              className="rounded-circle"
+                              width={35}
+                              height={35}
+                              style={{ objectFit: "cover" }}
+                            />
+                          ) : (
+                            <PersonFill size={35} className="text-secondary" />
+                          )}
+
+                          <div className="bg-white px-3 py-2 rounded-3 border w-100 d-flex justify-content-between align-items-center">
+                            <div>
+                              <div className="fw-semibold text-dark small">
+                                {comm.author || "Utente LinkedIn"}
+                              </div>
+                              <div className="text-dark small">
+                                {comm.comment}
+                              </div>
+
+                              {/* tasto mi piace al commento */}
+                              <Button
+                                variant="link"
+                                className="p-0 border-0 mt-1 d-flex align-items-center gap-1 text-decoration-none"
+                                onClick={() => mettiMiPiaceCommento(comm._id)}
+                              >
+                                {commentiPiaciuti[comm._id] ? (
+                                  <HeartFill
+                                    size={14}
+                                    className="text-danger"
+                                  />
+                                ) : (
+                                  <Heart size={14} className="text-secondary" />
+                                )}
+                                <span
+                                  style={{ fontSize: "0.75rem" }}
+                                  className={
+                                    commentiPiaciuti[comm._id]
+                                      ? "text-danger"
+                                      : "text-secondary"
+                                  }
+                                >
+                                  Piace
+                                </span>
+                              </Button>
+                            </div>
+
+                            {/* tasto cancella commento */}
+                            {isMioCommento && (
+                              <Button
+                                variant="link"
+                                className="text-danger p-1"
+                                onClick={() => {
+                                  if (
+                                    window.confirm(
+                                      "Vuoi eliminare questo commento?",
+                                    )
+                                  ) {
+                                    dispatch(eliminaCommentoServer(comm._id));
+                                  }
+                                }}
+                              >
+                                <Trash size={16} />
+                              </Button>
+                            )}
+                          </div>
                         </div>
-                        <div className="text-dark small">{comm.comment}</div>
-                      </div>
-                    </div>
-                  ))}
+                      );
+                    })}
                 </div>
               )}
             </Card.Body>
