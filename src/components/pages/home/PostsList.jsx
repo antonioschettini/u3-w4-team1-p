@@ -8,6 +8,8 @@ import {
   fetchSavedProfiles,
   fetchCommenti,
   eliminaCommentoServer,
+  modificaPostServer,
+  modificaCommentoServer,
 } from "../../../redux/actions";
 import {
   Trash,
@@ -16,6 +18,7 @@ import {
   Heart,
   HeartFill,
   PersonFill,
+  Pencil,
 } from "react-bootstrap-icons";
 import Caricamento from "../../status/Caricamento";
 import AvvisoErrore from "../../status/AvvisoErrore";
@@ -34,6 +37,14 @@ const PostsList = () => {
     useSelector((state) => state.profilo.listaCommenti) || [];
   const [commentiAperti, setCommentiAperti] = useState({});
   const [testoNuovoCommento, setTestoNuovoCommento] = useState({});
+
+  // Stati per la modifica del Post
+  const [postIdInModifica, setPostIdInModifica] = useState(null);
+  const [testoPostInModifica, setTestoPostInModifica] = useState("");
+
+  // Stati per la modifica del Commento
+  const [commentIdInModifica, setCommentIdInModifica] = useState(null);
+  const [testoCommentoInModifica, setTestoCommentoInModifica] = useState("");
 
   // salvataggio nello storage per commenti o post
   const [postPiaciuti, setPostPiaciuti] = useState(() => {
@@ -174,20 +185,37 @@ const PostsList = () => {
 
                 <div className="d-flex gap-2">
                   {isMioPost && (
-                    <Button
-                      variant="link"
-                      className="text-secondary p-1 text-decoration-none border-0 hover-bg-light rounded-circle"
-                      onClick={() => {
-                        if (
-                          window.confirm("Vuoi eliminare davvero questo post?")
-                        ) {
-                          dispatch(deletePost(post._id));
-                        }
-                      }}
-                    >
-                      <Trash size={18} />
-                    </Button>
+                    <>
+                      {/* BOTTONE MATITA PER MODIFICARE */}
+                      <Button
+                        variant="link"
+                        className="text-secondary p-1 text-decoration-none border-0 hover-bg-light rounded-circle"
+                        onClick={() => {
+                          setPostIdInModifica(post._id); // Memorizza l'ID del post da modificare
+                          setTestoPostInModifica(post.text); // Inserisce il testo attuale nella casella
+                        }}
+                      >
+                        <Pencil size={16} />
+                      </Button>
+                      {/* BOTTONE CESTINO PER CANCELLARE */}
+                      <Button
+                        variant="link"
+                        className="text-secondary p-1 text-decoration-none border-0 hover-bg-light rounded-circle"
+                        onClick={() => {
+                          if (
+                            window.confirm(
+                              "Vuoi eliminare davvero questo post?",
+                            )
+                          ) {
+                            dispatch(deletePost(post._id));
+                          }
+                        }}
+                      >
+                        <Trash size={18} />
+                      </Button>
+                    </>
                   )}
+                  {/* BOTTONE X PER NASCONDERE */}
                   <Button
                     variant="link"
                     className="text-secondary p-1 text-decoration-none border-0 hover-bg-light rounded-circle"
@@ -199,9 +227,45 @@ const PostsList = () => {
               </div>
 
               {/* Testo del post */}
-              <Card.Text className="text-dark small px-3 mt-2 mb-2">
-                {post.text}
-              </Card.Text>
+              {/* Se questo post è in modalità modifica, mostra la casella di testo, altrimenti mostra il testo normale */}
+              {postIdInModifica === post._id ? (
+                <div className="px-3 my-2">
+                  <Form.Control
+                    as="textarea"
+                    rows={2}
+                    value={testoPostInModifica}
+                    onChange={(e) => setTestoPostInModifica(e.target.value)}
+                    className="border-1 text-dark mb-2 shadow-none"
+                  />
+                  <div className="d-flex gap-2">
+                    <Button
+                      variant="primary"
+                      size="sm"
+                      className="rounded-pill px-3 fw-bold"
+                      onClick={() => {
+                        dispatch(
+                          modificaPostServer(post._id, testoPostInModifica),
+                        );
+                        setPostIdInModifica(null); // Chiude la modalità modifica
+                      }}
+                    >
+                      Salva
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="sm"
+                      className="rounded-pill px-3"
+                      onClick={() => setPostIdInModifica(null)} // Chiude senza salvare
+                    >
+                      Annulla
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <Card.Text className="text-dark small px-3 mt-2 mb-2">
+                  {post.text}
+                </Card.Text>
+              )}
 
               {/* foto del post */}
               {post.image && (
@@ -339,16 +403,62 @@ const PostsList = () => {
                             <PersonFill size={35} className="text-secondary" />
                           )}
 
-                          <div className="bg-white px-3 py-2 rounded-3 border w-100 d-flex justify-content-between align-items-center">
-                            <div>
+                          <div className="bg-white px-3 py-2 rounded-3 border w-100 d-flex justify-content-between align-items-start">
+                            <div className="flex-grow-1">
                               <div className="fw-semibold text-dark small">
                                 {comm.author || "Utente LinkedIn"}
                               </div>
-                              <div className="text-dark small">
-                                {comm.comment}
-                              </div>
 
-                              {/* tasto mi piace al commento */}
+                              {/* Se questo commento è in modifica, mostra l'input, altrimenti il testo */}
+                              {commentIdInModifica === comm._id ? (
+                                <div className="mt-1">
+                                  <Form.Control
+                                    type="text"
+                                    value={testoCommentoInModifica}
+                                    onChange={(e) =>
+                                      setTestoCommentoInModifica(e.target.value)
+                                    }
+                                    className="py-1 px-2 small mb-1 shadow-none"
+                                  />
+                                  <div className="d-flex gap-2">
+                                    <Button
+                                      variant="primary"
+                                      size="sm"
+                                      className="rounded-pill px-2 py-0 fw-bold"
+                                      style={{ fontSize: "0.75rem" }}
+                                      onClick={() => {
+                                        dispatch(
+                                          modificaCommentoServer(
+                                            comm._id,
+                                            testoCommentoInModifica,
+                                            post._id,
+                                          ),
+                                        );
+                                        setCommentIdInModifica(null); // Chiude la modifica
+                                      }}
+                                    >
+                                      Salva
+                                    </Button>
+                                    <Button
+                                      variant="secondary"
+                                      size="sm"
+                                      className="rounded-pill px-2 py-0"
+                                      style={{ fontSize: "0.75rem" }}
+                                      onClick={() =>
+                                        setCommentIdInModifica(null)
+                                      } // Annulla la modifica
+                                    >
+                                      Annulla
+                                    </Button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="text-dark small">
+                                  {comm.comment}
+                                </div>
+                              )}
+
+                              {/* Tasto mi piace al commento (rimane sotto al testo) */}
                               <Button
                                 variant="link"
                                 className="p-0 border-0 mt-1 d-flex align-items-center gap-1 text-decoration-none"
@@ -375,23 +485,38 @@ const PostsList = () => {
                               </Button>
                             </div>
 
-                            {/* tasto cancella commento */}
+                            {/* Zona azioni a destra del commento (Matita e Cestino) */}
                             {isMioCommento && (
-                              <Button
-                                variant="link"
-                                className="text-danger p-1"
-                                onClick={() => {
-                                  if (
-                                    window.confirm(
-                                      "Vuoi eliminare questo commento?",
-                                    )
-                                  ) {
-                                    dispatch(eliminaCommentoServer(comm._id));
-                                  }
-                                }}
-                              >
-                                <Trash size={16} />
-                              </Button>
+                              <div className="d-flex gap-1 align-items-center custom-buttons">
+                                {/* TASTO MATITA PER MODIFICA COMMENTO */}
+                                <Button
+                                  variant="link"
+                                  className="text-secondary p-1"
+                                  onClick={() => {
+                                    setCommentIdInModifica(comm._id); // Memorizza l'ID del commento
+                                    setTestoCommentoInModifica(comm.comment); // Copia il testo attuale
+                                  }}
+                                >
+                                  <Pencil size={14} />
+                                </Button>
+
+                                {/* TASTO CANCELLA COMMENTO */}
+                                <Button
+                                  variant="link"
+                                  className="text-danger p-1"
+                                  onClick={() => {
+                                    if (
+                                      window.confirm(
+                                        "Vuoi eliminare questo commento?",
+                                      )
+                                    ) {
+                                      dispatch(eliminaCommentoServer(comm._id));
+                                    }
+                                  }}
+                                >
+                                  <Trash size={16} />
+                                </Button>
+                              </div>
                             )}
                           </div>
                         </div>

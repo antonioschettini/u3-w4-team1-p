@@ -268,3 +268,59 @@ export const fetchJobs = (query = "") => {
     }
   };
 };
+
+export const modificaPostServer = (postId, nuovoTesto) => {
+  return async (dispatch) => {
+    try {
+      const risposta = await fetch(
+        `https://striveschool-api.herokuapp.com/api/posts/${postId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${mioToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: nuovoTesto }), // Inviamo il testo modificato
+        },
+      );
+
+      if (risposta.ok) {
+        // Se il server dice di sì, ricarichiamo la lista dei post aggiornata
+        dispatch(fetchPosts());
+      } else {
+        alert("Non puoi modificare i post degli altri utenti!");
+      }
+    } catch (errore) {
+      console.log("Errore nella modifica del post:", errore);
+    }
+  };
+};
+
+export const modificaCommentoServer = (commentId, nuovoTesto, postId) => {
+  return async (dispatch) => {
+    try {
+      const risposta = await fetch(
+        `https://striveschool-api.herokuapp.com/api/comments/${commentId}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${tokenCommenti}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            comment: nuovoTesto,
+            rate: "5",
+            elementId: postId, // Il server vuole sapere a quale post appartiene
+          }),
+        },
+      );
+
+      if (risposta.ok) {
+        // Se il server dice di sì, ricarichiamo la lista dei commenti
+        dispatch(fetchCommenti());
+      }
+    } catch (errore) {
+      console.log("Errore nella modifica del commento:", errore);
+    }
+  };
+};
