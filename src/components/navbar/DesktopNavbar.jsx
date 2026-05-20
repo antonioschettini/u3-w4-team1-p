@@ -7,7 +7,7 @@ import {
   Linkedin,
   PeopleFill,
   Search,
-} from "react-bootstrap-icons";
+} from "react-bootstrap-icons"
 import {
   Form,
   Container,
@@ -29,11 +29,8 @@ function DesktopNavbar() {
   const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block"
   const profilo = useSelector((state) => state.profilo.mioProfilo)
   const navigate = useNavigate()
-  const loadingUsers = useSelector((rs) => rs.profilo.loadingUsers)
-  const loadingJobs = useSelector((rs) => rs.jobs.loading)
-  const isLoading = location.pathname === "/lavoro" ? loadingUsers : loadingJobs
+  const isLoading = useSelector((rs) => rs.profilo.loadingUsers)
   const profiles = useSelector((rs) => rs.profilo.usersData)
-  const jobs = useSelector((rs) => rs.jobs.jobs)
   const [searchQuery, setSearchQuery] = useState("")
 
   return (
@@ -80,24 +77,7 @@ function DesktopNavbar() {
               <span className="visually-hidden">Loading...</span>
             </Spinner>
           ) : location.pathname === "/lavoro" ? (
-            jobs &&
-            jobs
-              .filter((job) => {
-                if (!searchQuery) return true
-
-                const query = searchQuery.toLowerCase().trim()
-                const name = job.name?.toLowerCase()
-
-                return name.includes(query)
-              })
-              .slice(0, 5)
-              .map((job) => (
-                <PeolpleLinkCard
-                  key={job._id}
-                  job={job}
-                  resetSearch={setSearchQuery}
-                />
-              ))
+            ""
           ) : (
             profiles &&
             profiles
@@ -228,8 +208,8 @@ function DesktopNavbar() {
                   variant="outline-primary"
                   className="rounded-pill fw-semibold text-start"
                   onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/profile");
+                    e.preventDefault()
+                    navigate("/profile")
                   }}
                 >
                   Visualizza Profilo
@@ -281,7 +261,7 @@ function DesktopNavbar() {
         </div>
       </Container>
     </Navbar>
-  );
+  )
 }
 
-export default DesktopNavbar;
+export default DesktopNavbar
