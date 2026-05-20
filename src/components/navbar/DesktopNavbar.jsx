@@ -36,7 +36,6 @@ function DesktopNavbar() {
   const profiles = useSelector((rs) => rs.profilo.usersData)
   const jobs = useSelector((rs) => rs.jobs.jobs)
   const [searchQuery, setSearchQuery] = useState("")
-  console.log(jobs)
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
