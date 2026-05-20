@@ -163,3 +163,7 @@
   width: 100% !important;
   box-sizing: border-box;
 }
+
+.pointer:hover {
+  cursor: pointer;
+}

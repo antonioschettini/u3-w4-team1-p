@@ -15,7 +15,6 @@ function MobileNavbarBottom() {
         <div className="d-flex w-100 justify-content-between align-items-end">
           <Link
             className="nav-link nav-link-color d-flex flex-column align-items-center justify-content-bottom text-center flex-grow-1"
-            style={{ flexBasis: 0 }}
             to="/"
           >
             <HouseDoorFill className="nav-link-color-e" size={24} />
@@ -24,7 +23,6 @@ function MobileNavbarBottom() {
 
           <Link
             className="nav-link nav-link-color d-flex flex-column align-items-center justify-content-bottom text-center flex-grow-1"
-            style={{ flexBasis: 0 }}
             to="/"
           >
             <PeopleFill className="nav-link-color-e" size={24} />
@@ -35,7 +33,6 @@ function MobileNavbarBottom() {
 
           <Link
             className="nav-link nav-link-color d-flex flex-column align-items-center justify-content-bottom text-center flex-grow-1"
-            style={{ flexBasis: 0 }}
             to="/"
           >
             <PlusSquareFill className="nav-link-color-e" size={20} />
@@ -46,7 +43,6 @@ function MobileNavbarBottom() {
 
           <Link
             className="nav-link nav-link-color d-flex flex-column align-items-center justify-content-bottom text-center flex-grow-1"
-            style={{ flexBasis: 0 }}
             to="/"
           >
             <BellFill className="nav-link-color-e" size={24} />
@@ -57,7 +53,6 @@ function MobileNavbarBottom() {
 
           <Link
             className="nav-link nav-link-color d-flex flex-column align-items-center justify-content-bottom text-center flex-grow-1"
-            style={{ flexBasis: 0 }}
             to="/jobs"
           >
             <BriefcaseFill className="nav-link-color-e" size={24} />

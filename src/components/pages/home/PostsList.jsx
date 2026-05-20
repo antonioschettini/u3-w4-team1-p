@@ -9,7 +9,10 @@ import {
   fetchSavedProfiles,
   fetchCommenti,
   eliminaCommentoServer,
+  modificaPostServer,
+  modificaCommentoServer,
 } from "../../../redux/actions";
+
 import {
   Trash,
   Chat,
@@ -17,9 +20,12 @@ import {
   Heart,
   HeartFill,
   PersonFill,
+  Pencil,
 } from "react-bootstrap-icons";
+
 import Caricamento from "../../status/Caricamento";
 import AvvisoErrore from "../../status/AvvisoErrore";
+
 import { Card, Button, Form } from "react-bootstrap";
 
 const PostsList = () => {
@@ -28,15 +34,25 @@ const PostsList = () => {
   const posts = useSelector((state) => state.profilo.listaPost) || [];
   const loading = useSelector((state) => state.profilo.loadingPost);
   const error = useSelector((state) => state.profilo.errorPost);
+
   const mioProfilo = useSelector((state) => state.profilo.mioProfilo);
+
   const tuttiGliUtenti = useSelector((state) => state.profilo.usersData) || [];
-  const [postNascosti, setPostNascosti] = useState([]);
+
   const tuttiICommenti =
     useSelector((state) => state.profilo.listaCommenti) || [];
+
+  const [postNascosti, setPostNascosti] = useState([]);
   const [commentiAperti, setCommentiAperti] = useState({});
   const [testoNuovoCommento, setTestoNuovoCommento] = useState({});
 
-  // salvataggio nello storage per commenti o post
+  const [postIdInModifica, setPostIdInModifica] = useState(null);
+  const [testoPostInModifica, setTestoPostInModifica] = useState("");
+
+  const [commentIdInModifica, setCommentIdInModifica] = useState(null);
+
+  const [testoCommentoInModifica, setTestoCommentoInModifica] = useState("");
+
   const [postPiaciuti, setPostPiaciuti] = useState(() => {
     const salvati = localStorage.getItem("postPiaciuti");
     return salvati ? JSON.parse(salvati) : {};
@@ -46,9 +62,23 @@ const PostsList = () => {
     const salvati = localStorage.getItem("commentiPiaciuti");
     return salvati ? JSON.parse(salvati) : {};
   });
-  // Logica infinite scroll
 
-  const [visibleItems, setVisibleItems] = useState(posts.slice(0, 10));
+  const [visibleItems, setVisibleItems] = useState([]);
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+    dispatch(fetchMioProfilo());
+    dispatch(fetchSavedProfiles());
+    dispatch(fetchCommenti());
+  }, [dispatch]);
+
+  useEffect(() => {
+    localStorage.setItem("postPiaciuti", JSON.stringify(postPiaciuti));
+  }, [postPiaciuti]);
+
+  useEffect(() => {
+    localStorage.setItem("commentiPiaciuti", JSON.stringify(commentiPiaciuti));
+  }, [commentiPiaciuti]);
 
   const loadMore = () => {
     setTimeout(() => {
@@ -60,24 +90,6 @@ const PostsList = () => {
       setVisibleItems((prev) => [...prev, ...morePosts]);
     }, 1200);
   };
-
-  // Fine Infinite scroll
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-    dispatch(fetchMioProfilo());
-    dispatch(fetchSavedProfiles());
-    dispatch(fetchCommenti());
-  }, [dispatch]);
-
-  // salvataggio automatico dei like e posti al montaggio /aggiornamento pagina
-  useEffect(() => {
-    localStorage.setItem("postPiaciuti", JSON.stringify(postPiaciuti));
-  }, [postPiaciuti]);
-
-  useEffect(() => {
-    localStorage.setItem("commentiPiaciuti", JSON.stringify(commentiPiaciuti));
-  }, [commentiPiaciuti]);
 
   const nascondiPostDalloSchermo = (id) => {
     setPostNascosti([...postNascosti, id]);
@@ -106,13 +118,19 @@ const PostsList = () => {
 
   const inviaCommento = (postId) => {
     const testo = testoNuovoCommento[postId];
+
     if (!testo || testo.trim() === "") return;
 
     dispatch(aggiungiCommentoServer(testo, postId));
-    setTestoNuovoCommento({ ...testoNuovoCommento, [postId]: "" });
+
+    setTestoNuovoCommento({
+      ...testoNuovoCommento,
+      [postId]: "",
+    });
   };
 
   if (loading) return <Caricamento />;
+
   if (error) return <AvvisoErrore messaggio={error} />;
 
   return (
@@ -127,11 +145,13 @@ const PostsList = () => {
           if (postNascosti.includes(post._id)) return null;
 
           const isMioPost = post.username === mioProfilo?.username;
+
           const autoreDelPost = tuttiGliUtenti.find(
             (utente) => utente.username === post.username,
           );
 
           const miPiace = postPiaciuti[post._id];
+
           const mostraCommenti = commentiAperti[post._id];
 
           let commentiDiQuestoPost = tuttiICommenti.filter(
@@ -145,7 +165,8 @@ const PostsList = () => {
                 author: "Stefano Casasola",
                 comment:
                   "Mi dispiaceva che non ci fosse nessun commento quindi ne ho lasciato uno 🐈‍⬛🐈",
-                createdAt: new Date().toISOString(),
+                fotoFinta:
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjj0UQXHlsnTaknKXlkezyEF4KOSbrCr3bA&s",
               },
             ];
           }
@@ -157,7 +178,7 @@ const PostsList = () => {
               style={{ borderRadius: "0.8rem" }}
             >
               <Card.Body className="p-0">
-                {/* Intestazione del post */}
+                {/* HEADER */}
                 <div className="d-flex justify-content-between align-items-start p-3 pb-1">
                   <div className="d-flex gap-2">
                     {autoreDelPost?.image ? (
@@ -174,22 +195,15 @@ const PostsList = () => {
                     )}
 
                     <div className="d-flex flex-column">
-                      <h6
-                        className="fw-bold mb-0 text-dark small hover-underline"
-                        style={{ cursor: "pointer" }}
-                      >
+                      <h6 className="fw-bold mb-0 text-dark small">
                         {post.username}
                       </h6>
-                      <small
-                        className="text-secondary"
-                        style={{ fontSize: "0.75rem", lineHeight: "1.1" }}
-                      >
-                        {autoreDelPost?.title || "Membro di LinkedIn"}
+
+                      <small className="text-secondary">
+                        {autoreDelPost?.title || "Membro LinkedIn"}
                       </small>
-                      <small
-                        className="text-secondary mt-1"
-                        style={{ fontSize: "0.75rem" }}
-                      >
+
+                      <small className="text-secondary mt-1">
                         {new Date(post.createdAt).toLocaleDateString()} • 🌐
                       </small>
                     </div>
@@ -197,25 +211,39 @@ const PostsList = () => {
 
                   <div className="d-flex gap-2">
                     {isMioPost && (
-                      <Button
-                        variant="link"
-                        className="text-secondary p-1 text-decoration-none border-0 hover-bg-light rounded-circle"
-                        onClick={() => {
-                          if (
-                            window.confirm(
-                              "Vuoi eliminare davvero questo post?",
-                            )
-                          ) {
-                            dispatch(deletePost(post._id));
-                          }
-                        }}
-                      >
-                        <Trash size={18} />
-                      </Button>
+                      <>
+                        <Button
+                          variant="link"
+                          className="text-secondary p-1 border-0"
+                          onClick={() => {
+                            setPostIdInModifica(post._id);
+                            setTestoPostInModifica(post.text);
+                          }}
+                        >
+                          <Pencil size={16} />
+                        </Button>
+
+                        <Button
+                          variant="link"
+                          className="text-secondary p-1 border-0"
+                          onClick={() => {
+                            if (
+                              window.confirm(
+                                "Vuoi eliminare davvero questo post?",
+                              )
+                            ) {
+                              dispatch(deletePost(post._id));
+                            }
+                          }}
+                        >
+                          <Trash size={18} />
+                        </Button>
+                      </>
                     )}
+
                     <Button
                       variant="link"
-                      className="text-secondary p-1 text-decoration-none border-0 hover-bg-light rounded-circle"
+                      className="text-secondary p-1 border-0"
                       onClick={() => nascondiPostDalloSchermo(post._id)}
                     >
                       <XLg size={18} />
@@ -223,63 +251,100 @@ const PostsList = () => {
                   </div>
                 </div>
 
-                {/* Testo del post */}
-                <Card.Text className="text-dark small px-3 mt-2 mb-2">
-                  {post.text}
-                </Card.Text>
+                {/* TESTO */}
+                {postIdInModifica === post._id ? (
+                  <div className="px-3 my-2">
+                    <Form.Control
+                      as="textarea"
+                      rows={2}
+                      value={testoPostInModifica}
+                      onChange={(e) => setTestoPostInModifica(e.target.value)}
+                    />
 
-                {/* foto del post */}
+                    <div className="d-flex gap-2 mt-2">
+                      <Button
+                        size="sm"
+                        onClick={() => {
+                          dispatch(
+                            modificaPostServer(post._id, testoPostInModifica),
+                          );
+
+                          setPostIdInModifica(null);
+                        }}
+                      >
+                        Salva
+                      </Button>
+
+                      <Button
+                        variant="secondary"
+                        size="sm"
+                        onClick={() => setPostIdInModifica(null)}
+                      >
+                        Annulla
+                      </Button>
+                    </div>
+                  </div>
+                ) : (
+                  <Card.Text className="text-dark small px-3 mt-2 mb-2">
+                    {post.text}
+                  </Card.Text>
+                )}
+
+                {/* FOTO */}
                 {post.image && (
-                  <div className="w-100 bg-light text-center border-top border-bottom border-light-subtle mb-2">
+                  <div className="w-100 text-center border-top border-bottom">
                     <img
                       src={post.image}
-                      alt="post content"
+                      alt="post"
                       className="img-fluid"
-                      style={{ maxHeight: "500px", objectFit: "contain" }}
+                      style={{
+                        maxHeight: "500px",
+                        objectFit: "contain",
+                      }}
                     />
                   </div>
                 )}
 
-                {/* consigliato con il mio eventuale mi piace */}
+                {/* LIKE INFO */}
                 {miPiace && (
-                  <div
-                    className="px-3 pb-2 text-secondary d-flex align-items-center gap-1"
-                    style={{ fontSize: "0.75rem" }}
-                  >
+                  <div className="px-3 pb-2 text-secondary d-flex align-items-center gap-1">
                     <HeartFill size={12} color="#df704d" />
+
                     <span>
                       Consigliato da {mioProfilo?.name} {mioProfilo?.surname}
                     </span>
                   </div>
                 )}
 
-                {/* bottoni consiglia e commenta */}
+                {/* BOTTONI */}
                 <div className="d-flex gap-1 border-top pt-1 pb-1 px-2 mx-2">
                   <Button
                     variant="transparent"
-                    className={`flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2 border-0 rounded-2 fw-semibold ${miPiace ? "text-danger" : "text-secondary"}`}
-                    style={{ fontSize: "0.85rem" }}
+                    className={`flex-grow-1 border-0 ${
+                      miPiace ? "text-danger" : "text-secondary"
+                    }`}
                     onClick={() => mettiMiPiace(post._id)}
                   >
                     {miPiace ? <HeartFill size={18} /> : <Heart size={18} />}
-                    <span>Consiglia</span>
+
+                    <span className="ms-2">Consiglia</span>
                   </Button>
 
                   <Button
                     variant="transparent"
-                    className="text-secondary flex-grow-1 d-flex align-items-center justify-content-center gap-2 py-2 border-0 rounded-2 fw-semibold"
-                    style={{ fontSize: "0.85rem" }}
+                    className="text-secondary flex-grow-1 border-0"
                     onClick={() => toggleCommenti(post._id)}
                   >
                     <Chat size={18} />
-                    <span>Commenta</span>
+
+                    <span className="ms-2">Commenta</span>
                   </Button>
                 </div>
 
-                {/* sezione commenti */}
+                {/* COMMENTI */}
                 {mostraCommenti && (
                   <div className="px-3 pb-3 pt-2 bg-light border-top rounded-bottom-3">
-                    {/* box di scrittura mio commento */}
+                    {/* INPUT COMMENTO */}
                     <div className="d-flex gap-2 mt-2 align-items-start mb-3">
                       {mioProfilo?.image ? (
                         <img
@@ -298,8 +363,6 @@ const PostsList = () => {
                         <Form.Control
                           as="textarea"
                           rows={1}
-                          className="rounded-pill border-1 py-2 px-3 text-dark mb-2 shadow-none w-100"
-                          style={{ resize: "none" }}
                           placeholder="Aggiungi un commento..."
                           value={testoNuovoCommento[post._id] || ""}
                           onChange={(e) =>
@@ -309,11 +372,11 @@ const PostsList = () => {
                             })
                           }
                         />
+
                         {testoNuovoCommento[post._id]?.trim() && (
                           <Button
-                            variant="primary"
+                            className="mt-2"
                             size="sm"
-                            className="rounded-pill px-3 fw-bold small"
                             onClick={() => inviaCommento(post._id)}
                           >
                             Pubblica
@@ -322,23 +385,18 @@ const PostsList = () => {
                       </div>
                     </div>
 
-                    {/* lista dei commenti */}
+                    {/* LISTA COMMENTI */}
                     {commentiDiQuestoPost
                       .slice(-5)
                       .reverse()
                       .map((comm) => {
-                        // controll se l'autore coincide con lo username, con l'email, oppure con nome e cognome
                         const mioNomeCompleto = `${mioProfilo?.name} ${mioProfilo?.surname}`;
-                        // controlli per riconoscere se è un mio commento
+
                         const isMioCommento =
                           comm.author === mioProfilo?.username ||
                           comm.author === mioProfilo?.email ||
-                          comm.author === mioNomeCompleto ||
-                          comm.author ===
-                            "antonio.schettini93+epicode@gmail.com";
-                        comm.author?.toLowerCase().includes("schettini");
+                          comm.author === mioNomeCompleto;
 
-                        // Sceglie i dati del profilo corretti per mostrare la foto corretta
                         const utenteCheHaCommentato = isMioCommento
                           ? mioProfilo
                           : tuttiGliUtenti.find(
@@ -351,15 +409,21 @@ const PostsList = () => {
 
                         return (
                           <div key={comm._id} className="d-flex gap-2 mb-2">
-                            {/* foto utente che ha commentato */}
-                            {utenteCheHaCommentato?.image ? (
+                            {comm.fotoFinta ? (
                               <img
-                                src={utenteCheHaCommentato.image}
-                                alt="autore commento"
+                                src={comm.fotoFinta}
+                                alt="commento"
                                 className="rounded-circle"
                                 width={35}
                                 height={35}
-                                style={{ objectFit: "cover" }}
+                              />
+                            ) : utenteCheHaCommentato?.image ? (
+                              <img
+                                src={utenteCheHaCommentato.image}
+                                alt="commento"
+                                className="rounded-circle"
+                                width={35}
+                                height={35}
                               />
                             ) : (
                               <PersonFill
@@ -368,19 +432,62 @@ const PostsList = () => {
                               />
                             )}
 
-                            <div className="bg-white px-3 py-2 rounded-3 border w-100 d-flex justify-content-between align-items-center">
-                              <div>
+                            <div className="bg-white px-3 py-2 rounded-3 border w-100 d-flex justify-content-between align-items-start">
+                              <div className="flex-grow-1">
                                 <div className="fw-semibold text-dark small">
-                                  {comm.author || "Utente LinkedIn"}
-                                </div>
-                                <div className="text-dark small">
-                                  {comm.comment}
+                                  {comm.author}
                                 </div>
 
-                                {/* tasto mi piace al commento */}
+                                {commentIdInModifica === comm._id ? (
+                                  <>
+                                    <Form.Control
+                                      type="text"
+                                      value={testoCommentoInModifica}
+                                      onChange={(e) =>
+                                        setTestoCommentoInModifica(
+                                          e.target.value,
+                                        )
+                                      }
+                                    />
+
+                                    <div className="d-flex gap-2 mt-2">
+                                      <Button
+                                        size="sm"
+                                        onClick={() => {
+                                          dispatch(
+                                            modificaCommentoServer(
+                                              comm._id,
+                                              testoCommentoInModifica,
+                                              post._id,
+                                            ),
+                                          );
+
+                                          setCommentIdInModifica(null);
+                                        }}
+                                      >
+                                        Salva
+                                      </Button>
+
+                                      <Button
+                                        size="sm"
+                                        variant="secondary"
+                                        onClick={() =>
+                                          setCommentIdInModifica(null)
+                                        }
+                                      >
+                                        Annulla
+                                      </Button>
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className="text-dark small">
+                                    {comm.comment}
+                                  </div>
+                                )}
+
                                 <Button
                                   variant="link"
-                                  className="p-0 border-0 mt-1 d-flex align-items-center gap-1 text-decoration-none"
+                                  className="p-0 border-0 mt-1 text-decoration-none"
                                   onClick={() => mettiMiPiaceCommento(comm._id)}
                                 >
                                   {commentiPiaciuti[comm._id] ? (
@@ -394,36 +501,41 @@ const PostsList = () => {
                                       className="text-secondary"
                                     />
                                   )}
-                                  <span
-                                    style={{ fontSize: "0.75rem" }}
-                                    className={
-                                      commentiPiaciuti[comm._id]
-                                        ? "text-danger"
-                                        : "text-secondary"
-                                    }
-                                  >
-                                    Piace
-                                  </span>
                                 </Button>
                               </div>
 
-                              {/* tasto cancella commento */}
                               {isMioCommento && (
-                                <Button
-                                  variant="link"
-                                  className="text-danger p-1"
-                                  onClick={() => {
-                                    if (
-                                      window.confirm(
-                                        "Vuoi eliminare questo commento?",
-                                      )
-                                    ) {
-                                      dispatch(eliminaCommentoServer(comm._id));
-                                    }
-                                  }}
-                                >
-                                  <Trash size={16} />
-                                </Button>
+                                <div className="d-flex gap-1">
+                                  <Button
+                                    variant="link"
+                                    className="text-secondary p-1"
+                                    onClick={() => {
+                                      setCommentIdInModifica(comm._id);
+
+                                      setTestoCommentoInModifica(comm.comment);
+                                    }}
+                                  >
+                                    <Pencil size={14} />
+                                  </Button>
+
+                                  <Button
+                                    variant="link"
+                                    className="text-danger p-1"
+                                    onClick={() => {
+                                      if (
+                                        window.confirm(
+                                          "Vuoi eliminare questo commento?",
+                                        )
+                                      ) {
+                                        dispatch(
+                                          eliminaCommentoServer(comm._id),
+                                        );
+                                      }
+                                    }}
+                                  >
+                                    <Trash size={16} />
+                                  </Button>
+                                </div>
                               )}
                             </div>
                           </div>
