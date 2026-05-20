@@ -249,3 +249,25 @@ export const eliminaCommentoServer = (commentId) => {
   };
 };
 
+//FUNZIONE JOBS
+
+import { salvaJobs, loadingJobs } from "../reducers/jobsReducer";
+
+export const fetchJobs = (query = "") => {
+  return async (dispatch) => {
+    try {
+      dispatch(loadingJobs());
+      const risposta = await fetch(
+        `https://strive-benchmark.herokuapp.com/api/jobs${query ? `?search=${query}` : "?limit=10"}`
+      );
+      if (risposta.ok) {
+        const dati = await risposta.json();
+        dispatch(salvaJobs(dati.data));
+      } else {
+        throw new Error("Impossibile caricare i jobs");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
