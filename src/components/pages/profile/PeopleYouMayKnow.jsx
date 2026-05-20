@@ -2,16 +2,24 @@ import { ArrowRightShort } from "react-bootstrap-icons";
 import PeopleCard from "./PeopleCard";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "react-bootstrap";
-import { useEffect } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { fetchSavedProfiles } from "../../../redux/actions";
 
 const PeopleYouMayKnow = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector((rs) => rs.profilo.loadingUsers);
   const profiles = useSelector((rs) => rs.profilo.usersData);
+  const randomProfiles = useMemo(() => {
+    if (!profiles?.length) return [];
 
+    // eslint-disable-next-line react-hooks/purity
+    const start = Math.floor(Math.random() * Math.max(1, profiles.length - 5));
+
+    return profiles.slice(start, start + 5);
+  }, [profiles]);
   useEffect(() => {
     dispatch(fetchSavedProfiles());
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -30,8 +38,7 @@ const PeopleYouMayKnow = () => {
           </Spinner>
         ) : (
           profiles &&
-          profiles // Aggiunto controllo sicurezza in caso di errore di server non è possibile mappare o slice di null
-            .slice(500, 505)
+          randomProfiles // Aggiunto controllo sicurezza in caso di errore di server non è possibile mappare o slice di null
             .map((profile) => (
               <PeopleCard key={profile._id} profile={profile} />
             ))
