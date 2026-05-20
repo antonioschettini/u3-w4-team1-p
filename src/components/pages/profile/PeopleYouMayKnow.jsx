@@ -1,14 +1,30 @@
 import { ArrowRightShort } from "react-bootstrap-icons";
 import PeopleCard from "./PeopleCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "react-bootstrap";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { fetchSavedProfiles } from "../../../redux/actions";
 
 const PeopleYouMayKnow = () => {
+  const dispatch = useDispatch();
   const isLoading = useSelector((rs) => rs.profilo.loadingUsers);
   const profiles = useSelector((rs) => rs.profilo.usersData);
+  const randomProfiles = useMemo(() => {
+    if (!profiles?.length) return [];
+
+    // eslint-disable-next-line react-hooks/purity
+    const start = Math.floor(Math.random() * Math.max(1, profiles.length - 5));
+
+    return profiles.slice(start, start + 5);
+  }, [profiles]);
+  useEffect(() => {
+    dispatch(fetchSavedProfiles());
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
-    <div className="d-none d-md-flex flex-column border border-1 border-secondary-subtle rounded-2 p-3 my-2 bg-white shadow-sm">
+    <div className="d-none d-md-flex flex-column border border-1 border-secondary-subtle rounded-2 p-3 mb-2 bg-white shadow-sm">
       <div className="d-flex flex-column">
         <div className="d-flex justify-content-between align-items-center">
           <p className="fw-semibold m-0">Persone che potresti conoscere</p>
@@ -22,8 +38,7 @@ const PeopleYouMayKnow = () => {
           </Spinner>
         ) : (
           profiles &&
-          profiles // Aggiunto controllo sicurezza in caso di errore di server non è possibile mappare o slice di null
-            .slice(500, 505)
+          randomProfiles // Aggiunto controllo sicurezza in caso di errore di server non è possibile mappare o slice di null
             .map((profile) => (
               <PeopleCard key={profile._id} profile={profile} />
             ))
