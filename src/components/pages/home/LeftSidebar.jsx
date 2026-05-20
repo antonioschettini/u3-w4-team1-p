@@ -3,13 +3,12 @@ import { useSelector, useDispatch } from "react-redux";
 import { fetchMioProfilo } from "../../../redux/actions";
 import {
   PersonFill,
-  Bookmark,
-  People,
   Newspaper,
   Calendar,
   StarFill,
   PeopleFill,
   Briefcase,
+  BookmarkFill,
 } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 
@@ -154,10 +153,13 @@ function LeftSidebar() {
         <div className="card-body">
           {[
             {
-              icon: <Bookmark size={16} className="me-2" />,
+              icon: <BookmarkFill size={16} className="me-2" />,
               label: "Elementi salvati",
             },
-            { icon: <People size={16} className="me-2" />, label: "Gruppi" },
+            {
+              icon: <PeopleFill size={16} className="me-2" />,
+              label: "Gruppi",
+            },
             {
               icon: <Newspaper size={16} className="me-2" />,
               label: "Newsletter",
@@ -166,7 +168,7 @@ function LeftSidebar() {
           ].map((item) => (
             <div
               key={item.label}
-              className="d-flex align-items-center py-1 border-bottom"
+              className="d-flex align-items-center py-1"
               style={{ cursor: "pointer" }}
             >
               {item.icon}
