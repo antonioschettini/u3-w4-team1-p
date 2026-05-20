@@ -2,7 +2,6 @@ import { salvaProfilo, saveUsersData, erroreProfilo } from "../reducers";
 export const profileApiLink =
   "https://striveschool-api.herokuapp.com/api/profile/";
 
-import { salvaJobs } from "../reducers/jobsReducer";
 
 export const fetchMioProfilo = () => {
   return async (dispatch) => {
@@ -98,24 +97,3 @@ export const postNewExperience = async (formData, userId) => {
   }
 };
 
-export const fetchJobs = (query = "") => {
-  return async (dispatch) => {
-    try {
-      const risposta = await fetch(
-        `https://strive-benchmark.herokuapp.com/api/jobs${query ? `?search=${query}` : ""}`,
-        {
-          method: "GET",
-        },
-      );
-      if (risposta.ok) {
-        const dati = await risposta.json();
-        dispatch(salvaJobs(dati));
-        console.log(dati);
-      } else {
-        throw new Error("Impossibile caricare i jobs");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-};
