@@ -1,22 +1,22 @@
-import { useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import { fetchJobs } from "../../../redux/actions"
-import { Container } from "react-bootstrap"
-import JobsCard from "./jobsCard"
-import SmallFooter from "../../SmallFooter"
-import JobsLeftSidebar from "./JobsLeftSideBar"
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchJobs } from "../../../redux/actions";
+import { Container } from "react-bootstrap";
+import JobsCard from "./jobsCard";
+import JobsLeftSidebar from "./JobsLeftSideBar";
+import SmallFooter from "../../SmallFooter";
 
 function Jobs() {
-  const dispatch = useDispatch()
-  const jobs = useSelector((state) => state.jobs.jobs)
-  const loading = useSelector((state) => state.jobs.loading)
+  const dispatch = useDispatch();
+  const jobs = useSelector((state) => state.jobs.jobs);
+  const loading = useSelector((state) => state.jobs.loading);
 
   useEffect(() => {
-    dispatch(fetchJobs())
-  }, [dispatch])
+    dispatch(fetchJobs());
+  }, [dispatch]);
 
-  const principali = jobs.slice(0, 3)
-  const altre = jobs.slice(3, 10)
+  const principali = jobs.slice(0, 3);
+  const altre = jobs.slice(3, 10);
 
   return (
     <Container>
@@ -65,7 +65,7 @@ function Jobs() {
         </div>
       </div>
     </Container>
-  )
+  );
 }
 
-export default Jobs
+export default Jobs;
