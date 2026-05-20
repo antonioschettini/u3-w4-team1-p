@@ -8,12 +8,15 @@ import { mioToken } from "../profile/ProfilePicModal";
 import PeopleYouMayKnow from "../profile/PeopleYouMayKnow";
 import Interests from "../profile/Interests";
 import OtherProfileHero from "./OtherProfileHero";
+import OtherEsperienzaCard from "./OtherEsperienzaCard";
+import OtherInformazioniBio from "./OtherInformazioniBio";
 
 const OtherProfile = () => {
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [profile, setProfile] = useState({});
+  const [experiences, setExperiences] = useState({});
   const fetchProfile = () => {
     fetch(profileApiLink + id, {
       method: "GET",
@@ -26,7 +29,7 @@ const OtherProfile = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("Response not ok: ", res.status);
+          throw new Error("Profile response not ok: ", res.status);
         }
       })
       .then((data) => {
@@ -39,9 +42,36 @@ const OtherProfile = () => {
         setError(true);
       });
   };
+  const fetchExperiences = () => {
+    fetch(profileApiLink + id + "/experiences", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${mioToken}`,
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw new Error("Experience response not ok: ", res.status);
+        }
+      })
+      .then((data) => {
+        setExperiences(data);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setLoading(false);
+        setError(true);
+      });
+  };
 
   useEffect(() => {
     fetchProfile();
+    fetchExperiences();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -70,8 +100,8 @@ const OtherProfile = () => {
               {/* Sezione centrale main */}
               <Col xs={12} md={8}>
                 <OtherProfileHero profile={profile} />
-                {/* <OtherInformazioniBio />
-                <OtherEsperienzaCard /> */}
+                <OtherInformazioniBio profile={profile} />
+                <OtherEsperienzaCard experiences={experiences} />
               </Col>
 
               {/* Colonna a Destra (aside) */}

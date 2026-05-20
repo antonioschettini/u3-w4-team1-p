@@ -11,12 +11,28 @@ const OtherProfileHero = ({ profile }) => {
     <Card className="shadow-sm mb-3">
       <div className="position-relative">
         {/* Immagine Bacheca */}
-        <Card.Img
-          src="/immbacheca.jpeg"
-          variant="top"
-          className="hero-banner"
-          alt="Banner del profile"
-        />
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          id="person-medium"
+          viewBox="0 0 552 138"
+          data-token-id="384"
+          className="c1217a46 _093caa33 _47abdd78 _6f907679 _4543c93a"
+          role="img"
+          fetchPriority="high"
+          aria-label="Foto di copertina"
+          aria-hidden="false"
+          preserveAspectRatio="xMidYMid slice"
+        >
+          <g>
+            <path fill="none" d="M0 0h552v138H0z"></path>
+            <path fill="#d9e5e7" d="M0 0h552v138H0z"></path>
+            <path fill="#bfd3d6" d="M380 0h172v138H380z"></path>
+            <path
+              fill="#a0b4b7"
+              d="M333.22 0H0v138h333.22a207.93 207.93 0 0 0 0-138"
+            ></path>
+          </g>
+        </svg>
       </div>
 
       <Card.Body className="position-relative">
