@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router";
 import MyFooter from "./components/MyFooter";
 import Messaggistica from "./components/Messaggistica";
 import NotFound from "./components/pages/notfound/NotFound";
+import OtherProfile from "./components/pages/OtherProfile/OtherProfile";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<OtherProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Messaggistica />
