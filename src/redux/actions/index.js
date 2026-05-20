@@ -12,6 +12,7 @@ import { salvaJobs } from "../reducers/jobsReducer";
 // Token di autenticazione
 const mioToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
+
 const tokenCommenti =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBkOTNhZTNhMDNhODAwMTUwZDk0MTUiLCJpYXQiOjE3NzkyNzQ2NzAsImV4cCI6MTc4MDQ4NDI3MH0.-_CZSFV3Ice0N3LfbMDLZ8jWjsqPPYWI0w81F66CJwg";
 
@@ -19,7 +20,6 @@ export const profileApiLink =
   "https://striveschool-api.herokuapp.com/api/profile/";
 
 // --- FUNZIONI PROFILO ---
-
 export const fetchMioProfilo = () => {
   return async (dispatch) => {
     try {
@@ -40,7 +40,7 @@ export const fetchMioProfilo = () => {
         throw new Error("impossibile scaricare profilo");
       }
     } catch (error) {
-      dispatch(erroreProfilo("Impossibile caricare il profilo."));
+      dispatch(erroreProfilo("Impossibile caricare il profilo.", error));
     }
   };
 };
@@ -66,7 +66,7 @@ export const fetchSavedProfiles = () => {
       }
     } catch (error) {
       dispatch(
-        erroreProfilo("Errore nel caricamento della lista dei profili."),
+        erroreProfilo("Errore nel caricamento della lista dei profili.", error),
       );
     }
   };
@@ -94,7 +94,6 @@ export const postNewExperience = async (formData, userId) => {
 };
 
 // --- FUNZIONI POST ---
-
 export const fetchPosts = () => {
   return async (dispatch) => {
     try {
@@ -179,7 +178,6 @@ export const deletePost = (postId) => {
 };
 
 // --- FUNZIONI COMMENTI ---
-
 export const fetchCommenti = () => {
   return async (dispatch) => {
     try {
@@ -219,7 +217,6 @@ export const aggiungiCommentoServer = (testoCommento, postId) => {
         },
       );
       if (risposta.ok) {
-        alert("Commento pubblicato!");
         dispatch(fetchCommenti());
       }
     } catch (errore) {
@@ -228,8 +225,31 @@ export const aggiungiCommentoServer = (testoCommento, postId) => {
   };
 };
 
-// --- FUNZIONI JOBS ---
+export const eliminaCommentoServer = (commentId) => {
+  return async (dispatch) => {
+    try {
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/comments/${commentId}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${tokenCommenti}`,
+          },
+        },
+      );
+      if (response.ok) {
+        // Dopo aver eliminato, ricarichiamo i commenti per aggiornare la lista
+        dispatch(fetchCommenti());
+      } else {
+        throw new Error("Errore durante l'eliminazione");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
 
+// --- FUNZIONI JOBS ---
 export const fetchJobs = (query = "") => {
   return async (dispatch) => {
     try {
