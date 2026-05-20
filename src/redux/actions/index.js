@@ -1,4 +1,6 @@
 import { salvaProfilo, saveUsersData, erroreProfilo } from "../reducers";
+export const profileApiLink =
+  "https://striveschool-api.herokuapp.com/api/profile/";
 
 import { salvaJobs } from "../reducers/jobsReducer";
 
