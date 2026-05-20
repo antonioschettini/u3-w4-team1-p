@@ -76,7 +76,7 @@ function DesktopNavbar() {
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
-          ) : location.pathname === "/lavoro" ? (
+          ) : location.pathname === "/jobs" ? (
             ""
           ) : (
             profiles &&
@@ -130,7 +130,7 @@ function DesktopNavbar() {
           </Link>
           <Link
             className=" nav-link nav-link-color d-flex flex-column align-items-center justify-content-center"
-            to="/lavoro"
+            to="/jobs"
           >
             <BriefcaseFill className="nav-link-color-e" size={24} />
             <small
