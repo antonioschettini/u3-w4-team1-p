@@ -22,6 +22,7 @@ import { Link, useNavigate, useLocation } from "react-router"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import PeolpleLinkCard from "./PeopleLinkCard"
+import JobsLinkCard from "./JobsLinkCard"
 
 function DesktopNavbar() {
   const location = useLocation()
@@ -29,9 +30,13 @@ function DesktopNavbar() {
   const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block"
   const profilo = useSelector((state) => state.profilo.mioProfilo)
   const navigate = useNavigate()
-  const isLoading = useSelector((rs) => rs.profilo.loadingUsers)
+  const loadingUsers = useSelector((rs) => rs.profilo.loadingUsers)
+  const loadingJobs = useSelector((rs) => rs.jobs.loading)
+  const isLoading = location.pathname === "/jobs" ? loadingUsers : loadingJobs
   const profiles = useSelector((rs) => rs.profilo.usersData)
+  const jobs = useSelector((rs) => rs.jobs.jobs)
   const [searchQuery, setSearchQuery] = useState("")
+  console.log(jobs)
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -77,7 +82,28 @@ function DesktopNavbar() {
               <span className="visually-hidden">Loading...</span>
             </Spinner>
           ) : location.pathname === "/jobs" ? (
-            ""
+            jobs &&
+            jobs
+              .filter((job) => {
+                if (!searchQuery) return true
+
+                const query = searchQuery.toLowerCase().trim()
+                const company_name = job.company_name?.toLowerCase() || ""
+                const title = job.title?.toLowerCase() || ""
+
+                const search = `${company_name} ${title}`
+                const reverseSearch = `${title} ${company_name}`
+
+                return search.includes(query) || reverseSearch.includes(query)
+              })
+              .slice(0, 5)
+              .map((job) => (
+                <JobsLinkCard
+                  key={job._id}
+                  job={job}
+                  resetSearch={setSearchQuery}
+                />
+              ))
           ) : (
             profiles &&
             profiles
