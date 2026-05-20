@@ -4,9 +4,9 @@ import {
   PeopleFill,
   BriefcaseFill,
   PlusSquareFill,
-} from "react-bootstrap-icons";
-import { Container, Navbar } from "react-bootstrap";
-import { Link } from "react-router";
+} from "react-bootstrap-icons"
+import { Container, Navbar } from "react-bootstrap"
+import { Link } from "react-router"
 
 function MobileNavbarBottom() {
   return (
@@ -58,7 +58,7 @@ function MobileNavbarBottom() {
           <Link
             className="nav-link nav-link-color d-flex flex-column align-items-center justify-content-bottom text-center flex-grow-1"
             style={{ flexBasis: 0 }}
-            to="/lavoro"
+            to="/jobs"
           >
             <BriefcaseFill className="nav-link-color-e" size={24} />
             <small className="text-truncate nav-link-color-e w-100">
@@ -68,7 +68,7 @@ function MobileNavbarBottom() {
         </div>
       </Container>
     </Navbar>
-  );
+  )
 }
 
-export default MobileNavbarBottom;
+export default MobileNavbarBottom

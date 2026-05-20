@@ -12,6 +12,7 @@ const jobsSlice = createSlice({
   reducers: {
     salvaJobs: (state, action) => {
       state.jobs = action.payload;
+      state.loading = false;
     },
     loadingJobs: (state) => {
       state.loading = true;

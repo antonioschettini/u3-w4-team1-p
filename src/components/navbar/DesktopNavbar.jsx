@@ -7,7 +7,7 @@ import {
   Linkedin,
   PeopleFill,
   Search,
-} from "react-bootstrap-icons";
+} from "react-bootstrap-icons"
 import {
   Form,
   Container,
@@ -22,6 +22,7 @@ import { Link, useNavigate, useLocation } from "react-router"
 import { useState } from "react"
 import { useSelector } from "react-redux"
 import PeolpleLinkCard from "./PeopleLinkCard"
+import JobsLinkCard from "./JobsLinkCard"
 
 function DesktopNavbar() {
   const location = useLocation()
@@ -31,10 +32,11 @@ function DesktopNavbar() {
   const navigate = useNavigate()
   const loadingUsers = useSelector((rs) => rs.profilo.loadingUsers)
   const loadingJobs = useSelector((rs) => rs.jobs.loading)
-  const isLoading = location.pathname === "/lavoro" ? loadingUsers : loadingJobs
+  const isLoading = location.pathname === "/jobs" ? loadingUsers : loadingJobs
   const profiles = useSelector((rs) => rs.profilo.usersData)
   const jobs = useSelector((rs) => rs.jobs.jobs)
   const [searchQuery, setSearchQuery] = useState("")
+  console.log(jobs)
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -79,20 +81,24 @@ function DesktopNavbar() {
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
-          ) : location.pathname === "/lavoro" ? (
+          ) : location.pathname === "/jobs" ? (
             jobs &&
             jobs
               .filter((job) => {
                 if (!searchQuery) return true
 
                 const query = searchQuery.toLowerCase().trim()
-                const name = job.name?.toLowerCase()
+                const company_name = job.company_name?.toLowerCase() || ""
+                const title = job.title?.toLowerCase() || ""
 
-                return name.includes(query)
+                const search = `${company_name} ${title}`
+                const reverseSearch = `${title} ${company_name}`
+
+                return search.includes(query) || reverseSearch.includes(query)
               })
               .slice(0, 5)
               .map((job) => (
-                <PeolpleLinkCard
+                <JobsLinkCard
                   key={job._id}
                   job={job}
                   resetSearch={setSearchQuery}
@@ -150,7 +156,7 @@ function DesktopNavbar() {
           </Link>
           <Link
             className=" nav-link nav-link-color d-flex flex-column align-items-center justify-content-center"
-            to="/lavoro"
+            to="/jobs"
           >
             <BriefcaseFill className="nav-link-color-e" size={24} />
             <small
@@ -228,8 +234,8 @@ function DesktopNavbar() {
                   variant="outline-primary"
                   className="rounded-pill fw-semibold text-start"
                   onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/profile");
+                    e.preventDefault()
+                    navigate("/profile")
                   }}
                 >
                   Visualizza Profilo
@@ -281,7 +287,7 @@ function DesktopNavbar() {
         </div>
       </Container>
     </Navbar>
-  );
+  )
 }
 
-export default DesktopNavbar;
+export default DesktopNavbar

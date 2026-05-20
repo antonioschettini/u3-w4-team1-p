@@ -6,9 +6,9 @@ const PeolpleLinkCard = (props) => {
   const { resetSearch } = props
   return (
     <>
-      <NavDropdown.Item as={"div"} className="p-0 mb-2">
+      <NavDropdown.Item as={"div"} className="">
         <Link
-          className="d-flex align-items-center my-1 text-decoration-none"
+          className="d-flex align-items-center text-decoration-none"
           to={
             _id === "6a0afbe906bbe90015dee589" ? "/profile" : `/profile/${_id}`
           }

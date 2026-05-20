@@ -1,4 +1,4 @@
-import { ChatDotsFill, GearFill, Search } from "react-bootstrap-icons";
+import { ChatDotsFill, GearFill, Search } from "react-bootstrap-icons"
 import {
   Form,
   Container,
@@ -9,26 +9,26 @@ import {
   Offcanvas,
   NavDropdown,
   Spinner,
-} from "react-bootstrap";
-import { Link, useLocation } from "react-router";
-import { useSelector } from "react-redux";
-import { useState } from "react";
-import PeolpleLinkCard from "./PeopleLinkCard";
+} from "react-bootstrap"
+import { Link, useLocation } from "react-router"
+import { useSelector } from "react-redux"
+import { useState } from "react"
+import PeolpleLinkCard from "./PeopleLinkCard"
+import JobsLinkCard from "./JobsLinkCard"
 
 function MobileNavbarTop() {
-  const profilo = useSelector((state) => state.profilo.mioProfilo);
-  const [show, setShow] = useState(false);
+  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const [show, setShow] = useState(false)
 
-  const location = useLocation();
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-  const loadingUsers = useSelector((rs) => rs.profilo.loadingUsers);
-  const loadingJobs = useSelector((rs) => rs.jobs.loading);
-  const isLoading =
-    location.pathname === "/lavoro" ? loadingUsers : loadingJobs;
-  const profiles = useSelector((rs) => rs.profilo.usersData);
-  const jobs = useSelector((rs) => rs.jobs.jobs);
-  const [searchQuery, setSearchQuery] = useState("");
+  const location = useLocation()
+  const handleClose = () => setShow(false)
+  const handleShow = () => setShow(true)
+  const loadingUsers = useSelector((rs) => rs.profilo.loadingUsers)
+  const loadingJobs = useSelector((rs) => rs.jobs.loading)
+  const isLoading = location.pathname === "/jobs" ? loadingUsers : loadingJobs
+  const profiles = useSelector((rs) => rs.profilo.usersData)
+  const jobs = useSelector((rs) => rs.jobs.jobs)
+  const [searchQuery, setSearchQuery] = useState("")
   return (
     <Navbar expand="lg" className="bg-white py-1">
       <Container fluid className="d-flex flex-nowrap container-mw">
@@ -88,7 +88,7 @@ function MobileNavbarTop() {
           title={
             <Form
               onSubmit={(e) => {
-                e.preventDefault();
+                e.preventDefault()
               }}
             >
               <InputGroup className="d-flex flex-nowrap">
@@ -105,7 +105,7 @@ function MobileNavbarTop() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === " ") {
-                      e.stopPropagation();
+                      e.stopPropagation()
                     }
                   }}
                 />
@@ -119,20 +119,24 @@ function MobileNavbarTop() {
             <Spinner animation="border" role="status">
               <span className="visually-hidden">Loading...</span>
             </Spinner>
-          ) : location.pathname === "/lavoro" ? (
+          ) : location.pathname === "/jobs" ? (
             jobs &&
             jobs
               .filter((job) => {
-                if (!searchQuery) return true;
+                if (!searchQuery) return true
 
-                const query = searchQuery.toLowerCase().trim();
-                const name = job.name?.toLowerCase();
+                const query = searchQuery.toLowerCase().trim()
+                const company_name = job.company_name?.toLowerCase() || ""
+                const title = job.title?.toLowerCase() || ""
 
-                return name.includes(query);
+                const search = `${company_name} ${title}`
+                const reverseSearch = `${title} ${company_name}`
+
+                return search.includes(query) || reverseSearch.includes(query)
               })
               .slice(0, 5)
               .map((job) => (
-                <PeolpleLinkCard
+                <JobsLinkCard
                   key={job._id}
                   job={job}
                   resetSearch={setSearchQuery}
@@ -142,18 +146,18 @@ function MobileNavbarTop() {
             profiles &&
             profiles
               .filter((profile) => {
-                if (!searchQuery) return true;
+                if (!searchQuery) return true
 
-                const query = searchQuery.toLowerCase().trim();
-                const name = profile.name?.toLowerCase() || "";
-                const surname = profile.surname?.toLowerCase() || "";
+                const query = searchQuery.toLowerCase().trim()
+                const name = profile.name?.toLowerCase() || ""
+                const surname = profile.surname?.toLowerCase() || ""
 
-                const fullName = `${name} ${surname}`;
-                const reverseFullName = `${surname} ${name}`;
+                const fullName = `${name} ${surname}`
+                const reverseFullName = `${surname} ${name}`
 
                 return (
                   fullName.includes(query) || reverseFullName.includes(query)
-                );
+                )
               })
               .slice(0, 5)
               .map((profile) => (
@@ -173,7 +177,7 @@ function MobileNavbarTop() {
         </Link>
       </Container>
     </Navbar>
-  );
+  )
 }
 
-export default MobileNavbarTop;
+export default MobileNavbarTop
