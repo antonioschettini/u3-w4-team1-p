@@ -1,24 +1,22 @@
 import { Link } from "react-router"
 import { Image, NavDropdown } from "react-bootstrap"
 
-const PeolpleLinkCard = (props) => {
-  const { image, name, surname, title, _id } = props.profile
+const JobsLinkCard = (props) => {
+  const { image, name, title, _id } = props.job
   const { resetSearch } = props
   return (
     <>
       <NavDropdown.Item as={"div"} className="p-0 mb-2">
         <Link
           className="d-flex align-items-center my-1 text-decoration-none"
-          to={
-            _id === "6a0afbe906bbe90015dee589" ? "/profile" : `/profile/${_id}`
-          }
+          to={_id === "6a0afbe906bbe90015dee589" ? "/lavoro" : `/lavoro/${_id}`}
           onClick={() => resetSearch("")}
         >
           <Image
             src={image}
             onError={(e) => {
               e.target.src =
-                "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                "https://pixabay.com/it/illustrations/valigetta-icona-attivit%c3%a0-commerciale-2558671/"
             }}
             roundedCircle
             width={"40px"}
@@ -29,7 +27,7 @@ const PeolpleLinkCard = (props) => {
             className="text-nowrap fw-bold mb-0 text-black"
             style={{ textOverflow: "ellipsis", overflow: "hidden" }}
           >
-            {name} {surname}
+            {name}
           </h6>
           {title ? (
             <>
@@ -42,4 +40,4 @@ const PeolpleLinkCard = (props) => {
     </>
   )
 }
-export default PeolpleLinkCard
+export default JobsLinkCard

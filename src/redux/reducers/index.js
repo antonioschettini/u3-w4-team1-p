@@ -7,6 +7,10 @@ const initialState = {
   loadingProfilo: false, // se in futuro vogliamo inserire le logiche di errore e caricamento
   loadingUsers: false, // se in futuro vogliamo inserire le logiche di errore e caricamento
   error: null,
+  listaPost: [],
+  loadingPost: false,
+  errorPost: null,
+  listaCommenti: [],
 };
 
 // creazione dello slice
@@ -34,6 +38,26 @@ const profiloSlice = createSlice({
       state.usersData = action.payload;
       state.loadingUsers = false;
     },
+    // Azioni per i post
+    avviaCaricamentoPost: (state) => {
+      state.loadingPost = true;
+      state.errorPost = null; // Cancella vecchi errori se presenti
+    },
+    // Prende i post arrivati dal server e li salva nella listaPost
+    salvaPost: (state, action) => {
+      state.listaPost = action.payload;
+      state.loadingPost = false; // Spegne la rotella di caricamento
+      state.errorPost = null;
+    },
+    // Se il server si rompe salva il messaggio d'errore
+    errorePost: (state, action) => {
+      state.errorPost = action.payload;
+      state.loadingPost = false; // Spegne la rotella anche in caso di fallimento
+    },
+    // salva i commenti nella listacommenti
+    salvaCommento: (state, action) => {
+      state.listaCommenti = action.payload;
+    },
   },
 });
 // esporto le azioni generate da createslice
@@ -42,6 +66,11 @@ export const {
   salvaProfilo,
   erroreProfilo,
   saveUsersData,
+  avviaCaricamentoPost,
+  salvaPost,
+  errorePost,
+  salvaCommento,
 } = profiloSlice.actions;
+
 //esporto il reducer
 export default profiloSlice.reducer;

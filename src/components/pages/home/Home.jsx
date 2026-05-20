@@ -2,6 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
 import CreatePost from "./CreatePost";
+import PostsList from "./PostsList";
 
 function Home() {
   return (
@@ -10,6 +11,7 @@ function Home() {
         <LeftSidebar />
         <Col>
           <CreatePost />
+          <PostsList />
         </Col>
 
         <RightSidebar />

@@ -1,5 +1,5 @@
-import { QuestionCircle, Gear, Shield } from "react-bootstrap-icons"
-import { Container, Row, Col } from "react-bootstrap"
+import { QuestionCircle, Gear, Shield } from "react-bootstrap-icons";
+import { Container, Row, Col } from "react-bootstrap";
 
 function MyFooter() {
   return (
@@ -169,7 +169,7 @@ function MyFooter() {
         </Row>
       </Container>
     </footer>
-  )
+  );
 }
 
-export default MyFooter
+export default MyFooter;

@@ -1,12 +1,27 @@
-import { salvaProfilo, saveUsersData, erroreProfilo } from "../reducers";
+import {
+  salvaProfilo,
+  saveUsersData,
+  erroreProfilo,
+  avviaCaricamentoPost,
+  salvaPost,
+  errorePost,
+  salvaCommento,
+} from "../reducers";
+
+
+// Token di autenticazione
+const mioToken =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
+const tokenCommenti =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBkOTNhZTNhMDNhODAwMTUwZDk0MTUiLCJpYXQiOjE3NzkyNzQ2NzAsImV4cCI6MTc4MDQ4NDI3MH0.-_CZSFV3Ice0N3LfbMDLZ8jWjsqPPYWI0w81F66CJwg";
+
 export const profileApiLink =
   "https://striveschool-api.herokuapp.com/api/profile/";
 
+// --- FUNZIONI PROFILO ---
 
 export const fetchMioProfilo = () => {
   return async (dispatch) => {
-    const mioToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
     try {
       const risposta = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/me",
@@ -20,27 +35,18 @@ export const fetchMioProfilo = () => {
       );
       if (risposta.ok) {
         const datiProfilo = await risposta.json();
-        // spedisco i dati usando l'azione della slice con dispatch
         dispatch(salvaProfilo(datiProfilo));
-        console.log(datiProfilo);
       } else {
-        throw new Error("impossibile scarica profilo");
+        throw new Error("impossibile scaricare profilo");
       }
     } catch (error) {
-      console.log(error);
-      dispatch(
-        erroreProfilo(
-          "Impossibile caricare il profilo. Il server potrebbe essere temporaneamente non raggiungibile.",
-        ),
-      );
+      dispatch(erroreProfilo("Impossibile caricare il profilo."));
     }
   };
 };
 
 export const fetchSavedProfiles = () => {
   return async (dispatch) => {
-    const mioToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
     try {
       const response = await fetch(
         "https://striveschool-api.herokuapp.com/api/profile/",
@@ -54,14 +60,11 @@ export const fetchSavedProfiles = () => {
       );
       if (response.ok) {
         const data = await response.json();
-        // spedisco i dati usando l'azione della slice con dispatch
         dispatch(saveUsersData(data));
-        console.log(data);
       } else {
         throw new Error("Error fetching people's data.");
       }
     } catch (error) {
-      console.log(error);
       dispatch(
         erroreProfilo("Errore nel caricamento della lista dei profili."),
       );
@@ -70,8 +73,6 @@ export const fetchSavedProfiles = () => {
 };
 
 export const postNewExperience = async (formData, userId) => {
-  const mioToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
   try {
     const response = await fetch(
       "https://striveschool-api.herokuapp.com/api/profile/" +
@@ -86,14 +87,144 @@ export const postNewExperience = async (formData, userId) => {
         body: JSON.stringify(formData),
       },
     );
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data);
-    } else {
-      throw new Error("Error posting new experience.");
-    }
+    if (!response.ok) throw new Error("Error posting new experience.");
   } catch (error) {
     console.log(error);
   }
+};
+
+// --- FUNZIONI POST ---
+
+export const fetchPosts = () => {
+  return async (dispatch) => {
+    try {
+      dispatch(avviaCaricamentoPost());
+      const risposta = await fetch(
+        "https://striveschool-api.herokuapp.com/api/posts/",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${mioToken}` },
+        },
+      );
+      if (risposta.ok) {
+        const dati = await risposta.json();
+        const postRecenti = dati.reverse().slice(0, 50);
+        dispatch(salvaPost(postRecenti));
+      } else {
+        throw new Error("Impossibile scaricare i post dal server.!");
+      }
+    } catch (error) {
+      dispatch(errorePost(error.message));
+    }
+  };
+};
+
+export const creaNuovoPost = (testo, immagineFile) => {
+  return async (dispatch) => {
+    try {
+      const rispostaTesto = await fetch(
+        "https://striveschool-api.herokuapp.com/api/posts/",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${mioToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ text: testo }),
+        },
+      );
+
+      if (rispostaTesto.ok) {
+        const postCreato = await rispostaTesto.json();
+        if (immagineFile) {
+          const formData = new FormData();
+          formData.append("post", immagineFile);
+          await fetch(
+            `https://striveschool-api.herokuapp.com/api/posts/${postCreato._id}`,
+            {
+              method: "POST",
+              headers: { Authorization: `Bearer ${mioToken}` },
+              body: formData,
+            },
+          );
+        }
+        dispatch(fetchPosts());
+      }
+    } catch (errore) {
+      console.log("Errore nella creazione del post:", errore);
+    }
+  };
+};
+
+export const deletePost = (postId) => {
+  return async (dispatch) => {
+    try {
+      const risposta = await fetch(
+        `https://striveschool-api.herokuapp.com/api/posts/${postId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${mioToken}` },
+        },
+      );
+      if (risposta.ok) {
+        alert("Post eliminato con successo!");
+        dispatch(fetchPosts());
+      } else {
+        alert("Non puoi eliminare i post degli altri utenti!");
+      }
+    } catch (errore) {
+      console.log("Errore durante la cancellazione:", errore);
+    }
+  };
+};
+
+// --- FUNZIONI COMMENTI ---
+
+export const fetchCommenti = () => {
+  return async (dispatch) => {
+    try {
+      const risposta = await fetch(
+        "https://striveschool-api.herokuapp.com/api/comments/",
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${tokenCommenti}` },
+        },
+      );
+      if (risposta.ok) {
+        const dati = await risposta.json();
+        dispatch(salvaCommento(dati));
+      }
+    } catch (errore) {
+      console.log("Errore durante il download dei commenti:", errore);
+    }
+  };
+};
+
+export const aggiungiCommentoServer = (testoCommento, postId) => {
+  return async (dispatch) => {
+    try {
+      const risposta = await fetch(
+        "https://striveschool-api.herokuapp.com/api/comments/",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${tokenCommenti}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            comment: testoCommento,
+            rate: "5",
+            elementId: postId,
+          }),
+        },
+      );
+      if (risposta.ok) {
+        alert("Commento pubblicato!");
+        dispatch(fetchCommenti());
+      }
+    } catch (errore) {
+      console.log("Errore commento:", errore);
+    }
+  };
 };
 

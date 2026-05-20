@@ -80,7 +80,7 @@ const OtherProfile = () => {
         fluid={true}
         className="d-flex justify-content-center m-0 container-mw mt-3"
       >
-        <Row className="justify-content-center px-0 ">
+        <Row className="justify-content-center px-0 w-100">
           {/* Controllo errori */}
           {error && (
             <Col xs={12} md={12} className="mb-3">
