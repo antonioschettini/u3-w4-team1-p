@@ -1,11 +1,19 @@
 import { ArrowRightShort } from "react-bootstrap-icons";
 import PeopleCard from "./PeopleCard";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "react-bootstrap";
+import { useEffect } from "react";
+import { fetchSavedProfiles } from "../../../redux/actions";
 
 const PeopleYouMayKnow = () => {
+  const dispatch = useDispatch();
   const isLoading = useSelector((rs) => rs.profilo.loadingUsers);
   const profiles = useSelector((rs) => rs.profilo.usersData);
+
+  useEffect(() => {
+    dispatch(fetchSavedProfiles());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="d-none d-md-flex flex-column border border-1 border-secondary-subtle rounded-2 p-3 my-2 bg-white shadow-sm">
