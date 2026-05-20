@@ -8,7 +8,7 @@ const OtherProfileHero = ({ profile }) => {
     console.log(profile);
   }, [profile]);
   return (
-    <Card className="shadow-sm mb-3 w-100">
+    <Card className="shadow-sm mb-3 w-100 rounded-2 overflow-hidden">
       <div className="position-relative">
         {/* Immagine Bacheca */}
         <svg
