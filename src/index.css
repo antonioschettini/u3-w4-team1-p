@@ -156,3 +156,8 @@
   font-weight: 600;
 }
 /* fine NotFound.css */
+
+.navsearch .dropdown-menu {
+  width: 100% !important;
+  box-sizing: border-box;
+}

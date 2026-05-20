@@ -1,12 +1,12 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import Home from "./components/pages/home/Home";
-import Profile from "./components/pages/profile/Profile";
+import "bootstrap/dist/css/bootstrap.min.css"
+import Home from "./components/pages/home/Home"
+import Profile from "./components/pages/profile/Profile"
 
-import MyNavbar from "./components/MyNavbar";
-import { BrowserRouter, Route, Routes } from "react-router";
-import MyFooter from "./components/MyFooter";
-import Messaggistica from "./components/Messaggistica";
-import NotFound from "./components/pages/notfound/NotFound";
+import MyNavbar from "./components/navbar/MyNavbar"
+import { BrowserRouter, Route, Routes } from "react-router"
+import MyFooter from "./components/MyFooter"
+import Messaggistica from "./components/Messaggistica"
+import NotFound from "./components/pages/notfound/NotFound"
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
         <MyFooter />
       </div>
     </BrowserRouter>
-  );
+  )
 }
 
-export default App;
+export default App
