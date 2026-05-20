@@ -19,11 +19,8 @@ const JobsLinkCard = (props) => {
     <>
       <NavDropdown.Item
         as={"div"}
-        className="d-flex align-items-center my-1 text-decoration-none"
-        onClick={() => {
-          resetSearch("")
-          setShow(true)
-        }}
+        className="d-flex align-items-center my-1 text-decoration-none pointer"
+        onClick={() => setShow(true)}
       >
         {/* <Image
             src={image}
@@ -49,7 +46,15 @@ const JobsLinkCard = (props) => {
           </>
         ) : null}
       </NavDropdown.Item>
-      <Modal show={show} onHide={() => setShow(false)} centered size="lg">
+      <Modal
+        show={show}
+        onHide={() => {
+          setShow(false)
+          resetSearch("")
+        }}
+        centered
+        size="lg"
+      >
         <Modal.Header closeButton>
           <Modal.Title>
             <h6 className="fw-bold mb-0">{title}</h6>
@@ -75,11 +80,15 @@ const JobsLinkCard = (props) => {
           <div dangerouslySetInnerHTML={{ __html: description }} />
         </Modal.Body>
         <Modal.Footer>
-          <a href={url} target="_blank" rel="noreferrer">
-            <Button variant="primary" className="rounded-pill">
-              Candidati ora
-            </Button>
-          </a>
+          <Button
+            as="a"
+            href={url}
+            target="_blank"
+            variant="primary"
+            className="rounded-pill"
+          >
+            Candidati ora
+          </Button>
         </Modal.Footer>
       </Modal>
     </>
