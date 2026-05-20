@@ -9,6 +9,7 @@ import OtherProfile from "./components/pages/OtherProfile/OtherProfile";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchMioProfilo, fetchSavedProfiles } from "./redux/actions";
+import Jobs from "./components/pages/jobs/jobs";
 
 function App() {
   const dispatch = useDispatch();
@@ -24,7 +25,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<OtherProfile />} />
+          <Route path="/jobs" element= {<Jobs/>}/>
           <Route path="*" element={<NotFound />} />
+          
         </Routes>
         <Messaggistica />
       </div>
