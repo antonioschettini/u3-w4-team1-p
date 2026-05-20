@@ -87,7 +87,7 @@ function MobileNavbarTop() {
                 e.preventDefault()
               }}
             >
-              <InputGroup className="d-flex flex-nowrap focus-input-width">
+              <InputGroup className="d-flex flex-nowrap">
                 <InputGroup.Text
                   id="basic-addon1"
                   className=" rounded-start-pill border-end-0 focus-input-text"
@@ -108,7 +108,7 @@ function MobileNavbarTop() {
               </InputGroup>
             </Form>
           }
-          className="d-flex flex-column no-caret nav-dropdown-profilo me-auto focus-input w-100 navsearch"
+          className="d-flex flex-column no-caret nav-dropdown-profilo me-2 focus-input w-100 navsearch"
           align="start"
         >
           {isLoading ? (
@@ -144,21 +144,6 @@ function MobileNavbarTop() {
               ))
           )}
         </NavDropdown>
-
-        {/* <Form className="me-2 focus-input w-100">
-          <InputGroup className="d-flex flex-nowrap">
-            <InputGroup.Text
-              id="basic-addon1"
-              className=" rounded-start-pill border-end-0 focus-input-text"
-            >
-              <Search size={16} className="icona-bold" />
-            </InputGroup.Text>
-            <Form.Control
-              placeholder="Cerca"
-              className=" rounded-end-pill border-start-0 shadow-none ps-0 focus-input-control"
-            />
-          </InputGroup>
-        </Form> */}
         <Link
           className=" nav-link nav-link-color d-flex flex-column align-items-center justify-content-center"
           to="/"
