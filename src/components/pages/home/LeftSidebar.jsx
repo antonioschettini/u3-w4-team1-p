@@ -11,11 +11,13 @@ import {
   PeopleFill,
   Briefcase,
 } from "react-bootstrap-icons";
+import { useNavigate } from "react-router";
 
 const mioToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
 
 function LeftSidebar() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const profilo = useSelector((state) => state.profilo.mioProfilo);
 
@@ -52,10 +54,13 @@ function LeftSidebar() {
   }, [profilo?._id]);
 
   return (
-    
-     <div className="d-none d-sm-block" style={{ width: 250, flexShrink: 0 }}>
+    <div className="d-none d-sm-block" style={{ width: 250, flexShrink: 0 }}>
       {/* Card 1 — profilo */}
-      <div className="card shadow-sm mb-2 overflow-hidden">
+      <div
+        className="card shadow-sm mb-2 overflow-hidden"
+        onClick={() => navigate("/profile")}
+        style={{ cursor: "pointer" }}
+      >
         <img
           src="/immbacheca.jpeg"
           alt="banner"
