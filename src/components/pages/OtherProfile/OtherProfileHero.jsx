@@ -8,7 +8,7 @@ const OtherProfileHero = ({ profile }) => {
     console.log(profile);
   }, [profile]);
   return (
-    <Card className="shadow-sm mb-3 w-100">
+    <Card className="shadow-sm mb-3 w-100 rounded-2 overflow-hidden">
       <div className="position-relative">
         {/* Immagine Bacheca */}
         <svg
@@ -82,21 +82,7 @@ const OtherProfileHero = ({ profile }) => {
             xs={12}
             md={4}
             className="d-flex align-items-start mt-2 mt-md-1 "
-          >
-            <Image
-              src="/epicode-logo.png"
-              alt="Logo Epicode"
-              width="32"
-              height="32"
-              className="me-2"
-            />
-            <span
-              className="fw-bold text-dark small"
-              style={{ fontSize: "0.85rem" }}
-            >
-              EPICODE Institute of Technology
-            </span>
-          </Col>
+          ></Col>
         </Row>
         {/* pulsanti  */}
         <div className="d-flex flex-wrap gap-2 mt-3 align-items-center">
