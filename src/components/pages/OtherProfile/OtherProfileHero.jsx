@@ -6,7 +6,7 @@ import { useEffect } from "react";
 const OtherProfileHero = ({ profile }) => {
   useEffect(() => {
     console.log(profile);
-  }, []);
+  }, [profile]);
   return (
     <Card className="shadow-sm mb-3">
       <div className="position-relative">
