@@ -3,12 +3,7 @@ import { Linkedin } from "react-bootstrap-icons";
 function SmallFooter() {
   return (
     <div className="px-2" style={{ fontSize: 11 }}>
-      <div className="d-flex align-items-center gap-1 mb-2">
-        <Linkedin size={16} color="#0a66c2" />
-        <span className="text-muted">LinkedIn Corporation © 2026</span>
-      </div>
-
-      <div className="d-flex flex-wrap gap-2 mb-1">
+      <div className="d-flex flex-wrap gap-2 mb-2">
         <a href="#" className="text-muted text-decoration-none">
           Informazioni
         </a>
@@ -36,6 +31,11 @@ function SmallFooter() {
         <a href="#" className="text-muted text-decoration-none">
           Altro
         </a>
+      </div>
+
+      <div className="d-flex align-items-center gap-1">
+        <Linkedin size={16} color="#0a66c2" />
+        <span className="text-muted">LinkedIn Corporation © 2026</span>
       </div>
     </div>
   );
