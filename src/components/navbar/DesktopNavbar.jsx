@@ -16,16 +16,25 @@ import {
   InputGroup,
   Image,
   Button,
-} from "react-bootstrap";
-import { Link, useNavigate } from "react-router";
-import { useState } from "react";
-import { useSelector } from "react-redux";
+  Spinner,
+} from "react-bootstrap"
+import { Link, useNavigate, useLocation } from "react-router"
+import { useState } from "react"
+import { useSelector } from "react-redux"
+import PeolpleLinkCard from "./PeopleLinkCard"
 
 function DesktopNavbar() {
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block";
-  const profilo = useSelector((state) => state.profilo.mioProfilo);
-  const navigate = useNavigate();
+  const location = useLocation()
+  const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block"
+  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const navigate = useNavigate()
+  const loadingUsers = useSelector((rs) => rs.profilo.loadingUsers)
+  const loadingJobs = useSelector((rs) => rs.jobs.loading)
+  const isLoading = location.pathname === "/lavoro" ? loadingUsers : loadingJobs
+  const profiles = useSelector((rs) => rs.profilo.usersData)
+  const jobs = useSelector((rs) => rs.jobs.jobs)
+  const [searchQuery, setSearchQuery] = useState("")
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -33,22 +42,89 @@ function DesktopNavbar() {
         <Link to="/" className=" navbar-brand">
           <Linkedin color="#0A66C2" size={35} />
         </Link>
-        <Form className="me-auto focus-input w-100">
-          <InputGroup className="d-flex flex-nowrap focus-input-width">
-            <InputGroup.Text
-              id="basic-addon1"
-              className=" rounded-start-pill border-end-0 focus-input-text"
+        <NavDropdown
+          title={
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault()
+              }}
             >
-              <Search size={16} className="icona-bold" />
-            </InputGroup.Text>
-            <Form.Control
-              placeholder="Cerca"
-              className=" rounded-end-pill border-start-0 shadow-none ps-0 focus-input-control"
-              onFocus={() => setIsSearchFocused(true)}
-              onBlur={() => setIsSearchFocused(false)}
-            />
-          </InputGroup>
-        </Form>
+              <InputGroup className="d-flex flex-nowrap focus-input-width">
+                <InputGroup.Text
+                  id="basic-addon1"
+                  className=" rounded-start-pill border-end-0 focus-input-text"
+                >
+                  <Search size={16} className="icona-bold" />
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="Cerca"
+                  className=" rounded-end-pill border-start-0 shadow-none ps-0 focus-input-control"
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === " ") {
+                      e.stopPropagation()
+                    }
+                  }}
+                />
+              </InputGroup>
+            </Form>
+          }
+          className="d-flex flex-column no-caret nav-dropdown-profilo me-auto focus-input w-100 navsearch"
+          align="start"
+        >
+          {isLoading ? (
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          ) : location.pathname === "/lavoro" ? (
+            jobs &&
+            jobs
+              .filter((job) => {
+                if (!searchQuery) return true
+
+                const query = searchQuery.toLowerCase().trim()
+                const name = job.name?.toLowerCase()
+
+                return name.includes(query)
+              })
+              .slice(0, 5)
+              .map((job) => (
+                <PeolpleLinkCard
+                  key={job._id}
+                  job={job}
+                  resetSearch={setSearchQuery}
+                />
+              ))
+          ) : (
+            profiles &&
+            profiles
+              .filter((profile) => {
+                if (!searchQuery) return true
+
+                const query = searchQuery.toLowerCase().trim()
+                const name = profile.name?.toLowerCase() || ""
+                const surname = profile.surname?.toLowerCase() || ""
+
+                const fullName = `${name} ${surname}`
+                const reverseFullName = `${surname} ${name}`
+
+                return (
+                  fullName.includes(query) || reverseFullName.includes(query)
+                )
+              })
+              .slice(0, 5)
+              .map((profile) => (
+                <PeolpleLinkCard
+                  key={profile._id}
+                  profile={profile}
+                  resetSearch={setSearchQuery}
+                />
+              ))
+          )}
+        </NavDropdown>
         <div className="d-flex gap-2 justify-content-between w-100 ms-3">
           <Link
             className=" nav-link nav-link-color d-flex flex-column align-items-center justify-content-center"
@@ -74,7 +150,7 @@ function DesktopNavbar() {
           </Link>
           <Link
             className=" nav-link nav-link-color d-flex flex-column align-items-center justify-content-center"
-            to="/"
+            to="/lavoro"
           >
             <BriefcaseFill className="nav-link-color-e" size={24} />
             <small

@@ -58,7 +58,7 @@ function MobileNavbarBottom() {
           <Link
             className="nav-link nav-link-color d-flex flex-column align-items-center justify-content-bottom text-center flex-grow-1"
             style={{ flexBasis: 0 }}
-            to="/"
+            to="/lavoro"
           >
             <BriefcaseFill className="nav-link-color-e" size={24} />
             <small className="text-truncate nav-link-color-e w-100">

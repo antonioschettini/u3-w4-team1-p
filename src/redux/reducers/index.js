@@ -60,7 +60,6 @@ const profiloSlice = createSlice({
     },
   },
 });
-
 // esporto le azioni generate da createslice
 export const {
   avviaCaricamentoProfilo,

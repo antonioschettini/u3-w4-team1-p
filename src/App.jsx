@@ -1,14 +1,21 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./components/pages/home/Home";
 import Profile from "./components/pages/profile/Profile";
-
-import MyNavbar from "./components/MyNavbar";
+import MyNavbar from "./components/navbar/MyNavbar";
 import { BrowserRouter, Route, Routes } from "react-router";
-import MyFooter from "./components/MyFooter";
 import Messaggistica from "./components/Messaggistica";
 import NotFound from "./components/pages/notfound/NotFound";
+import OtherProfile from "./components/pages/OtherProfile/OtherProfile";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchMioProfilo, fetchSavedProfiles } from "./redux/actions";
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchSavedProfiles());
+    dispatch(fetchMioProfilo());
+  }, [dispatch]);
   return (
     <BrowserRouter>
       <div className="d-flex flex-column w-100">
@@ -16,10 +23,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<OtherProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Messaggistica />
-        <MyFooter />
       </div>
     </BrowserRouter>
   );
