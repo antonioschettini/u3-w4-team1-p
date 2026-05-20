@@ -1,9 +1,9 @@
-import { Link } from "react-router";
-import { Image, NavDropdown } from "react-bootstrap";
+import { Link } from "react-router"
+import { Image, NavDropdown } from "react-bootstrap"
 
 const PeolpleLinkCard = (props) => {
-  const { image, name, surname, title, _id } = props.profile;
-  const { resetSearch } = props;
+  const { image, name, surname, title, _id } = props.profile
+  const { resetSearch } = props
   return (
     <>
       <NavDropdown.Item as={"div"} className="p-0 mb-2">
@@ -18,7 +18,7 @@ const PeolpleLinkCard = (props) => {
             src={image}
             onError={(e) => {
               e.target.src =
-                "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+                "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
             }}
             roundedCircle
             width={"40px"}
@@ -40,6 +40,6 @@ const PeolpleLinkCard = (props) => {
         </Link>
       </NavDropdown.Item>
     </>
-  );
-};
-export default PeolpleLinkCard;
+  )
+}
+export default PeolpleLinkCard

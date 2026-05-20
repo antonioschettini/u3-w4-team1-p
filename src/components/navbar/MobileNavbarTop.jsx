@@ -7,10 +7,13 @@ import {
   Image,
   Button,
   Offcanvas,
+  NavDropdown,
+  Spinner,
 } from "react-bootstrap"
 import { Link } from "react-router"
 import { useSelector } from "react-redux"
 import { useState } from "react"
+import PeolpleLinkCard from "./PeopleLinkCard"
 
 function MobileNavbarTop() {
   const profilo = useSelector((state) => state.profilo.mioProfilo)
@@ -18,6 +21,9 @@ function MobileNavbarTop() {
 
   const handleClose = () => setShow(false)
   const handleShow = () => setShow(true)
+  const isLoading = useSelector((rs) => rs.profilo.loadingUsers)
+  const profiles = useSelector((rs) => rs.profilo.usersData)
+  const [searchQuery, setSearchQuery] = useState("")
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -74,21 +80,70 @@ function MobileNavbarTop() {
             <GearFill color="gray" className="me-1" /> Impostazioni
           </div>
         </Offcanvas>
-
-        <Form className="me-2 focus-input w-100">
-          <InputGroup className="d-flex flex-nowrap">
-            <InputGroup.Text
-              id="basic-addon1"
-              className=" rounded-start-pill border-end-0 focus-input-text"
+        <NavDropdown
+          title={
+            <Form
+              onSubmit={(e) => {
+                e.preventDefault()
+              }}
             >
-              <Search size={16} className="icona-bold" />
-            </InputGroup.Text>
-            <Form.Control
-              placeholder="Cerca"
-              className=" rounded-end-pill border-start-0 shadow-none ps-0 focus-input-control"
-            />
-          </InputGroup>
-        </Form>
+              <InputGroup className="d-flex flex-nowrap">
+                <InputGroup.Text
+                  id="basic-addon1"
+                  className=" rounded-start-pill border-end-0 focus-input-text"
+                >
+                  <Search size={16} className="icona-bold" />
+                </InputGroup.Text>
+                <Form.Control
+                  placeholder="Cerca"
+                  className=" rounded-end-pill border-start-0 shadow-none ps-0 focus-input-control"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === " ") {
+                      e.stopPropagation()
+                    }
+                  }}
+                />
+              </InputGroup>
+            </Form>
+          }
+          className="d-flex flex-column no-caret nav-dropdown-profilo me-2 focus-input w-100 navsearch"
+          align="start"
+        >
+          {isLoading ? (
+            <Spinner animation="border" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          ) : location.pathname === "/lavoro" ? (
+            ""
+          ) : (
+            profiles &&
+            profiles
+              .filter((profile) => {
+                if (!searchQuery) return true
+
+                const query = searchQuery.toLowerCase().trim()
+                const name = profile.name?.toLowerCase() || ""
+                const surname = profile.surname?.toLowerCase() || ""
+
+                const fullName = `${name} ${surname}`
+                const reverseFullName = `${surname} ${name}`
+
+                return (
+                  fullName.includes(query) || reverseFullName.includes(query)
+                )
+              })
+              .slice(0, 5)
+              .map((profile) => (
+                <PeolpleLinkCard
+                  key={profile._id}
+                  profile={profile}
+                  resetSearch={setSearchQuery}
+                />
+              ))
+          )}
+        </NavDropdown>
         <Link
           className=" nav-link nav-link-color d-flex flex-column align-items-center justify-content-center"
           to="/"
