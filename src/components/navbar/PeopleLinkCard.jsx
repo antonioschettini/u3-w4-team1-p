@@ -1,9 +1,9 @@
-import { Link } from "react-router"
-import { Image, NavDropdown } from "react-bootstrap"
+import { Link } from "react-router";
+import { Image, NavDropdown } from "react-bootstrap";
 
 const PeolpleLinkCard = (props) => {
-  const { image, name, surname, title, _id } = props.profile
-  const { resetSearch } = props
+  const { image, name, surname, title, _id } = props.profile;
+  const { resetSearch } = props;
   return (
     <>
       <NavDropdown.Item as={"div"} className="m-0 p-0">
@@ -21,7 +21,10 @@ const PeolpleLinkCard = (props) => {
             height={"40px"}
             className="me-2"
           />
-          <h6 className="text-nowrap fw-bold mb-0 text-black">
+          <h6
+            className="text-nowrap fw-bold mb-0 text-black"
+            style={{ textOverflow: "ellipsis", overflow: "hidden" }}
+          >
             {name} {surname}
           </h6>
           {title ? (
@@ -33,6 +36,6 @@ const PeolpleLinkCard = (props) => {
         </Link>
       </NavDropdown.Item>
     </>
-  )
-}
-export default PeolpleLinkCard
+  );
+};
+export default PeolpleLinkCard;
