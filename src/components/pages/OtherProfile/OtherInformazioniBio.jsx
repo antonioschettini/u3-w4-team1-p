@@ -15,8 +15,7 @@ const OtherInformazioniBio = ({ profile }) => {
         className="text-dark lh-base mb-4"
         style={{ whiteSpace: "pre-line", fontSize: "0.92rem", color: "#333" }}
       >
-        {bio ||
-          "Nessuna biografia inserita. Clicca sulla matita per aggiungerne una!"}
+        {bio || "Nessuna biografia inserita."}
       </div>
     </Card>
   );

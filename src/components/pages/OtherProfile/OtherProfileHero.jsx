@@ -34,13 +34,16 @@ const OtherProfileHero = ({ profile }) => {
           </g>
         </svg>
       </div>
-
       <Card.Body className="position-relative">
         {/* Foto profile */}
         {/* Aggiunta dell' evento al click per aprire il modale del cambio foto */}
         <div className="profile-pic-container position-relative">
           <Image
             src={profile?.image}
+            onError={(e) => {
+              e.target.src =
+                "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+            }}
             roundedCircle
             className="border border-white border-4 profile-pic"
             alt="Foto profile"

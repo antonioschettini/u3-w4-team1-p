@@ -72,7 +72,7 @@ const OtherProfile = () => {
     fetchProfile();
     fetchExperiences();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [id]);
 
   return (
     <div className="d-flex justify-content-center">

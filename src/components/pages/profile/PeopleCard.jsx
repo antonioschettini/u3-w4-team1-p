@@ -1,9 +1,17 @@
 import { PersonPlusFill } from "react-bootstrap-icons";
+import { useNavigate } from "react-router";
 
 const PeopleCard = (props) => {
-  const { image, name, surname, title } = props.profile;
+  const { image, name, surname, title, _id } = props.profile;
+  const navigate = useNavigate();
   return (
-    <div className="d-flex justify-content-start align-items-start border-top border-1 border-tertiary pt-3 mb-3">
+    <div
+      className="d-flex justify-content-start align-items-start border-top border-1 border-tertiary pt-3 mb-3"
+      onClick={() => {
+        navigate(`/profile/${_id}`);
+      }}
+      style={{ cursor: "pointer" }}
+    >
       <div
         className="rounded-circle me-2 overflow-hidden flex-shrink-0"
         style={{ width: "50px", height: "50px" }}
