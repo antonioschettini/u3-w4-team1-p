@@ -52,8 +52,7 @@ function LeftSidebar() {
   }, [profilo?._id]);
 
   return (
-    
-     <div className="d-none d-sm-block" style={{ width: 250, flexShrink: 0 }}>
+    <div className="d-none d-sm-block" style={{ width: 250, flexShrink: 0 }}>
       {/* Card 1 — profilo */}
       <div className="card shadow-sm mb-2 overflow-hidden">
         <img

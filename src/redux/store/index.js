@@ -4,8 +4,8 @@ import profiloReducer from "../reducers";
 const store = configureStore({
   reducer: {
     // Assegniamo un nome alla nostra fetta di stato
-    profilo: profiloReducer
-  }
+    profilo: profiloReducer,
+  },
 });
 
 export default store;

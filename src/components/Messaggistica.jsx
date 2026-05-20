@@ -1,20 +1,20 @@
-import { useState } from "react"
-import { Image, Form, InputGroup } from "react-bootstrap"
+import { useState } from "react";
+import { Image, Form, InputGroup } from "react-bootstrap";
 import {
   ChevronUp,
   ChevronDown,
   ThreeDots,
   PencilSquare,
   Search,
-} from "react-bootstrap-icons"
-import { useSelector } from "react-redux"
+} from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
 
 const Messaggistica = () => {
   // setto lo stato per il dropup se aperto o chiuso, parte da chiuso
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
 
   // foto profilo messaggistica da stato redux
-  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const profilo = useSelector((state) => state.profilo.mioProfilo);
 
   return (
     <div
@@ -135,7 +135,7 @@ const Messaggistica = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-export default Messaggistica
+export default Messaggistica;

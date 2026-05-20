@@ -4,9 +4,9 @@ import {
   PeopleFill,
   BriefcaseFill,
   PlusSquareFill,
-} from "react-bootstrap-icons"
-import { Container, Navbar } from "react-bootstrap"
-import { Link } from "react-router"
+} from "react-bootstrap-icons";
+import { Container, Navbar } from "react-bootstrap";
+import { Link } from "react-router";
 
 function MobileNavbarBottom() {
   return (
@@ -68,7 +68,7 @@ function MobileNavbarBottom() {
         </div>
       </Container>
     </Navbar>
-  )
+  );
 }
 
-export default MobileNavbarBottom
+export default MobileNavbarBottom;
