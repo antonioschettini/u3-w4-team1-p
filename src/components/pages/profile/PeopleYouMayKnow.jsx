@@ -2,7 +2,7 @@ import { ArrowRightShort } from "react-bootstrap-icons";
 import PeopleCard from "./PeopleCard";
 import { useDispatch, useSelector } from "react-redux";
 import { Spinner } from "react-bootstrap";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo } from "react";
 import { fetchSavedProfiles } from "../../../redux/actions";
 
 const PeopleYouMayKnow = () => {
