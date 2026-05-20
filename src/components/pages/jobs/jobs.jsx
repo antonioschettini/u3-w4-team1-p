@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchJobs } from "../../../redux/actions";
 import { Container, Row, Col } from "react-bootstrap";
-import JobsCard from "./JobCard";
+import JobsCard from "./JobsCard";
 import LeftSidebar from "../home/LeftSidebar";
 import SmallFooter from "../../SmallFooter";
 
