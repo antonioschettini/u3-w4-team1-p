@@ -16,7 +16,15 @@ const PeopleCard = (props) => {
         className="rounded-circle me-2 overflow-hidden flex-shrink-0"
         style={{ width: "50px", height: "50px" }}
       >
-        <img src={image} alt="" className="w-100 h-100 object-fit-cover" />
+        <img
+          src={image}
+          alt=""
+          className="w-100 h-100 object-fit-cover"
+          onError={(e) => {
+            e.target.src =
+              "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+          }}
+        />
       </div>
 
       <div className="d-flex flex-column">
