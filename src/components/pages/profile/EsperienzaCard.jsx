@@ -1,13 +1,17 @@
 import { Briefcase, PlusCircle, Pencil, Trash } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
 import { useEffect, useState, useCallback } from "react";
+import ExperienceModal from "./ExperienceModal"; // Spostato qui per comodità
 
 const mioToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
 
-function EsperienzaCard(props) {
+function EsperienzaCard() {
   const userId = useSelector((rs) => rs.profilo.mioProfilo?._id);
   const [esperienze, setEsperienze] = useState([]);
+
+  const [showExperienceModal, setShowExperienceModal] = useState(false);
+  const [esperienzaSelezionata, setEsperienzaSelezionata] = useState(null);
 
   //  Funzione scarica le esperienze GET
   const scaricaEsperienze = useCallback(async () => {
@@ -62,23 +66,21 @@ function EsperienzaCard(props) {
   // Funzione per la PUT verrà inserita direttamente nel modale di inserimento
   // verrà avviata al click sulla matita
   const avviaModifica = (esperienza) => {
-    // Se il tuo componente genitore (es. Profilo.jsx) ha una funzione per salvare
-    // l'esperienza selezionata nello stato, gliela passiamo.
-    if (props.setEsperienzaSelezionata) {
-      props.setEsperienzaSelezionata(esperienza);
-    }
-    props.showModal();
+    setEsperienzaSelezionata(esperienza);
+    setShowExperienceModal(true);
+  };
+
+  const avviaAggiunta = () => {
+    setEsperienzaSelezionata(null);
+    setShowExperienceModal(true);
   };
 
   // Effetto per avviare il caricamento
   useEffect(() => {
-    // Carica i dati solo se l'ID dell'utente è davvero pronto
     if (userId) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       scaricaEsperienze();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [userId, scaricaEsperienze]);
 
   return (
     <div className="card mb-3 shadow-sm">
@@ -88,7 +90,7 @@ function EsperienzaCard(props) {
           <h5 className="card-title mb-0">Esperienze</h5>
           <button
             className="btn btn-outline-primary btn-sm rounded-pill"
-            onClick={props.showModal}
+            onClick={avviaAggiunta}
           >
             <PlusCircle size={15} className="me-1" />
             Aggiungi
@@ -172,6 +174,15 @@ function EsperienzaCard(props) {
           </div>
         ))}
       </div>
+      <ExperienceModal
+        show={showExperienceModal}
+        esperienzaSelezionata={esperienzaSelezionata}
+        onHide={() => {
+          setShowExperienceModal(false);
+          setEsperienzaSelezionata(null);
+        }}
+        onFetchSuccess={scaricaEsperienze} // aggiorna lo schermo
+      />
     </div>
   );
 }

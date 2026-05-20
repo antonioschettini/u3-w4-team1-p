@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button, Form, Modal } from "react-bootstrap";
 import { Plus } from "react-bootstrap-icons";
 import { useSelector } from "react-redux";
-import { postNewExperience } from "../../../redux/actions";
+// import { postNewExperience } from "../../../redux/actions";
 
 const mioToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2YTBhZmJlOTA2YmJlOTAwMTVkZWU1ODkiLCJpYXQiOjE3NzkxMDQ3NDUsImV4cCI6MTc4MDMxNDM0NX0.y_AsSTFGDVHHKzFcG1UcauQLKYR-Fx7Fxua5IIxLyTQ";
@@ -69,6 +69,7 @@ const ExperienceModal = (props) => {
       setCompany(exp?.company || "");
       setArea(exp?.area || "");
       setDescription(exp?.description || "");
+      setImage(null);
 
       if (exp?.startDate) {
         const dataInizio = new Date(exp.startDate);
@@ -94,9 +95,38 @@ const ExperienceModal = (props) => {
       setEndMonth("");
       setEndYear("");
       setIsCurrentJob(false);
+      setImage(null);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.esperienzaSelezionata, props.show]);
+
+  // FUNZIONE PER CARICARE L'IMMAGINE (POST dell'immagine)
+  const caricaImmagine = async (expId) => {
+    if (!image) return; // Se l'utente non ha scelto una nuova foto, non fare nulla
+
+    const formData = new FormData();
+    formData.append("experience", image); // Il server di Strive vuole la chiave chiamata "experience"
+
+    try {
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences/${expId}/picture`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${mioToken}`,
+            // Nota: NON inserire "Content-Type": "application/json" qui, il browser lo imposta da solo per i FormData
+          },
+          body: formData,
+        },
+      );
+
+      if (!response.ok) {
+        console.log("Errore durante il caricamento dell'immagine");
+      }
+    } catch (error) {
+      console.log("Errore nella chiamata dell'immagine:", error);
+    }
+  };
 
   const eseguiModificaPut = async (datiInviati) => {
     try {
@@ -113,11 +143,43 @@ const ExperienceModal = (props) => {
         },
       );
       if (response.ok) {
+        // se c'è un immagine la carichiamo adesso usando l'id esistente
+        await caricaImmagine(expId);
         alert("Modifica inviata con successo");
         if (props.onFetchSuccess) props.onFetchSuccess(); // Aggiorna la lista nella pagina principale
         props.onHide(); // Chiude la finestrella
       } else {
         alert("Errore durante il salvataggio della modifica");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const eseguiNuovoInserimentoPost = async (datiInviati) => {
+    try {
+      const response = await fetch(
+        `https://striveschool-api.herokuapp.com/api/profile/${userId}/experiences`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${mioToken}`,
+          },
+          body: JSON.stringify(datiInviati),
+        },
+      );
+      if (response.ok) {
+        const nuovaEsperienzaCreata = await response.json();
+
+        // Se l'utente ha allegato un file, lo inviamo usando l'ID appena generato dal server
+        await caricaImmagine(nuovaEsperienzaCreata._id);
+
+        alert("Nuova esperienza aggiunta con successo!");
+        if (props.onFetchSuccess) props.onFetchSuccess(); // Aggiorna la lista all'istante
+        props.onHide();
+      } else {
+        alert("Errore durante l'aggiunta dell'esperienza");
       }
     } catch (error) {
       console.log(error);
@@ -186,7 +248,6 @@ const ExperienceModal = (props) => {
                 area: area,
                 startDate: startDate,
                 endDate: endDate,
-                image: image,
               };
 
               // controllo sdoppiamento per logica put
@@ -196,9 +257,7 @@ const ExperienceModal = (props) => {
                 eseguiModificaPut(datiDaInviare);
               } else {
                 // Se stiamo creando una nuova esperienza, uso il modale per la post
-                postNewExperience(datiDaInviare, userId);
-                if (props.onFetchSuccess) props.onFetchSuccess();
-                props.onHide();
+                eseguiNuovoInserimentoPost(datiDaInviare);
               }
             }
           }}
@@ -468,7 +527,11 @@ const ExperienceModal = (props) => {
                 type="file"
                 accept="image/*"
                 style={{ display: "none" }}
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={(e) => {
+                  if (e.target.files && e.target.files[0]) {
+                    setImage(e.target.files[0]);
+                  }
+                }}
               />
             </label>
           </section>

@@ -17,7 +17,7 @@ import InformazioniBio from "./InformazioniBio";
 import Caricamento from "../../status/Caricamento";
 import AvvisoErrore from "../../status/AvvisoErrore";
 import ExperienceModal from "./ExperienceModal";
-import MyFooter from "../../MyFooter"
+import MyFooter from "../../MyFooter";
 
 const Profile = () => {
   const dispatch = useDispatch();
