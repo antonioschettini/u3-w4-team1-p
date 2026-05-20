@@ -13,7 +13,7 @@ const InterestsCard = ({ job }) => {
     ? job.company_name.charAt(0).toUpperCase()
     : "?";
   return (
-    <div className="d-flex justify-content-start align-items-start border-bottom border-1 border-tertiary pt-3 mb-2">
+    <div className="d-flex justify-content-start align-items-start border-bottom border-1 border-tertiary pt-3 mb-2 text-break">
       <div
         className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fw-bold me-2"
         style={{

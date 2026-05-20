@@ -9,6 +9,10 @@ const BlurredProfileCard = (props) => {
       >
         <img
           src={image}
+          onError={(e) => {
+            e.target.src =
+              "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+          }}
           alt={image}
           className="blurred w-100 h-100 object-fit-cover"
         />

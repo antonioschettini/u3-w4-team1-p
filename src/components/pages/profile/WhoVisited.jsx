@@ -1,11 +1,19 @@
 import { useSelector } from "react-redux";
 import BlurredProfileCard from "./BlurredProfileCard";
 import { Spinner } from "react-bootstrap";
+import { useMemo } from "react";
 
 const WhoVisited = () => {
   const isLoading = useSelector((rs) => rs.profilo.loadingUsers);
   const profiles = useSelector((rs) => rs.profilo.usersData);
+  const randomProfiles = useMemo(() => {
+    if (!profiles?.length) return [];
 
+    // eslint-disable-next-line react-hooks/purity
+    const start = Math.floor(Math.random() * Math.max(1, profiles.length - 5));
+
+    return profiles.slice(start, start + 5);
+  }, [profiles]);
   return (
     <div className="d-none d-md-flex flex-column border border-1 border-secondary-subtle rounded-2 p-3 my-2 bg-white shadow-sm">
       <div className="d-flex flex-column">
@@ -21,8 +29,7 @@ const WhoVisited = () => {
           </Spinner>
         ) : (
           profiles &&
-          profiles // Aggiunto controllo sicurezza in caso di errore di server non è possibile mappare o slice di null
-            .slice(0, 5)
+          randomProfiles // Aggiunto controllo sicurezza in caso di errore di server non è possibile mappare o slice di null
             .map((profile) => (
               <BlurredProfileCard key={profile._id} profile={profile} />
             ))
