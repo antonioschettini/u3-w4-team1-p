@@ -54,7 +54,16 @@ function LeftSidebar() {
   }, [profilo?._id]);
 
   return (
-    <div className="d-none d-sm-block" style={{ width: 250, flexShrink: 0 }}>
+    <div
+      className="d-none d-sm-block"
+      style={{
+        width: 250,
+        flexShrink: 0,
+        position: "sticky",
+        top: 70,
+        alignSelf: "flex-start",
+      }}
+    >
       {/* Card 1 — profilo */}
       <div
         className="card shadow-sm mb-2 overflow-hidden"
@@ -88,7 +97,7 @@ function LeftSidebar() {
           <p className="text-muted small mb-3">{profilo?.area}</p>
           {/* Mostra l'ultima esperienza se esiste */}
           {ultimaEsperienza && (
-            <div className="d-flex align-items-center gap-2 border-top pt-2 mb-3">
+            <div className="d-flex align-items-center gap-2 border-top pt-2">
               <Briefcase size={16} className="text-secondary" />
               <div className="text-truncate">
                 <p className="mb-0 small fw-semibold text-dark text-truncate">
@@ -106,7 +115,7 @@ function LeftSidebar() {
       {/* Card 2 — Premium */}
       <div className="card shadow-sm mb-2">
         <div className="card-body" style={{ cursor: "pointer" }}>
-          <p className="text-muted small mb-2">
+          <p className="text-muted mb-2" style={{ fontSize: "0.8rem" }}>
             Accedi a strumenti e informazioni in esclusiva
           </p>
           <div className="d-flex align-items-center gap-2">
@@ -116,7 +125,9 @@ function LeftSidebar() {
             >
               <StarFill size={12} color="white" />
             </div>
-            <span className="small fw-semibold">Prova Premium per 0 €</span>
+            <span className="small fw-semibold" style={{ fontSize: "0.8rem" }}>
+              Prova Premium per 0 €
+            </span>
           </div>
         </div>
       </div>
@@ -155,7 +166,7 @@ function LeftSidebar() {
           ].map((item) => (
             <div
               key={item.label}
-              className="d-flex align-items-center py-2 border-bottom"
+              className="d-flex align-items-center py-1 border-bottom"
               style={{ cursor: "pointer" }}
             >
               {item.icon}
