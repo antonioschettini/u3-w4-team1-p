@@ -1,11 +1,16 @@
 import { Bookmark } from "react-bootstrap-icons";
-import SmallFooter from "../../SmallFooter"
+import SmallFooter from "../../SmallFooter";
 
 function RightSidebar() {
   return (
     <>
-     <div className="d-none d-lg-block" style={{ width: 300, flexShrink: 0 }}>
-      
+      <div
+        className="d-none d-lg-block"
+        style={{
+          width: 300,
+          flexShrink: 0,
+        }}
+      >
         {/* Card 1 — Notizie */}
         <div className="card shadow-sm mb-2">
           <div className="card-body">
@@ -170,7 +175,9 @@ function RightSidebar() {
           className="w-100 rounded-3 mb-3"
           style={{ objectFit: "cover" }}
         />
-        <SmallFooter/>
+        <div style={{ position: "sticky", top: 70 }}>
+          <SmallFooter />
+        </div>
       </div>
     </>
   );
