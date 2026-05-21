@@ -41,9 +41,18 @@ function JobsCard({ job }) {
       {/* Modale */}
       <Modal show={show} onHide={() => setShow(false)} centered size="lg">
         <Modal.Header closeButton>
-          <Modal.Title>
-            <h6 className="fw-bold mb-0">{job.title}</h6>
-            <p className="small text-muted mb-0">{job.company_name}</p>
+          <Modal.Title className="d-flex flex-row">
+            <Image
+              src={job.company_logo_url}
+              rounded
+              width={48}
+              height={48}
+              className="me-3"
+            />
+            <div>
+              <h6 className="fw-bold mb-0">{job.title}</h6>
+              <p className="small text-muted mb-0">{job.company_name}</p>
+            </div>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ maxHeight: "60vh", overflowY: "auto" }}>

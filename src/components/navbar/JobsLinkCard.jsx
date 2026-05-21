@@ -57,9 +57,18 @@ const JobsLinkCard = (props) => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>
-            <h6 className="fw-bold mb-0">{title}</h6>
-            <p className="small text-muted mb-0">{company_name}</p>
+          <Modal.Title className="d-flex flex-row">
+            <Image
+              src={company_logo_url}
+              rounded
+              width={48}
+              height={48}
+              className="me-3"
+            />
+            <div>
+              <h6 className="fw-bold mb-0">{title}</h6>
+              <p className="small text-muted mb-0">{company_name}</p>
+            </div>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ maxHeight: "60vh", overflowY: "auto" }}>
