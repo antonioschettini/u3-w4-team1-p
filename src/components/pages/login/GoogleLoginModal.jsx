@@ -49,7 +49,7 @@ const GoogleLoginModal = ({ show, onHide }) => {
         <div
           className="d-flex align-items-center p-3 mt-4 mb-5 border rounded"
           style={{ borderColor: "#5f6368", cursor: "pointer" }}
-          onClick={handleGoogleClick} // Qui aggiungiamo il clic
+          onClick={handleGoogleClick}
         >
           <div
             className="rounded-circle d-flex align-items-center justify-content-center me-3"
