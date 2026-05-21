@@ -185,6 +185,7 @@ const PostsList = () => {
                   <div
                     className="d-flex gap-2"
                     onClick={() => navigate(`/profile/${autoreDelPost._id}`)}
+                    style={{ cursor: "pointer" }}
                   >
                     {autoreDelPost?.image ? (
                       <img
