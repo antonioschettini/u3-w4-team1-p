@@ -352,7 +352,6 @@ export const followUser = (user) => {
   return (dispatch) => {
     dispatch(salvaFollowed(user));
     playBell();
-    alert(`${user.name} ${user.surname} aggiunto alla tua rete.`);
   };
 };
 export const removeUser = (user) => {
