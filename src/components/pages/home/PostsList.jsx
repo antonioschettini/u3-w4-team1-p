@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react"
-import { useSelector, useDispatch } from "react-redux"
-import InfiniteScroll from "react-infinite-scroll-component"
+import { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import InfiniteScroll from "react-infinite-scroll-component";
 import {
   fetchPosts,
   deletePost,
@@ -11,7 +11,7 @@ import {
   eliminaCommentoServer,
   modificaPostServer,
   modificaCommentoServer,
-} from "../../../redux/actions"
+} from "../../../redux/actions";
 
 import {
   Trash,
@@ -21,118 +21,128 @@ import {
   HeartFill,
   PersonFill,
   Pencil,
-} from "react-bootstrap-icons"
+} from "react-bootstrap-icons";
 
-import Caricamento from "../../status/Caricamento"
-import AvvisoErrore from "../../status/AvvisoErrore"
+import Caricamento from "../../status/Caricamento";
+import AvvisoErrore from "../../status/AvvisoErrore";
 
-import { Card, Button, Form } from "react-bootstrap"
-import { Link } from "react-router"
+import { Card, Button, Form } from "react-bootstrap";
+import { Link } from "react-router";
 
 const PostsList = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const posts = useSelector((state) => state.profilo.listaPost) || []
-  const loading = useSelector((state) => state.profilo.loadingPost)
-  const error = useSelector((state) => state.profilo.errorPost)
+  const posts = useSelector((state) => state.profilo.listaPost) || [];
+  const loading = useSelector((state) => state.profilo.loadingPost);
+  const error = useSelector((state) => state.profilo.errorPost);
 
-  const mioProfilo = useSelector((state) => state.profilo.mioProfilo)
-
-  const tuttiGliUtenti = useSelector((state) => state.profilo.usersData) || []
-
+  const mioProfilo = useSelector((state) => state.profilo.mioProfilo);
+  const tuttiGliUtenti = useSelector((state) => state.profilo.usersData) || [];
   const tuttiICommenti =
-    useSelector((state) => state.profilo.listaCommenti) || []
+    useSelector((state) => state.profilo.listaCommenti) || [];
 
-  const [postNascosti, setPostNascosti] = useState([])
-  const [commentiAperti, setCommentiAperti] = useState({})
-  const [testoNuovoCommento, setTestoNuovoCommento] = useState({})
+  const [postNascosti, setPostNascosti] = useState([]);
+  const [commentiAperti, setCommentiAperti] = useState({});
+  const [testoNuovoCommento, setTestoNuovoCommento] = useState({});
 
-  const [postIdInModifica, setPostIdInModifica] = useState(null)
-  const [testoPostInModifica, setTestoPostInModifica] = useState("")
+  const [postIdInModifica, setPostIdInModifica] = useState(null);
+  const [testoPostInModifica, setTestoPostInModifica] = useState("");
 
-  const [commentIdInModifica, setCommentIdInModifica] = useState(null)
-
-  const [testoCommentoInModifica, setTestoCommentoInModifica] = useState("")
+  const [commentIdInModifica, setCommentIdInModifica] = useState(null);
+  const [testoCommentoInModifica, setTestoCommentoInModifica] = useState("");
 
   const [postPiaciuti, setPostPiaciuti] = useState(() => {
-    const salvati = localStorage.getItem("postPiaciuti")
-    return salvati ? JSON.parse(salvati) : {}
-  })
+    const salvati = localStorage.getItem("postPiaciuti");
+    return salvati ? JSON.parse(salvati) : {};
+  });
 
   const [commentiPiaciuti, setCommentiPiaciuti] = useState(() => {
-    const salvati = localStorage.getItem("commentiPiaciuti")
-    return salvati ? JSON.parse(salvati) : {}
-  })
+    const salvati = localStorage.getItem("commentiPiaciuti");
+    return salvati ? JSON.parse(salvati) : {};
+  });
 
-  const [visibleItems, setVisibleItems] = useState([])
-
-  useEffect(() => {
-    dispatch(fetchPosts())
-    dispatch(fetchMioProfilo())
-    dispatch(fetchSavedProfiles())
-    dispatch(fetchCommenti())
-  }, [dispatch])
+  const [visibleItems, setVisibleItems] = useState([]);
 
   useEffect(() => {
-    localStorage.setItem("postPiaciuti", JSON.stringify(postPiaciuti))
-  }, [postPiaciuti])
+    dispatch(fetchPosts());
+    dispatch(fetchMioProfilo());
+    dispatch(fetchSavedProfiles());
+    dispatch(fetchCommenti());
+  }, [dispatch]);
 
   useEffect(() => {
-    localStorage.setItem("commentiPiaciuti", JSON.stringify(commentiPiaciuti))
-  }, [commentiPiaciuti])
+    localStorage.setItem("postPiaciuti", JSON.stringify(postPiaciuti));
+  }, [postPiaciuti]);
+
+  useEffect(() => {
+    localStorage.setItem("commentiPiaciuti", JSON.stringify(commentiPiaciuti));
+  }, [commentiPiaciuti]);
+
+  useEffect(() => {
+    // Se i posts cambiano (nuovo post, eliminato, modificato),
+    // aggiorniamo subito visibleItems.
+    // Controlliamo quanti post stavamo già guardando
+    let quantiMostrarne = visibleItems.length;
+    // Se la pagina è appena stata aperta, mostriamone 10
+    if (quantiMostrarne === 0) {
+      quantiMostrarne = 10;
+    }
+    setVisibleItems(posts.slice(0, quantiMostrarne));
+  }, [posts]); // questo codice scatta solo quando i post cambiano
 
   const loadMore = () => {
     setTimeout(() => {
       const morePosts = posts.slice(
         visibleItems.length,
         visibleItems.length + 10,
-      )
-
-      setVisibleItems((prev) => [...prev, ...morePosts])
-    }, 1200)
-  }
+      );
+      setVisibleItems((prev) => [...prev, ...morePosts]);
+    }, 1200);
+  };
 
   const nascondiPostDalloSchermo = (id) => {
-    setPostNascosti([...postNascosti, id])
-  }
+    setPostNascosti([...postNascosti, id]);
+  };
 
   const mettiMiPiace = (postId) => {
     setPostPiaciuti({
       ...postPiaciuti,
       [postId]: !postPiaciuti[postId],
-    })
-  }
+    });
+  };
 
   const mettiMiPiaceCommento = (commentId) => {
     setCommentiPiaciuti({
       ...commentiPiaciuti,
       [commentId]: !commentiPiaciuti[commentId],
-    })
-  }
+    });
+  };
 
   const toggleCommenti = (postId) => {
     setCommentiAperti({
       ...commentiAperti,
       [postId]: !commentiAperti[postId],
-    })
-  }
+    });
+  };
 
-  const inviaCommento = (postId) => {
-    const testo = testoNuovoCommento[postId]
+  const inviaCommento = async (postId) => {
+    const testo = testoNuovoCommento[postId];
 
-    if (!testo || testo.trim() === "") return
+    if (!testo || testo.trim() === "") return;
 
-    dispatch(aggiungiCommentoServer(testo, postId))
+    // Manda il commento e aspetta che finisca
+    await dispatch(aggiungiCommentoServer(testo, postId));
+    // FORZA IL REFRESH DEI DATI!
+    dispatch(fetchCommenti());
 
     setTestoNuovoCommento({
       ...testoNuovoCommento,
       [postId]: "",
-    })
-  }
+    });
+  };
 
-  if (loading) return <Caricamento />
-
-  if (error) return <AvvisoErrore messaggio={error} />
+  if (loading) return <Caricamento />;
+  if (error) return <AvvisoErrore messaggio={error} />;
 
   return (
     <div className="container p-0">
@@ -143,21 +153,19 @@ const PostsList = () => {
         loader={<Caricamento />}
       >
         {visibleItems.map((post) => {
-          if (postNascosti.includes(post._id)) return null
+          if (postNascosti.includes(post._id)) return null;
 
-          const isMioPost = post.username === mioProfilo?.username
-
+          const isMioPost = post.username === mioProfilo?.username;
           const autoreDelPost = tuttiGliUtenti.find(
             (utente) => utente.username === post.username,
-          )
+          );
 
-          const miPiace = postPiaciuti[post._id]
-
-          const mostraCommenti = commentiAperti[post._id]
+          const miPiace = postPiaciuti[post._id];
+          const mostraCommenti = commentiAperti[post._id];
 
           let commentiDiQuestoPost = tuttiICommenti.filter(
             (c) => c.elementId === post._id,
-          )
+          );
 
           if (commentiDiQuestoPost.length === 0) {
             commentiDiQuestoPost = [
@@ -169,7 +177,7 @@ const PostsList = () => {
                 fotoFinta:
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjj0UQXHlsnTaknKXlkezyEF4KOSbrCr3bA&s",
               },
-            ]
+            ];
           }
 
           return (
@@ -182,7 +190,7 @@ const PostsList = () => {
                 {/* HEADER */}
                 <div className="d-flex justify-content-between align-items-start p-3 pb-1">
                   <div className="d-flex gap-2">
-                    <Link to={`/profile/${autoreDelPost._id}`}>
+                    <Link to={`/profile/${autoreDelPost?._id}`}>
                       {autoreDelPost?.image ? (
                         <img
                           src={autoreDelPost.image}
@@ -199,7 +207,7 @@ const PostsList = () => {
 
                     <div className="d-flex flex-column">
                       <Link
-                        to={`/profile/${autoreDelPost._id}`}
+                        to={`/profile/${autoreDelPost?._id}`}
                         className="text-decoration-none"
                       >
                         <h6 className="fw-bold mb-0 text-dark small">
@@ -224,8 +232,8 @@ const PostsList = () => {
                           variant="link"
                           className="text-secondary p-1 border-0"
                           onClick={() => {
-                            setPostIdInModifica(post._id)
-                            setTestoPostInModifica(post.text)
+                            setPostIdInModifica(post._id);
+                            setTestoPostInModifica(post.text);
                           }}
                         >
                           <Pencil size={16} />
@@ -234,13 +242,15 @@ const PostsList = () => {
                         <Button
                           variant="link"
                           className="text-secondary p-1 border-0"
-                          onClick={() => {
+                          onClick={async () => {
                             if (
                               window.confirm(
                                 "Vuoi eliminare davvero questo post?",
                               )
                             ) {
-                              dispatch(deletePost(post._id))
+                              await dispatch(deletePost(post._id));
+                              // FORZA IL REFRESH!
+                              dispatch(fetchPosts());
                             }
                           }}
                         >
@@ -272,12 +282,13 @@ const PostsList = () => {
                     <div className="d-flex gap-2 mt-2">
                       <Button
                         size="sm"
-                        onClick={() => {
-                          dispatch(
+                        onClick={async () => {
+                          await dispatch(
                             modificaPostServer(post._id, testoPostInModifica),
-                          )
-
-                          setPostIdInModifica(null)
+                          );
+                          // FORZA IL REFRESH!
+                          dispatch(fetchPosts());
+                          setPostIdInModifica(null);
                         }}
                       >
                         Salva
@@ -317,7 +328,6 @@ const PostsList = () => {
                 {miPiace && (
                   <div className="px-3 pb-2 text-secondary d-flex align-items-center gap-1">
                     <HeartFill size={12} color="#df704d" />
-
                     <span>
                       Consigliato da {mioProfilo?.name} {mioProfilo?.surname}
                     </span>
@@ -334,7 +344,6 @@ const PostsList = () => {
                     onClick={() => mettiMiPiace(post._id)}
                   >
                     {miPiace ? <HeartFill size={18} /> : <Heart size={18} />}
-
                     <span className="ms-2">Consiglia</span>
                   </Button>
 
@@ -344,7 +353,6 @@ const PostsList = () => {
                     onClick={() => toggleCommenti(post._id)}
                   >
                     <Chat size={18} />
-
                     <span className="ms-2">Commenta</span>
                   </Button>
                 </div>
@@ -355,7 +363,7 @@ const PostsList = () => {
                     {/* INPUT COMMENTO */}
                     <div className="d-flex gap-2 mt-2 align-items-start mb-3">
                       <Link
-                        to={`/profile/${mioProfilo._id}`}
+                        to={`/profile/${mioProfilo?._id}`}
                         className="text-decoration-none"
                       >
                         {mioProfilo?.image ? (
@@ -406,57 +414,89 @@ const PostsList = () => {
                       .slice(-5)
                       .reverse()
                       .map((comm) => {
-                        const mioNomeCompleto = `${mioProfilo?.name} ${mioProfilo?.surname}`
+                        //  logiche riconoscimento mio commento per foto
+                        const autoreC = String(comm.author || "")
+                          .trim()
+                          .toLowerCase();
+                        const mioUser = String(mioProfilo?.username || "")
+                          .trim()
+                          .toLowerCase();
+                        const miaMail = String(mioProfilo?.email || "")
+                          .trim()
+                          .toLowerCase();
+                        const mioNomeIntero =
+                          `${mioProfilo?.name || ""} ${mioProfilo?.surname || ""}`
+                            .trim()
+                            .toLowerCase();
 
                         const isMioCommento =
-                          comm.author === mioProfilo?.username ||
-                          comm.author === mioProfilo?.email ||
-                          comm.author === mioNomeCompleto
+                          (mioUser !== "" && autoreC === mioUser) ||
+                          (miaMail !== "" && autoreC === miaMail) ||
+                          (mioNomeIntero !== "" && autoreC === mioNomeIntero) ||
+                          autoreC === "antonio.schettini93+epicode@gmail.com";
 
+                        //  foto dell'utente giusto
                         const utenteCheHaCommentato = isMioCommento
                           ? mioProfilo
-                          : tuttiGliUtenti.find(
-                              (utente) =>
-                                utente.username === comm.author ||
-                                utente.email === comm.author ||
-                                `${utente.name} ${utente.surname}` ===
-                                  comm.author,
-                            )
+                          : tuttiGliUtenti.find((utente) => {
+                              const uUser = String(utente.username || "")
+                                .trim()
+                                .toLowerCase();
+                              const uMail = String(utente.email || "")
+                                .trim()
+                                .toLowerCase();
+                              const uNome =
+                                `${utente.name || ""} ${utente.surname || ""}`
+                                  .trim()
+                                  .toLowerCase();
+
+                              return (
+                                (uUser !== "" && autoreC === uUser) ||
+                                (uMail !== "" && autoreC === uMail) ||
+                                (uNome !== "" && autoreC === uNome)
+                              );
+                            });
 
                         return (
                           <div key={comm._id} className="d-flex gap-2 mb-2">
-                            {comm.fotoFinta ? (
-                              <Link
-                                to={`/profile/${utenteCheHaCommentato._id}`}
-                                className="text-decoration-none"
-                              >
-                                <img
-                                  src={comm.fotoFinta}
-                                  alt="commento"
-                                  className="rounded-circle"
-                                  width={35}
-                                  height={35}
-                                />
-                              </Link>
-                            ) : utenteCheHaCommentato?.image ? (
-                              <Link
-                                to={`/profile/${utenteCheHaCommentato._id}`}
-                                className="text-decoration-none"
-                              >
-                                <img
-                                  src={utenteCheHaCommentato.image}
-                                  alt="commento"
-                                  className="rounded-circle"
-                                  width={35}
-                                  height={35}
-                                />
-                              </Link>
-                            ) : (
-                              <PersonFill
-                                size={35}
-                                className="text-secondary"
-                              />
-                            )}
+                            {/* FOTO AUTORE COMMENTO*/}
+                            <Link
+                              to={`/profile/${utenteCheHaCommentato?._id || ""}`}
+                              className="text-decoration-none"
+                            >
+                              {(() => {
+                                if (comm.fotoFinta) {
+                                  return (
+                                    <img
+                                      src={comm.fotoFinta}
+                                      alt="commento"
+                                      className="rounded-circle"
+                                      width={35}
+                                      height={35}
+                                      style={{ objectFit: "cover" }}
+                                    />
+                                  );
+                                }
+                                if (utenteCheHaCommentato?.image) {
+                                  return (
+                                    <img
+                                      src={utenteCheHaCommentato.image}
+                                      alt="commento"
+                                      className="rounded-circle"
+                                      width={35}
+                                      height={35}
+                                      style={{ objectFit: "cover" }}
+                                    />
+                                  );
+                                }
+                                return (
+                                  <PersonFill
+                                    size={35}
+                                    className="text-secondary"
+                                  />
+                                );
+                              })()}
+                            </Link>
 
                             <div className="bg-white px-3 py-2 rounded-3 border w-100 d-flex justify-content-between align-items-start">
                               <div className="flex-grow-1">
@@ -479,16 +519,17 @@ const PostsList = () => {
                                     <div className="d-flex gap-2 mt-2">
                                       <Button
                                         size="sm"
-                                        onClick={() => {
-                                          dispatch(
+                                        onClick={async () => {
+                                          await dispatch(
                                             modificaCommentoServer(
                                               comm._id,
                                               testoCommentoInModifica,
                                               post._id,
                                             ),
-                                          )
-
-                                          setCommentIdInModifica(null)
+                                          );
+                                          // FORZA IL REFRESH!
+                                          dispatch(fetchCommenti());
+                                          setCommentIdInModifica(null);
                                         }}
                                       >
                                         Salva
@@ -536,9 +577,8 @@ const PostsList = () => {
                                     variant="link"
                                     className="text-secondary p-1"
                                     onClick={() => {
-                                      setCommentIdInModifica(comm._id)
-
-                                      setTestoCommentoInModifica(comm.comment)
+                                      setCommentIdInModifica(comm._id);
+                                      setTestoCommentoInModifica(comm.comment);
                                     }}
                                   >
                                     <Pencil size={14} />
@@ -547,15 +587,17 @@ const PostsList = () => {
                                   <Button
                                     variant="link"
                                     className="text-danger p-1"
-                                    onClick={() => {
+                                    onClick={async () => {
                                       if (
                                         window.confirm(
                                           "Vuoi eliminare questo commento?",
                                         )
                                       ) {
-                                        dispatch(
+                                        await dispatch(
                                           eliminaCommentoServer(comm._id),
-                                        )
+                                        );
+                                        // FORZA IL REFRESH!
+                                        dispatch(fetchCommenti());
                                       }
                                     }}
                                   >
@@ -565,17 +607,17 @@ const PostsList = () => {
                               )}
                             </div>
                           </div>
-                        )
+                        );
                       })}
                   </div>
                 )}
               </Card.Body>
             </Card>
-          )
+          );
         })}
       </InfiniteScroll>
     </div>
-  )
-}
+  );
+};
 
-export default PostsList
+export default PostsList;
