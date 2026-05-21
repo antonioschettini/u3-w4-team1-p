@@ -31,7 +31,7 @@ function App() {
         <LoginPage />
       ) : (
         /* SE SEI AUTENTICATO MOSTRA IL RESTO DELL'APP */
-        <div className="d-flex flex-column w-100">
+        <div className="d-flex flex-column w-100 min-vh-100">
           <MyNavbar />
           <Routes>
             <Route path="/" element={<Home />} />
