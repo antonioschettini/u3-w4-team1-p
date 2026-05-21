@@ -340,11 +340,18 @@ export const modificaCommentoServer = (commentId, nuovoTesto, postId) => {
   };
 };
 
+// Bell audio action!
+
+const bell = new Audio("public/Bell-Sound.mp3");
+
+export const playBell = () => bell.play();
+
 // Funzioni Network
 
 export const followUser = (user) => {
   return (dispatch) => {
     dispatch(salvaFollowed(user));
+    playBell();
     alert(`${user.name} ${user.surname} aggiunto alla tua rete.`);
   };
 };
