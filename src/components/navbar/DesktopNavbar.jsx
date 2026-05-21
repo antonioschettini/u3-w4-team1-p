@@ -47,9 +47,19 @@ function DesktopNavbar() {
   const dispatch = useDispatch();
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  // l'array dei seguiti per contare quelli non letti
-  const allFollowed = useSelector((state) => state.network.followed);
-  const unreadCount = allFollowed.filter((user) => !user.isRead).length;
+  // Sommiamo le notifiche degli utenti e dei lavori
+  const allFollowedUsers = useSelector((state) => state.network.followed);
+  const allFollowedJobs = useSelector((state) => state.jobs.followedJobs);
+
+  const unreadUsersCount = (allFollowedUsers || []).filter(
+    (user) => !user.isRead,
+  ).length;
+  const unreadJobsCount = (allFollowedJobs || []).filter(
+    (job) => !job.isRead,
+  ).length;
+
+  // Il totale è la somma dei due numeri
+  const unreadCount = unreadUsersCount + unreadJobsCount;
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
