@@ -1,44 +1,47 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 
-// questo oggetto serve a bypassare i casini con l'importazione standard dello storage.
-// costruisco ponte tra il codice e il browser
+// Questo oggetto serve a bypassare i problemi di importazione dello storage
 const storage = {
   getItem: (key) => Promise.resolve(localStorage.getItem(key)),
   setItem: (key, value) => Promise.resolve(localStorage.setItem(key, value)),
   removeItem: (key) => Promise.resolve(localStorage.removeItem(key)),
 };
 
+// Import dei reducer
 import profiloReducer from "../reducers";
 import jobsReducer from "../reducers/jobsReducer";
 import authReducer from "../reducers/authReducer";
+import networkReducer from "../reducers/networkReducer";
 
-// setto persist per come deve comportarsi
+// Configurazione persistenza
 const persistConfig = {
   key: "root",
-  storage, // usiamo l'oggetto creato da noi
+  storage, 
 };
 
-// inisco tutti i reducer con combinereducers
+// Combinazione di tutti i reducer in un unico rootReducer
 const rootReducer = combineReducers({
   profilo: profiloReducer,
   jobs: jobsReducer,
   auth: authReducer,
+  network: networkReducer,
 });
 
-// creiamo la versione persistente del reducer
+// Creazione della versione persistente del reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-// creiamo lo store finale
+// Creazione dello store finale
 export const store = configureStore({
   reducer: persistedReducer,
-  // questo middleware serve a non far impazzire redux con i dati salvati
+  // Middleware per gestire il serializableCheck con redux-persist
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
 });
 
-// il persistor serve a gestire il salvataggio automatico
+// Il persistor serve a gestire il salvataggio automatico
 export const persistor = persistStore(store);
+
 export default store;

@@ -153,7 +153,7 @@ function DesktopNavbar() {
           </Link>
           <Link
             className=" nav-link nav-link-color d-flex flex-column align-items-center justify-content-center"
-            to="/"
+            to="/network"
           >
             <PeopleFill className="nav-link-color-e" size={24} />
             <small

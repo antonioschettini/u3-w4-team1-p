@@ -87,6 +87,7 @@ const PostsList = () => {
     if (quantiMostrarne === 0) {
       quantiMostrarne = 10;
     }
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setVisibleItems(posts.slice(0, quantiMostrarne));
   }, [posts]); // questo codice scatta solo quando i post cambiano
 
