@@ -1,9 +1,15 @@
 import { PersonPlusFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { followUser } from "../../../redux/actions";
 
 const PeopleCard = (props) => {
   const { image, name, surname, title, _id } = props.profile;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const followed = useSelector((rs) => rs.network.followed);
+  const isFollowed = followed.some((user) => user._id === props.profile._id);
+
   return (
     <div
       className="d-flex justify-content-start align-items-start border-top border-1 border-tertiary pt-3 mb-3"
@@ -35,13 +41,19 @@ const PeopleCard = (props) => {
           {title}
         </p>
         <button
-          className="visualizza-btn rounded-pill px-2 py-1 mt-1 d-flex align-items-center mt-3"
+          className={
+            isFollowed
+              ? "followed-btn rounded-pill px-2 py-1 mt-1 d-flex align-items-center mt-3"
+              : "visualizza-btn rounded-pill px-2 py-1 mt-1 d-flex align-items-center mt-3"
+          }
+          disabled={isFollowed}
           onClick={(e) => {
             e.stopPropagation();
+            dispatch(followUser(props.profile));
           }}
         >
-          <PersonPlusFill />
-          <span className="ms-1">Aggiungi</span>
+          {!isFollowed && <PersonPlusFill />}
+          <span className="ms-1">{isFollowed ? "Segui già" : "Aggiungi"}</span>
         </button>
       </div>
     </div>

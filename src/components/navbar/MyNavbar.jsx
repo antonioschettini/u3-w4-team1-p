@@ -3,9 +3,11 @@ import DesktopNavbar from "./DesktopNavbar"
 import MobileNavbarBottom from "./MobileNavbarBottom"
 import MobileNavbarTop from "./MobileNavbarTop"
 
+
 function MyNavbar() {
   const [offset, setOffset] = useState(0)
   const [windowScroll, setWindowScroll] = useState(0)
+ 
 
   const handleScroll = () => {
     const windowSum =

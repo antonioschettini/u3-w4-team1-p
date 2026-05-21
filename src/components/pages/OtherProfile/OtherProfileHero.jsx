@@ -1,9 +1,14 @@
 import { Row, Col, Card, Button, Image } from "react-bootstrap";
-import { Pencil, SendFill } from "react-bootstrap-icons";
+import { Pencil, PersonPlusFill, SendFill } from "react-bootstrap-icons";
 import { useEffect } from "react";
+import { followUser } from "../../../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
 // import { fetchMioprofile } from "../../../redux/actions";
 
 const OtherProfileHero = ({ profile }) => {
+  const dispatch = useDispatch();
+  const followed = useSelector((rs) => rs.network.followed);
+  const isFollowed = followed.some((user) => user._id === profile._id);
   useEffect(() => {
     console.log(profile);
   }, [profile]);
@@ -86,6 +91,23 @@ const OtherProfileHero = ({ profile }) => {
         </Row>
         {/* pulsanti  */}
         <div className="d-flex flex-wrap gap-2 mt-3 align-items-center">
+          <button
+            className={
+              isFollowed
+                ? "followed-btn rounded-pill px-2 py-1 d-flex align-items-center "
+                : "visualizza-btn rounded-pill px-2 py-1 d-flex align-items-center "
+            }
+            disabled={isFollowed}
+            onClick={(e) => {
+              e.stopPropagation();
+              dispatch(followUser(profile));
+            }}
+          >
+            {!isFollowed && <PersonPlusFill />}
+            <span className="ms-1">
+              {isFollowed ? "Segui già" : "Aggiungi"}
+            </span>
+          </button>
           <Button
             className="rounded-pill px-2 py-1 fw-semibold btn-sm"
             style={{ backgroundColor: "#0A66C2" }}
