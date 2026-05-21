@@ -35,14 +35,14 @@ function App() {
         <LoginPage />
       ) : (
         /* SE SEI AUTENTICATO MOSTRA IL RESTO DELL'APP */
-        <div className="d-flex flex-column w-100">
+        <div className="d-flex flex-column w-100 min-vh-100">
           <MyNavbar />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/profile/:id" element={<OtherProfile />} />
             <Route path="/jobs" element={<Jobs />} />
-             <Route path="/network" element={<Network />} />
+            <Route path="/network" element={<Network />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Messaggistica />
