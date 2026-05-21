@@ -27,9 +27,11 @@ import Caricamento from "../../status/Caricamento";
 import AvvisoErrore from "../../status/AvvisoErrore";
 
 import { Card, Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router";
 
 const PostsList = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const posts = useSelector((state) => state.profilo.listaPost) || [];
   const loading = useSelector((state) => state.profilo.loadingPost);
@@ -180,7 +182,10 @@ const PostsList = () => {
               <Card.Body className="p-0">
                 {/* HEADER */}
                 <div className="d-flex justify-content-between align-items-start p-3 pb-1">
-                  <div className="d-flex gap-2">
+                  <div
+                    className="d-flex gap-2"
+                    onClick={() => navigate(`/profile/${autoreDelPost._id}`)}
+                  >
                     {autoreDelPost?.image ? (
                       <img
                         src={autoreDelPost.image}
