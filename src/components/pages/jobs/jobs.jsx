@@ -1,10 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchJobs } from "../../../redux/actions";
 import { Container } from "react-bootstrap";
 import JobsCard from "./jobsCard";
 import JobsLeftSidebar from "./JobsLeftSideBar";
 import SmallFooter from "../../SmallFooter";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Caricamento from "../../status/Caricamento";
 
 function Jobs() {
   const dispatch = useDispatch();
@@ -16,7 +18,22 @@ function Jobs() {
   }, [dispatch]);
 
   const principali = jobs.slice(0, 3);
-  const altre = jobs.slice(3, 10);
+  const altre = jobs.slice(3);
+
+  // Logica infinite scroll
+
+  const [visibleItems, setVisibleItems] = useState([]);
+
+  const loadMore = () => {
+    setTimeout(() => {
+      const moreJobs = altre.slice(
+        visibleItems.length,
+        visibleItems.length + 10,
+      );
+
+      setVisibleItems((prev) => [...prev, ...moreJobs]);
+    }, 1200);
+  };
 
   return (
     <Container>
@@ -57,9 +74,16 @@ function Jobs() {
                 In base al tuo profilo, alle tue preferenze e ad attività come
                 candidature, ricerche e salvataggi
               </p>
-              {altre.map((job) => (
-                <JobsCard key={job._id} job={job} />
-              ))}
+              <InfiniteScroll
+                dataLength={visibleItems.length}
+                next={loadMore}
+                hasMore={visibleItems.length < altre.length}
+                loader={<Caricamento />}
+              >
+                {visibleItems.map((job) => (
+                  <JobsCard key={job._id} job={job} />
+                ))}
+              </InfiniteScroll>
             </div>
           </div>
         </div>
