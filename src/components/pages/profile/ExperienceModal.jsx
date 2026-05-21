@@ -65,6 +65,7 @@ const ExperienceModal = (props) => {
     if (props.esperienzaSelezionata) {
       // se c'è un esperienza passata come props, autocompila i campi
       const exp = props.esperienzaSelezionata;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setTitle(exp?.role || "");
       setCompany(exp?.company || "");
       setArea(exp?.area || "");
