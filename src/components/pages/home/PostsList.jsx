@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import InfiniteScroll from "react-infinite-scroll-component";
+import { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import InfiniteScroll from "react-infinite-scroll-component"
 import {
   fetchPosts,
   deletePost,
@@ -11,7 +11,7 @@ import {
   eliminaCommentoServer,
   modificaPostServer,
   modificaCommentoServer,
-} from "../../../redux/actions";
+} from "../../../redux/actions"
 
 import {
   Trash,
@@ -21,117 +21,118 @@ import {
   HeartFill,
   PersonFill,
   Pencil,
-} from "react-bootstrap-icons";
+} from "react-bootstrap-icons"
 
-import Caricamento from "../../status/Caricamento";
-import AvvisoErrore from "../../status/AvvisoErrore";
+import Caricamento from "../../status/Caricamento"
+import AvvisoErrore from "../../status/AvvisoErrore"
 
-import { Card, Button, Form } from "react-bootstrap";
+import { Card, Button, Form } from "react-bootstrap"
+import { Link } from "react-router"
 
 const PostsList = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
-  const posts = useSelector((state) => state.profilo.listaPost) || [];
-  const loading = useSelector((state) => state.profilo.loadingPost);
-  const error = useSelector((state) => state.profilo.errorPost);
+  const posts = useSelector((state) => state.profilo.listaPost) || []
+  const loading = useSelector((state) => state.profilo.loadingPost)
+  const error = useSelector((state) => state.profilo.errorPost)
 
-  const mioProfilo = useSelector((state) => state.profilo.mioProfilo);
+  const mioProfilo = useSelector((state) => state.profilo.mioProfilo)
 
-  const tuttiGliUtenti = useSelector((state) => state.profilo.usersData) || [];
+  const tuttiGliUtenti = useSelector((state) => state.profilo.usersData) || []
 
   const tuttiICommenti =
-    useSelector((state) => state.profilo.listaCommenti) || [];
+    useSelector((state) => state.profilo.listaCommenti) || []
 
-  const [postNascosti, setPostNascosti] = useState([]);
-  const [commentiAperti, setCommentiAperti] = useState({});
-  const [testoNuovoCommento, setTestoNuovoCommento] = useState({});
+  const [postNascosti, setPostNascosti] = useState([])
+  const [commentiAperti, setCommentiAperti] = useState({})
+  const [testoNuovoCommento, setTestoNuovoCommento] = useState({})
 
-  const [postIdInModifica, setPostIdInModifica] = useState(null);
-  const [testoPostInModifica, setTestoPostInModifica] = useState("");
+  const [postIdInModifica, setPostIdInModifica] = useState(null)
+  const [testoPostInModifica, setTestoPostInModifica] = useState("")
 
-  const [commentIdInModifica, setCommentIdInModifica] = useState(null);
+  const [commentIdInModifica, setCommentIdInModifica] = useState(null)
 
-  const [testoCommentoInModifica, setTestoCommentoInModifica] = useState("");
+  const [testoCommentoInModifica, setTestoCommentoInModifica] = useState("")
 
   const [postPiaciuti, setPostPiaciuti] = useState(() => {
-    const salvati = localStorage.getItem("postPiaciuti");
-    return salvati ? JSON.parse(salvati) : {};
-  });
+    const salvati = localStorage.getItem("postPiaciuti")
+    return salvati ? JSON.parse(salvati) : {}
+  })
 
   const [commentiPiaciuti, setCommentiPiaciuti] = useState(() => {
-    const salvati = localStorage.getItem("commentiPiaciuti");
-    return salvati ? JSON.parse(salvati) : {};
-  });
+    const salvati = localStorage.getItem("commentiPiaciuti")
+    return salvati ? JSON.parse(salvati) : {}
+  })
 
-  const [visibleItems, setVisibleItems] = useState([]);
-
-  useEffect(() => {
-    dispatch(fetchPosts());
-    dispatch(fetchMioProfilo());
-    dispatch(fetchSavedProfiles());
-    dispatch(fetchCommenti());
-  }, [dispatch]);
+  const [visibleItems, setVisibleItems] = useState([])
 
   useEffect(() => {
-    localStorage.setItem("postPiaciuti", JSON.stringify(postPiaciuti));
-  }, [postPiaciuti]);
+    dispatch(fetchPosts())
+    dispatch(fetchMioProfilo())
+    dispatch(fetchSavedProfiles())
+    dispatch(fetchCommenti())
+  }, [dispatch])
 
   useEffect(() => {
-    localStorage.setItem("commentiPiaciuti", JSON.stringify(commentiPiaciuti));
-  }, [commentiPiaciuti]);
+    localStorage.setItem("postPiaciuti", JSON.stringify(postPiaciuti))
+  }, [postPiaciuti])
+
+  useEffect(() => {
+    localStorage.setItem("commentiPiaciuti", JSON.stringify(commentiPiaciuti))
+  }, [commentiPiaciuti])
 
   const loadMore = () => {
     setTimeout(() => {
       const morePosts = posts.slice(
         visibleItems.length,
         visibleItems.length + 10,
-      );
+      )
 
-      setVisibleItems((prev) => [...prev, ...morePosts]);
-    }, 1200);
-  };
+      setVisibleItems((prev) => [...prev, ...morePosts])
+    }, 1200)
+  }
 
   const nascondiPostDalloSchermo = (id) => {
-    setPostNascosti([...postNascosti, id]);
-  };
+    setPostNascosti([...postNascosti, id])
+  }
 
   const mettiMiPiace = (postId) => {
     setPostPiaciuti({
       ...postPiaciuti,
       [postId]: !postPiaciuti[postId],
-    });
-  };
+    })
+  }
 
   const mettiMiPiaceCommento = (commentId) => {
     setCommentiPiaciuti({
       ...commentiPiaciuti,
       [commentId]: !commentiPiaciuti[commentId],
-    });
-  };
+    })
+  }
 
   const toggleCommenti = (postId) => {
     setCommentiAperti({
       ...commentiAperti,
       [postId]: !commentiAperti[postId],
-    });
-  };
+    })
+  }
 
   const inviaCommento = (postId) => {
-    const testo = testoNuovoCommento[postId];
+    const testo = testoNuovoCommento[postId]
 
-    if (!testo || testo.trim() === "") return;
+    if (!testo || testo.trim() === "") return
 
-    dispatch(aggiungiCommentoServer(testo, postId));
+    dispatch(aggiungiCommentoServer(testo, postId))
 
     setTestoNuovoCommento({
       ...testoNuovoCommento,
       [postId]: "",
-    });
-  };
+    })
+  }
 
-  if (loading) return <Caricamento />;
+  if (loading) return <Caricamento />
 
-  if (error) return <AvvisoErrore messaggio={error} />;
+  if (error) return <AvvisoErrore messaggio={error} />
 
   return (
     <div className="container p-0">
@@ -142,21 +143,21 @@ const PostsList = () => {
         loader={<Caricamento />}
       >
         {visibleItems.map((post) => {
-          if (postNascosti.includes(post._id)) return null;
+          if (postNascosti.includes(post._id)) return null
 
-          const isMioPost = post.username === mioProfilo?.username;
+          const isMioPost = post.username === mioProfilo?.username
 
           const autoreDelPost = tuttiGliUtenti.find(
             (utente) => utente.username === post.username,
-          );
+          )
 
-          const miPiace = postPiaciuti[post._id];
+          const miPiace = postPiaciuti[post._id]
 
-          const mostraCommenti = commentiAperti[post._id];
+          const mostraCommenti = commentiAperti[post._id]
 
           let commentiDiQuestoPost = tuttiICommenti.filter(
             (c) => c.elementId === post._id,
-          );
+          )
 
           if (commentiDiQuestoPost.length === 0) {
             commentiDiQuestoPost = [
@@ -168,7 +169,7 @@ const PostsList = () => {
                 fotoFinta:
                   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQjj0UQXHlsnTaknKXlkezyEF4KOSbrCr3bA&s",
               },
-            ];
+            ]
           }
 
           return (
@@ -181,23 +182,30 @@ const PostsList = () => {
                 {/* HEADER */}
                 <div className="d-flex justify-content-between align-items-start p-3 pb-1">
                   <div className="d-flex gap-2">
-                    {autoreDelPost?.image ? (
-                      <img
-                        src={autoreDelPost.image}
-                        alt="autore"
-                        className="rounded-circle"
-                        width={48}
-                        height={48}
-                        style={{ objectFit: "cover" }}
-                      />
-                    ) : (
-                      <PersonFill size={48} className="text-secondary" />
-                    )}
+                    <Link to={`/profile/${autoreDelPost._id}`}>
+                      {autoreDelPost?.image ? (
+                        <img
+                          src={autoreDelPost.image}
+                          alt="autore"
+                          className="rounded-circle"
+                          width={48}
+                          height={48}
+                          style={{ objectFit: "cover" }}
+                        />
+                      ) : (
+                        <PersonFill size={48} className="text-secondary" />
+                      )}
+                    </Link>
 
                     <div className="d-flex flex-column">
-                      <h6 className="fw-bold mb-0 text-dark small">
-                        {post.username}
-                      </h6>
+                      <Link
+                        to={`/profile/${autoreDelPost._id}`}
+                        className="text-decoration-none"
+                      >
+                        <h6 className="fw-bold mb-0 text-dark small">
+                          {post.username}
+                        </h6>
+                      </Link>
 
                       <small className="text-secondary">
                         {autoreDelPost?.title || "Membro LinkedIn"}
@@ -216,8 +224,8 @@ const PostsList = () => {
                           variant="link"
                           className="text-secondary p-1 border-0"
                           onClick={() => {
-                            setPostIdInModifica(post._id);
-                            setTestoPostInModifica(post.text);
+                            setPostIdInModifica(post._id)
+                            setTestoPostInModifica(post.text)
                           }}
                         >
                           <Pencil size={16} />
@@ -232,7 +240,7 @@ const PostsList = () => {
                                 "Vuoi eliminare davvero questo post?",
                               )
                             ) {
-                              dispatch(deletePost(post._id));
+                              dispatch(deletePost(post._id))
                             }
                           }}
                         >
@@ -267,9 +275,9 @@ const PostsList = () => {
                         onClick={() => {
                           dispatch(
                             modificaPostServer(post._id, testoPostInModifica),
-                          );
+                          )
 
-                          setPostIdInModifica(null);
+                          setPostIdInModifica(null)
                         }}
                       >
                         Salva
@@ -346,18 +354,26 @@ const PostsList = () => {
                   <div className="px-3 pb-3 pt-2 bg-light border-top rounded-bottom-3">
                     {/* INPUT COMMENTO */}
                     <div className="d-flex gap-2 mt-2 align-items-start mb-3">
-                      {mioProfilo?.image ? (
-                        <img
-                          src={mioProfilo.image}
-                          alt="tu"
-                          className="rounded-circle mt-1"
-                          width={40}
-                          height={40}
-                          style={{ objectFit: "cover" }}
-                        />
-                      ) : (
-                        <PersonFill size={40} className="text-secondary mt-1" />
-                      )}
+                      <Link
+                        to={`/profile/${mioProfilo._id}`}
+                        className="text-decoration-none"
+                      >
+                        {mioProfilo?.image ? (
+                          <img
+                            src={mioProfilo.image}
+                            alt="tu"
+                            className="rounded-circle mt-1"
+                            width={40}
+                            height={40}
+                            style={{ objectFit: "cover" }}
+                          />
+                        ) : (
+                          <PersonFill
+                            size={40}
+                            className="text-secondary mt-1"
+                          />
+                        )}
+                      </Link>
 
                       <div className="flex-grow-1 w-100">
                         <Form.Control
@@ -390,12 +406,12 @@ const PostsList = () => {
                       .slice(-5)
                       .reverse()
                       .map((comm) => {
-                        const mioNomeCompleto = `${mioProfilo?.name} ${mioProfilo?.surname}`;
+                        const mioNomeCompleto = `${mioProfilo?.name} ${mioProfilo?.surname}`
 
                         const isMioCommento =
                           comm.author === mioProfilo?.username ||
                           comm.author === mioProfilo?.email ||
-                          comm.author === mioNomeCompleto;
+                          comm.author === mioNomeCompleto
 
                         const utenteCheHaCommentato = isMioCommento
                           ? mioProfilo
@@ -405,26 +421,36 @@ const PostsList = () => {
                                 utente.email === comm.author ||
                                 `${utente.name} ${utente.surname}` ===
                                   comm.author,
-                            );
+                            )
 
                         return (
                           <div key={comm._id} className="d-flex gap-2 mb-2">
                             {comm.fotoFinta ? (
-                              <img
-                                src={comm.fotoFinta}
-                                alt="commento"
-                                className="rounded-circle"
-                                width={35}
-                                height={35}
-                              />
+                              <Link
+                                to={`/profile/${utenteCheHaCommentato._id}`}
+                                className="text-decoration-none"
+                              >
+                                <img
+                                  src={comm.fotoFinta}
+                                  alt="commento"
+                                  className="rounded-circle"
+                                  width={35}
+                                  height={35}
+                                />
+                              </Link>
                             ) : utenteCheHaCommentato?.image ? (
-                              <img
-                                src={utenteCheHaCommentato.image}
-                                alt="commento"
-                                className="rounded-circle"
-                                width={35}
-                                height={35}
-                              />
+                              <Link
+                                to={`/profile/${utenteCheHaCommentato._id}`}
+                                className="text-decoration-none"
+                              >
+                                <img
+                                  src={utenteCheHaCommentato.image}
+                                  alt="commento"
+                                  className="rounded-circle"
+                                  width={35}
+                                  height={35}
+                                />
+                              </Link>
                             ) : (
                               <PersonFill
                                 size={35}
@@ -460,9 +486,9 @@ const PostsList = () => {
                                               testoCommentoInModifica,
                                               post._id,
                                             ),
-                                          );
+                                          )
 
-                                          setCommentIdInModifica(null);
+                                          setCommentIdInModifica(null)
                                         }}
                                       >
                                         Salva
@@ -510,9 +536,9 @@ const PostsList = () => {
                                     variant="link"
                                     className="text-secondary p-1"
                                     onClick={() => {
-                                      setCommentIdInModifica(comm._id);
+                                      setCommentIdInModifica(comm._id)
 
-                                      setTestoCommentoInModifica(comm.comment);
+                                      setTestoCommentoInModifica(comm.comment)
                                     }}
                                   >
                                     <Pencil size={14} />
@@ -529,7 +555,7 @@ const PostsList = () => {
                                       ) {
                                         dispatch(
                                           eliminaCommentoServer(comm._id),
-                                        );
+                                        )
                                       }
                                     }}
                                   >
@@ -539,17 +565,17 @@ const PostsList = () => {
                               )}
                             </div>
                           </div>
-                        );
+                        )
                       })}
                   </div>
                 )}
               </Card.Body>
             </Card>
-          );
+          )
         })}
       </InfiniteScroll>
     </div>
-  );
-};
+  )
+}
 
-export default PostsList;
+export default PostsList
