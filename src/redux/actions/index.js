@@ -342,7 +342,7 @@ export const modificaCommentoServer = (commentId, nuovoTesto, postId) => {
 
 // Bell audio action!
 
-const bell = new Audio("public/Bell-Sound.mp3");
+const bell = new Audio("/Bell-Sound.mp3");
 
 export const playBell = () => bell.play();
 
