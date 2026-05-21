@@ -4,10 +4,13 @@ import App from "./App.jsx";
 
 // import del provider e dello store
 import { Provider } from "react-redux";
-import store from "./redux/store/index.js";
+import { store, persistor } from "./redux/store/index.js";
+import { PersistGate } from "redux-persist/integration/react";
 
 createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <App />
+    <PersistGate loading={null} persistor={persistor}>
+      <App />
+    </PersistGate>
   </Provider>,
 );

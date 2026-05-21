@@ -23,6 +23,11 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import PeolpleLinkCard from "./PeopleLinkCard";
 import JobsLinkCard from "./JobsLinkCard";
+import PremiumModal from "./RemiumModal";
+import VerificationModal from "./VerificationModal";
+import { useDispatch } from "react-redux";
+import { effettuaLogout } from "../../redux/reducers/authReducer";
+import LogoutModal from "./LogoutModal";
 
 function DesktopNavbar() {
   const location = useLocation();
@@ -36,6 +41,10 @@ function DesktopNavbar() {
   const profiles = useSelector((rs) => rs.profilo.usersData);
   const jobs = useSelector((rs) => rs.jobs.jobs);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -242,6 +251,7 @@ function DesktopNavbar() {
                 <Button
                   variant="primary"
                   className="rounded-pill fw-semibold text-start"
+                  onClick={() => setIsVerifyModalOpen(true)}
                 >
                   Verifica Ora
                 </Button>
@@ -250,7 +260,10 @@ function DesktopNavbar() {
               <NavDropdown.Divider />
               <div className="py-1">
                 <h6 className="fw-bold text-dark small mb-2">Account</h6>
-                <NavDropdown.Item className="text-secondary ps-0 py-1 small text-wrap">
+                <NavDropdown.Item
+                  className="text-secondary ps-0 py-1 small text-wrap"
+                  onClick={() => setIsModalOpen(true)}
+                >
                   🟨 1 mese di Premium per 0 €
                 </NavDropdown.Item>
                 <NavDropdown.Item className="text-secondary ps-0 py-1 small">
@@ -278,13 +291,32 @@ function DesktopNavbar() {
 
               <NavDropdown.Divider />
 
-              <NavDropdown.Item className="text-secondary ps-0 py-1 small">
+              <NavDropdown.Item
+                className="text-secondary ps-0 py-1 small"
+                onClick={() => setIsLogoutModalOpen(true)}
+              >
                 Esci
               </NavDropdown.Item>
             </NavDropdown>
           </div>
         </div>
       </Container>
+      <PremiumModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+      <VerificationModal
+        isOpen={isVerifyModalOpen}
+        onClose={() => setIsVerifyModalOpen(false)}
+      />
+      <LogoutModal
+        show={isLogoutModalOpen}
+        onHide={() => setIsLogoutModalOpen(false)}
+        onConfirm={() => {
+          dispatch(effettuaLogout());
+          setIsLogoutModalOpen(false);
+        }}
+      />
     </Navbar>
   );
 }

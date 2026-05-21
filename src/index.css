@@ -178,3 +178,18 @@
 .pointer:hover {
   cursor: pointer;
 }
+
+/* Stile per login page e modal login */
+/* aggiungilo in index.css */
+.btn-linkedin {
+  background-color: #0a66c2 !important;
+  color: white !important;
+  font-weight: 600 !important;
+  border-radius: 999px !important;
+  padding: 10px 20px !important;
+}
+.bg-linkedin {
+  background-color: #f3f2ef;
+  min-height: 100vh;
+}
+/* Fine stile login e modale */
