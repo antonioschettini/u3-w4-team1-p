@@ -262,7 +262,7 @@ export const eliminaCommentoServer = (commentId) => {
 // --- FUNZIONE JOBS ---
 
 import { salvaJobs, loadingJobs } from "../reducers/jobsReducer";
-import { salvaFollowed } from "../reducers/networkReducer";
+import { removeFollowed, salvaFollowed } from "../reducers/networkReducer";
 
 export const fetchJobs = (query = "") => {
   // cerca e scarica i posti di lavoro
@@ -346,5 +346,11 @@ export const followUser = (user) => {
   return (dispatch) => {
     dispatch(salvaFollowed(user));
     alert(`${user.name} ${user.surname} aggiunto alla tua rete.`);
+  };
+};
+export const removeUser = (user) => {
+  return (dispatch) => {
+    dispatch(removeFollowed(user));
+    alert(`${user.name} ${user.surname} rimosso dalla tua rete.`);
   };
 };

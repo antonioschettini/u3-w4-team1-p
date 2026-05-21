@@ -14,6 +14,12 @@ const networkSlice = createSlice({
       state.followed = [...state.followed, action.payload];
       state.loading = false;
     },
+    removeFollowed: (state, action) => {
+      state.followed = state.followed.filter(
+        (user) => user._id !== action.payload._id,
+      );
+      state.loading = false;
+    },
     loadingNetwork: (state) => {
       state.loading = true;
     },
@@ -24,6 +30,6 @@ const networkSlice = createSlice({
   },
 });
 
-export const { salvaFollowed, loadingNetwork, erroreNetwork } =
+export const { salvaFollowed, loadingNetwork, erroreNetwork, removeFollowed } =
   networkSlice.actions;
 export default networkSlice.reducer;

@@ -27,15 +27,12 @@ const Network = () => {
         <div style={{ flex: 1 }}>
           {loading && <p>Caricamento...</p>}
 
-          <div className="card shadow-sm mb-3 p-2">
-            <h6 className="fw-bold mb-1">La tua rete</h6>
-            <Row className="card-body gap-3" xs={1} sm={2}>
+          <div className="card shadow-sm mb-3 p-4">
+            <h4 className="fw-bold mb-1">La tua rete</h4>
+            <Row className="g-2 mt-4" xs={1} sm={1} md={2} lg={3} xl={4}>
               {allFollowed.map((profile) => (
                 <FollowedCard key={profile._id} profile={profile} />
               ))}
-              <p className="text-primary small" style={{ cursor: "pointer" }}>
-                Mostra tutto →
-              </p>
             </Row>
           </div>
         </div>
