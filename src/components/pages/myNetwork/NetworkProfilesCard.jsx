@@ -1,10 +1,16 @@
 import { Button, Card, Col, Image } from "react-bootstrap"
 import { PersonPlusFill } from "react-bootstrap-icons"
+import { useDispatch, useSelector } from "react-redux"
+import { followUser } from "../../../redux/actions"
 
 const NetworkProfileCard = (props) => {
   const { image, name, surname, title } = props.profile
   // eslint-disable-next-line react-hooks/purity
   const randomCollegamenti = Math.floor(Math.random() * 97) + 4
+
+  const dispatch = useDispatch()
+  const followed = useSelector((rs) => rs.network.followed)
+  const isFollowed = followed.some((user) => user._id === props.profile._id)
 
   return (
     <Col xs={6} sm={4} md={3}>
@@ -73,11 +79,21 @@ const NetworkProfileCard = (props) => {
               {randomCollegamenti} collegamenti
             </p>
             <Button
-              variant="outline-primary"
-              className="rounded-pill px-2 fw-semibold btn-sm d-flex align-items-center justify-content-center"
+              className={
+                isFollowed
+                  ? "followed-btn rounded-pill d-flex align-items-center justify-content-center w-100"
+                  : "visualizza-btn rounded-pill d-flex align-items-center justify-content-center w-100"
+              }
+              disabled={isFollowed}
+              onClick={(e) => {
+                e.stopPropagation()
+                dispatch(followUser(props.profile))
+              }}
             >
-              <PersonPlusFill className="me-1" />
-              <span>Collegati</span>
+              {!isFollowed && <PersonPlusFill />}
+              <span className="ms-1">
+                {isFollowed ? "Segui già" : "Aggiungi"}
+              </span>
             </Button>
           </div>
         </Card.Body>

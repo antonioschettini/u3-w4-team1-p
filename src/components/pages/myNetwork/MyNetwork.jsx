@@ -1,24 +1,18 @@
 import { Col, Container, Row } from "react-bootstrap"
-import { fetchSavedProfiles, fetchMioProfilo } from "../../../redux/actions"
-import { useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import Caricamento from "../../status/Caricamento"
 import AvvisoErrore from "../../status/AvvisoErrore"
 import SmallFooter from "../../SmallFooter"
 import NetworkPeopleYouMayKnow from "./NetworkPeopleYouMayKnow"
 import NetworkSideBar from "./NetworkSideBar"
+import FollowedCard from "../network/FollowedCard"
 
 const MyNetwork = () => {
-  const dispatch = useDispatch()
   // Leggiamo lo stato del caricamento, dell'errore e del profilo da Redux
-  const loading = useSelector((state) => state.profilo.loadingProfilo)
   const errore = useSelector((state) => state.profilo.error)
-  const profilo = useSelector((state) => state.profilo.mioProfilo)
-
-  useEffect(() => {
-    dispatch(fetchSavedProfiles())
-    dispatch(fetchMioProfilo())
-  }, [dispatch])
+  const profilo = useSelector((state) => state.profilo.usersData)
+  const loading = useSelector((state) => state.profilo.loadingUsers)
+  const allFollowed = useSelector((rs) => rs.network.followed)
 
   return (
     <>
@@ -42,20 +36,39 @@ const MyNetwork = () => {
             )}
             {/* Controllo se non ci sono caricamenti ed i dati sono arrivati */}
 
-            {!loading && profilo && (
-              <>
-                {/* Sezione centrale main */}
-                <Col xs={12} md={8}>
-                  <NetworkPeopleYouMayKnow />
-                </Col>
+            <>
+              {/* Sezione centrale main */}
+              <Col xs={12} md={8}>
+                <div style={{ flex: 1 }}>
+                  {loading && <p>Caricamento...</p>}
 
-                {/* Colonna a Destra (aside) */}
-                <Col xs={12} md={4} className="d-flex flex-column">
-                  <NetworkSideBar />
-                  <SmallFooter />
-                </Col>
-              </>
-            )}
+                  <div className="card shadow-sm mb-3 p-4">
+                    <h4 className="fw-bold mb-1">La tua rete</h4>
+                    <Row
+                      className="g-2 mt-4"
+                      xs={1}
+                      sm={1}
+                      md={2}
+                      lg={3}
+                      xl={4}
+                    >
+                      {!allFollowed.length
+                        ? "Aggiungi qualcuno alla tua rete per visualizzarlo qui!"
+                        : allFollowed.map((profile) => (
+                            <FollowedCard key={profile._id} profile={profile} />
+                          ))}
+                    </Row>
+                  </div>
+                </div>
+                {!loading && profilo && <NetworkPeopleYouMayKnow />}
+              </Col>
+
+              {/* Colonna a Destra (aside) */}
+              <Col xs={12} md={4} className="d-flex flex-column">
+                <NetworkSideBar />
+                <SmallFooter />
+              </Col>
+            </>
           </Row>
         </Container>
       </div>
