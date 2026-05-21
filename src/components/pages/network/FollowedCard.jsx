@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Briefcase, PersonFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
 import { mioToken } from "../../../redux/actions";
+import { Col } from "react-bootstrap";
 
 const FollowedCard = ({ profile }) => {
   const navigate = useNavigate();
@@ -31,25 +32,45 @@ const FollowedCard = ({ profile }) => {
       .catch((err) => console.log("Errore sidebar esperienze:", err));
   }, [profile?._id]);
   return (
-    <div
-      className="card shadow-sm mb-2 overflow-hidden"
+    <Col
+      className="card shadow-sm mb-2 overflow-hidden px-0"
       onClick={() => navigate(`/profile/${profile.id}`)}
       style={{ cursor: "pointer" }}
     >
-      <img
-        src="/immbacheca.jpeg"
-        alt="banner"
-        style={{ height: 60, width: "100%", objectFit: "cover" }}
-      />
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        id="person-medium"
+        viewBox="0 0 552 138"
+        data-token-id="384"
+        className="c1217a46 _093caa33 _47abdd78 _6f907679 _4543c93a"
+        role="img"
+        fetchPriority="high"
+        aria-label="Foto di copertina"
+        aria-hidden="false"
+        preserveAspectRatio="xMidYMid slice"
+      >
+        <g>
+          <path fill="none" d="M0 0h552v138H0z"></path>
+          <path fill="#d9e5e7" d="M0 0h552v138H0z"></path>
+          <path fill="#bfd3d6" d="M380 0h172v138H380z"></path>
+          <path
+            fill="#a0b4b7"
+            d="M333.22 0H0v138h333.22a207.93 207.93 0 0 0 0-138"
+          ></path>
+        </g>
+      </svg>
       <div className="card-body pt-0">
-        <div style={{ marginTop: -30, marginBottom: 8 }}>
+        <div
+          style={{ marginTop: -30, marginBottom: 8 }}
+          className="d-flex justify-content-center"
+        >
           {profile?.image ? (
             <img
               src={profile.image}
               alt="profilo"
-              className="rounded-circle border border-white border-3"
-              width={60}
-              height={60}
+              className="rounded-circle border border-white border-3 "
+              width={100}
+              height={100}
               style={{ objectFit: "cover" }}
             />
           ) : (
@@ -76,7 +97,7 @@ const FollowedCard = ({ profile }) => {
           </div>
         )}
       </div>
-    </div>
+    </Col>
   );
 };
 

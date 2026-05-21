@@ -14,6 +14,7 @@ import {
   fetchSavedProfiles,
 } from "./redux/actions";
 import Jobs from "./components/pages/jobs/jobs";
+import Network from "./components/pages/network/Network";
 
 function App() {
   const dispatch = useDispatch();
@@ -31,6 +32,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile/:id" element={<OtherProfile />} />
           <Route path="/jobs" element={<Jobs />} />
+          <Route path="/network" element={<Network />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <Messaggistica />

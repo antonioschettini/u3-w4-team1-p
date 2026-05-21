@@ -1,9 +1,13 @@
 import { PersonPlusFill } from "react-bootstrap-icons";
 import { useNavigate } from "react-router";
+import { useDispatch } from "react-redux";
+import { followUser } from "../../../redux/actions";
 
 const PeopleCard = (props) => {
   const { image, name, surname, title, _id } = props.profile;
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   return (
     <div
       className="d-flex justify-content-start align-items-start border-top border-1 border-tertiary pt-3 mb-3"
@@ -38,6 +42,7 @@ const PeopleCard = (props) => {
           className="visualizza-btn rounded-pill px-2 py-1 mt-1 d-flex align-items-center mt-3"
           onClick={(e) => {
             e.stopPropagation();
+            dispatch(followUser(props.profile));
           }}
         >
           <PersonPlusFill />

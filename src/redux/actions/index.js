@@ -262,6 +262,7 @@ export const eliminaCommentoServer = (commentId) => {
 // --- FUNZIONE JOBS ---
 
 import { salvaJobs, loadingJobs } from "../reducers/jobsReducer";
+import { salvaFollowed } from "../reducers/networkReducer";
 
 export const fetchJobs = (query = "") => {
   // cerca e scarica i posti di lavoro
@@ -336,5 +337,14 @@ export const modificaCommentoServer = (commentId, nuovoTesto, postId) => {
     } catch (errore) {
       console.log("Errore nella modifica del commento:", errore);
     }
+  };
+};
+
+// Funzioni Network
+
+export const followUser = (user) => {
+  return (dispatch) => {
+    dispatch(salvaFollowed(user));
+    alert(`${user.name} ${user.surname} aggiunto alla tua rete.`);
   };
 };
