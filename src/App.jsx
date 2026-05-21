@@ -13,6 +13,7 @@ import Jobs from "./components/pages/jobs/jobs"
 import LoginPage from "./components/pages/login/LoginPage"
 import { useSelector } from "react-redux"
 import Network from "./components/pages/network/Network"
+import MyNetwork from "./components/pages/mynetwork/MyNetwork"
 
 function App() {
   const dispatch = useDispatch()
@@ -39,6 +40,7 @@ function App() {
             <Route path="/profile/:id" element={<OtherProfile />} />
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/network" element={<Network />} />
+            <Route path="/mynetwork" element={<MyNetwork />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Messaggistica />

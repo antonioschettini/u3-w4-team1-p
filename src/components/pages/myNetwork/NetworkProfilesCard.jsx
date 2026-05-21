@@ -17,7 +17,6 @@ const NetworkProfileCard = (props) => {
             viewBox="0 0 552 138"
             className="card-img-top h-100"
             role="img"
-            fetchpriority="high"
             aria-label="Foto di copertina"
             aria-hidden="false"
             preserveAspectRatio="xMidYMid slice"
