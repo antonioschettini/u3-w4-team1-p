@@ -1,6 +1,12 @@
 import { Modal } from "react-bootstrap";
+import { useDispatch } from "react-redux";
+import { effettuaLogin } from "../../../redux/reducers/authReducer";
 
 const GoogleLoginModal = ({ show, onHide }) => {
+  const dispatch = useDispatch();
+  const handleGoogleClick = () => {
+    dispatch(effettuaLogin());
+  };
   return (
     <Modal
       show={show}
@@ -43,6 +49,7 @@ const GoogleLoginModal = ({ show, onHide }) => {
         <div
           className="d-flex align-items-center p-3 mt-4 mb-5 border rounded"
           style={{ borderColor: "#5f6368", cursor: "pointer" }}
+          onClick={handleGoogleClick} // Qui aggiungiamo il clic
         >
           <div
             className="rounded-circle d-flex align-items-center justify-content-center me-3"
@@ -61,7 +68,7 @@ const GoogleLoginModal = ({ show, onHide }) => {
               Antonio Schettini
             </div>
             <div style={{ fontSize: "0.85rem", color: "#9aa0a6" }}>
-              antonio.schettini93@gmail.com
+              antonio.schettini93+epicode@gmail.com
             </div>
           </div>
         </div>
