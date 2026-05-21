@@ -18,6 +18,7 @@ import LoginPage from "./components/pages/login/LoginPage";
 import { useSelector } from "react-redux";
 import Network from "./components/pages/network/Network";
 import MyNetwork from "./components/pages/mynetwork/MyNetwork";
+import Notification from "./components/pages/notification/Notification";
 
 function App() {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ function App() {
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/network" element={<Network />} />
             <Route path="/mynetwork" element={<MyNetwork />} />
+            <Route path="/notification" element={<Notification />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <Messaggistica />
