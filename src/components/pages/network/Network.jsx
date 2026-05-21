@@ -30,9 +30,11 @@ const Network = () => {
           <div className="card shadow-sm mb-3 p-4">
             <h4 className="fw-bold mb-1">La tua rete</h4>
             <Row className="g-2 mt-4" xs={1} sm={1} md={2} lg={3} xl={4}>
-              {allFollowed.map((profile) => (
-                <FollowedCard key={profile._id} profile={profile} />
-              ))}
+              {!allFollowed.length
+                ? "Aggiungi qualcuno alla tua rete per visualizzarlo qui!"
+                : allFollowed.map((profile) => (
+                    <FollowedCard key={profile._id} profile={profile} />
+                  ))}
             </Row>
           </div>
         </div>
