@@ -25,6 +25,9 @@ import PeolpleLinkCard from "./PeopleLinkCard";
 import JobsLinkCard from "./JobsLinkCard";
 import PremiumModal from "./RemiumModal";
 import VerificationModal from "./VerificationModal";
+import { useDispatch } from "react-redux";
+import { effettuaLogout } from "../../redux/reducers/authReducer";
+import LogoutModal from "./LogoutModal";
 
 function DesktopNavbar() {
   const location = useLocation();
@@ -40,6 +43,8 @@ function DesktopNavbar() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
+  const dispatch = useDispatch();
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -286,7 +291,10 @@ function DesktopNavbar() {
 
               <NavDropdown.Divider />
 
-              <NavDropdown.Item className="text-secondary ps-0 py-1 small">
+              <NavDropdown.Item
+                className="text-secondary ps-0 py-1 small"
+                onClick={() => setIsLogoutModalOpen(true)}
+              >
                 Esci
               </NavDropdown.Item>
             </NavDropdown>
@@ -300,6 +308,14 @@ function DesktopNavbar() {
       <VerificationModal
         isOpen={isVerifyModalOpen}
         onClose={() => setIsVerifyModalOpen(false)}
+      />
+      <LogoutModal
+        show={isLogoutModalOpen}
+        onHide={() => setIsLogoutModalOpen(false)}
+        onConfirm={() => {
+          dispatch(effettuaLogout());
+          setIsLogoutModalOpen(false);
+        }}
       />
     </Navbar>
   );

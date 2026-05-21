@@ -14,27 +14,38 @@ import {
   fetchSavedProfiles,
 } from "./redux/actions";
 import Jobs from "./components/pages/jobs/jobs";
+import LoginPage from "./components/pages/login/LoginPage";
+import { useSelector } from "react-redux";
 
 function App() {
   const dispatch = useDispatch();
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
   useEffect(() => {
-    dispatch(fetchSavedProfiles());
-    dispatch(fetchMioProfilo());
-    dispatch(fetchJobs());
-  }, [dispatch]);
+    if (isAuthenticated) {
+      dispatch(fetchSavedProfiles());
+      dispatch(fetchMioProfilo());
+      dispatch(fetchJobs());
+    }
+  }, [dispatch, isAuthenticated]);
   return (
     <BrowserRouter>
-      <div className="d-flex flex-column w-100">
-        <MyNavbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile/:id" element={<OtherProfile />} />
-          <Route path="/jobs" element={<Jobs />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <Messaggistica />
-      </div>
+      {/* SE NON SEI AUTENTICATO MOSTRA SOLO IL LOGIN */}
+      {!isAuthenticated ? (
+        <LoginPage />
+      ) : (
+        /* SE SEI AUTENTICATO MOSTRA IL RESTO DELL'APP */
+        <div className="d-flex flex-column w-100">
+          <MyNavbar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile/:id" element={<OtherProfile />} />
+            <Route path="/jobs" element={<Jobs />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <Messaggistica />
+        </div>
+      )}
     </BrowserRouter>
   );
 }
