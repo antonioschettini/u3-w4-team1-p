@@ -8,7 +8,7 @@ const PeopleCard = (props) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const followed = useSelector((rs) => rs.network.followed);
-  const isFollowed = followed.indexOf(props.profile) !== -1;
+  const isFollowed = followed.some((user) => user._id === props.profile._id);
 
   return (
     <div

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 const OtherProfileHero = ({ profile }) => {
   const dispatch = useDispatch();
   const followed = useSelector((rs) => rs.network.followed);
-  const isFollowed = followed.indexOf(profile) !== -1;
+  const isFollowed = followed.some((user) => user._id === profile._id);
   useEffect(() => {
     console.log(profile);
   }, [profile]);
