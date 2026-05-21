@@ -1,10 +1,11 @@
-import { NavDropdown } from "react-bootstrap"
+import { NavDropdown, Image } from "react-bootstrap"
 import { useState } from "react"
 import { Modal, Button } from "react-bootstrap"
 import { GeoAlt } from "react-bootstrap-icons"
 
 const JobsLinkCard = (props) => {
   const {
+    company_logo_url,
     company_name,
     title,
     candidate_required_location,
@@ -22,17 +23,17 @@ const JobsLinkCard = (props) => {
         className="d-flex align-items-center my-1 text-decoration-none pointer"
         onClick={() => setShow(true)}
       >
-        {/* <Image
-            src={image}
-            onError={(e) => {
-              e.target.src =
-                "https://pixabay.com/it/illustrations/valigetta-icona-attivit%c3%a0-commerciale-2558671/"
-            }}
-            roundedCircle
-            width={"40px"}
-            height={"40px"}
-            className="me-2"
-          /> */}
+        <Image
+          src={company_logo_url}
+          onError={(e) => {
+            e.target.src =
+              "https://pixabay.com/it/illustrations/valigetta-icona-attivit%c3%a0-commerciale-2558671/"
+          }}
+          rounded
+          width={"40px"}
+          height={"40px"}
+          className="me-2"
+        />
         <h6
           className="text-nowrap fw-bold mb-0 text-black"
           style={{ textOverflow: "ellipsis", overflow: "hidden" }}
@@ -56,9 +57,18 @@ const JobsLinkCard = (props) => {
         size="lg"
       >
         <Modal.Header closeButton>
-          <Modal.Title>
-            <h6 className="fw-bold mb-0">{title}</h6>
-            <p className="small text-muted mb-0">{company_name}</p>
+          <Modal.Title className="d-flex flex-row">
+            <Image
+              src={company_logo_url}
+              rounded
+              width={48}
+              height={48}
+              className="me-3"
+            />
+            <div>
+              <h6 className="fw-bold mb-0">{title}</h6>
+              <p className="small text-muted mb-0">{company_name}</p>
+            </div>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body style={{ maxHeight: "60vh", overflowY: "auto" }}>

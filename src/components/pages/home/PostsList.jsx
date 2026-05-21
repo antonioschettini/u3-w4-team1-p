@@ -27,11 +27,10 @@ import Caricamento from "../../status/Caricamento";
 import AvvisoErrore from "../../status/AvvisoErrore";
 
 import { Card, Button, Form } from "react-bootstrap";
-import { useNavigate } from "react-router";
+import { Link } from "react-router";
 
 const PostsList = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const posts = useSelector((state) => state.profilo.listaPost) || [];
   const loading = useSelector((state) => state.profilo.loadingPost);
@@ -182,28 +181,31 @@ const PostsList = () => {
               <Card.Body className="p-0">
                 {/* HEADER */}
                 <div className="d-flex justify-content-between align-items-start p-3 pb-1">
-                  <div
-                    className="d-flex gap-2"
-                    onClick={() => navigate(`/profile/${autoreDelPost._id}`)}
-                    style={{ cursor: "pointer" }}
-                  >
-                    {autoreDelPost?.image ? (
-                      <img
-                        src={autoreDelPost.image}
-                        alt="autore"
-                        className="rounded-circle"
-                        width={48}
-                        height={48}
-                        style={{ objectFit: "cover" }}
-                      />
-                    ) : (
-                      <PersonFill size={48} className="text-secondary" />
-                    )}
+                  <div className="d-flex gap-2">
+                    <Link to={`/profile/${autoreDelPost._id}`}>
+                      {autoreDelPost?.image ? (
+                        <img
+                          src={autoreDelPost.image}
+                          alt="autore"
+                          className="rounded-circle"
+                          width={48}
+                          height={48}
+                          style={{ objectFit: "cover" }}
+                        />
+                      ) : (
+                        <PersonFill size={48} className="text-secondary" />
+                      )}
+                    </Link>
 
                     <div className="d-flex flex-column">
-                      <h6 className="fw-bold mb-0 text-dark small">
-                        {post.username}
-                      </h6>
+                      <Link
+                        to={`/profile/${autoreDelPost._id}`}
+                        className="text-decoration-none"
+                      >
+                        <h6 className="fw-bold mb-0 text-dark small">
+                          {post.username}
+                        </h6>
+                      </Link>
 
                       <small className="text-secondary">
                         {autoreDelPost?.title || "Membro LinkedIn"}
@@ -352,18 +354,26 @@ const PostsList = () => {
                   <div className="px-3 pb-3 pt-2 bg-light border-top rounded-bottom-3">
                     {/* INPUT COMMENTO */}
                     <div className="d-flex gap-2 mt-2 align-items-start mb-3">
-                      {mioProfilo?.image ? (
-                        <img
-                          src={mioProfilo.image}
-                          alt="tu"
-                          className="rounded-circle mt-1"
-                          width={40}
-                          height={40}
-                          style={{ objectFit: "cover" }}
-                        />
-                      ) : (
-                        <PersonFill size={40} className="text-secondary mt-1" />
-                      )}
+                      <Link
+                        to={`/profile/${mioProfilo._id}`}
+                        className="text-decoration-none"
+                      >
+                        {mioProfilo?.image ? (
+                          <img
+                            src={mioProfilo.image}
+                            alt="tu"
+                            className="rounded-circle mt-1"
+                            width={40}
+                            height={40}
+                            style={{ objectFit: "cover" }}
+                          />
+                        ) : (
+                          <PersonFill
+                            size={40}
+                            className="text-secondary mt-1"
+                          />
+                        )}
+                      </Link>
 
                       <div className="flex-grow-1 w-100">
                         <Form.Control
@@ -416,21 +426,31 @@ const PostsList = () => {
                         return (
                           <div key={comm._id} className="d-flex gap-2 mb-2">
                             {comm.fotoFinta ? (
-                              <img
-                                src={comm.fotoFinta}
-                                alt="commento"
-                                className="rounded-circle"
-                                width={35}
-                                height={35}
-                              />
+                              <Link
+                                to={`/profile/${utenteCheHaCommentato._id}`}
+                                className="text-decoration-none"
+                              >
+                                <img
+                                  src={comm.fotoFinta}
+                                  alt="commento"
+                                  className="rounded-circle"
+                                  width={35}
+                                  height={35}
+                                />
+                              </Link>
                             ) : utenteCheHaCommentato?.image ? (
-                              <img
-                                src={utenteCheHaCommentato.image}
-                                alt="commento"
-                                className="rounded-circle"
-                                width={35}
-                                height={35}
-                              />
+                              <Link
+                                to={`/profile/${utenteCheHaCommentato._id}`}
+                                className="text-decoration-none"
+                              >
+                                <img
+                                  src={utenteCheHaCommentato.image}
+                                  alt="commento"
+                                  className="rounded-circle"
+                                  width={35}
+                                  height={35}
+                                />
+                              </Link>
                             ) : (
                               <PersonFill
                                 size={35}

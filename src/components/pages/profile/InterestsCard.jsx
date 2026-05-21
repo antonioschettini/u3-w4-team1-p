@@ -1,31 +1,28 @@
-import { useMemo } from "react";
-import { Plus } from "react-bootstrap-icons";
-import { useSelector } from "react-redux";
+import { useMemo } from "react"
+import { Image } from "react-bootstrap"
+import { Plus } from "react-bootstrap-icons"
+import { useSelector } from "react-redux"
 
 const InterestsCard = ({ job }) => {
-  const profiles = useSelector((rs) => rs.profilo.usersData);
+  const profiles = useSelector((rs) => rs.profilo.usersData)
   const randomProfile = useMemo(() => {
     // eslint-disable-next-line react-hooks/purity
-    const randomIndex = Math.floor(Math.random() * (profiles.length + 1));
-    return profiles[randomIndex];
-  }, [profiles]);
-  const iniziale = job.company_name
-    ? job.company_name.charAt(0).toUpperCase()
-    : "?";
+    const randomIndex = Math.floor(Math.random() * (profiles.length + 1))
+    return profiles[randomIndex]
+  }, [profiles])
   return (
     <div className="d-flex justify-content-start align-items-start border-bottom border-1 border-tertiary pt-3 mb-2 text-break">
-      <div
-        className="rounded-3 d-flex align-items-center justify-content-center flex-shrink-0 fw-bold me-2"
-        style={{
-          width: 48,
-          height: 48,
-          background: "#98b1db",
-          color: "#2c2d30",
-          fontSize: 20,
+      <Image
+        src={job.company_logo_url}
+        onError={(e) => {
+          e.target.src =
+            "https://pixabay.com/it/illustrations/valigetta-icona-attivit%c3%a0-commerciale-2558671/"
         }}
-      >
-        {iniziale}
-      </div>
+        rounded
+        width={"40px"}
+        height={"40px"}
+        className="me-2"
+      />
 
       <div className="d-flex flex-column mb-3">
         <p className="fw-semibold m-0">{job.company_name}</p>
@@ -41,7 +38,7 @@ const InterestsCard = ({ job }) => {
               src={randomProfile.image}
               onError={(e) => {
                 e.target.src =
-                  "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
+                  "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
               }}
               alt=""
               className="w-100 h-100 object-fit-cover d-block"
@@ -59,7 +56,7 @@ const InterestsCard = ({ job }) => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default InterestsCard;
+export default InterestsCard
