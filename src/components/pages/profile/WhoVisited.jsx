@@ -1,11 +1,13 @@
 import { useSelector } from "react-redux";
 import BlurredProfileCard from "./BlurredProfileCard";
 import { Spinner } from "react-bootstrap";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import PremiumModal from "../../navbar/RemiumModal";
 
 const WhoVisited = () => {
   const isLoading = useSelector((rs) => rs.profilo.loadingUsers);
   const profiles = useSelector((rs) => rs.profilo.usersData);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const randomProfiles = useMemo(() => {
     if (!profiles?.length) return [];
 
@@ -31,10 +33,18 @@ const WhoVisited = () => {
           profiles &&
           randomProfiles // Aggiunto controllo sicurezza in caso di errore di server non è possibile mappare o slice di null
             .map((profile) => (
-              <BlurredProfileCard key={profile._id} profile={profile} />
+              <BlurredProfileCard
+                key={profile._id}
+                profile={profile}
+                setModal={() => setIsModalOpen(true)}
+              />
             ))
         )}
       </div>
+      <PremiumModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
