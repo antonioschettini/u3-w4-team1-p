@@ -30,9 +30,12 @@ const LoginPage = () => {
   };
 
   return (
-    <div className="bg-linkedin d-flex justify-content-center align-items-center">
-      <Container className="d-flex flex-column align-items-center">
-        <h1 className="mb-4" style={{ color: "#0a66c2", fontWeight: "bold" }}>
+    <div className="bg-linkedin min-vh-100 d-flex flex-column">
+      <Container fluid className="d-flex flex-column flex-grow-1">
+        <h1
+          className="mt-4 ms-4"
+          style={{ color: "#0a66c2", fontWeight: "bold" }}
+        >
           Linked
           <span
             style={{
@@ -45,56 +48,70 @@ const LoginPage = () => {
             in
           </span>
         </h1>
-        <Card
-          style={{
-            width: "100%",
-            maxWidth: "400px",
-            border: "none",
-            borderRadius: "8px",
-            padding: "2rem",
-          }}
-          className="shadow-sm"
-        >
-          <h4 className="mb-4">Accedi</h4>
-          <Form onSubmit={handleLogin}>
-            <Form.Control
-              type="email"
-              placeholder="Email"
-              className="mb-3 p-2"
-              onChange={(e) =>
-                setCredenziali({ ...credenziali, email: e.target.value })
-              }
-            />
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              className="mb-3 p-2"
-              onChange={(e) =>
-                setCredenziali({ ...credenziali, password: e.target.value })
-              }
-            />
-            <Button type="submit" className="w-100 btn-linkedin border-0">
-              Accedi
-            </Button>
-          </Form>
-          <div className="text-center mt-3">
-            <span style={{ fontSize: "0.9rem", color: "#666" }}>
-              Non hai un account?{" "}
-            </span>
-            <Button
-              variant="link"
-              className="p-0"
-              style={{
-                textDecoration: "none",
-                color: "#0a66c2",
-                fontWeight: "600",
-              }}
-              onClick={() => setShowModal(true)}
+        <div className="d-flex flex-grow-1 align-items-center justify-content-center gap-5 px-4">
+          {/* Form */}
+          <div style={{ width: "100%", maxWidth: "400px" }}>
+            <h2
+              className="mb-4"
+              style={{ fontWeight: "400", fontSize: "2rem" }}
             >
-              Registrati
-            </Button>
+              Accedi per restare in contatto
+            </h2>
+            <Card
+              style={{ border: "none", borderRadius: "8px", padding: "2rem" }}
+              className="shadow-sm"
+            >
+              <h4 className="mb-4">Accedi</h4>
+              <Form onSubmit={handleLogin}>
+                <Form.Control
+                  type="email"
+                  placeholder="Email"
+                  className="mb-3 p-2"
+                  onChange={(e) =>
+                    setCredenziali({ ...credenziali, email: e.target.value })
+                  }
+                />
+                <Form.Control
+                  type="password"
+                  placeholder="Password"
+                  className="mb-3 p-2"
+                  onChange={(e) =>
+                    setCredenziali({ ...credenziali, password: e.target.value })
+                  }
+                />
+                <Button type="submit" className="w-100 btn-linkedin border-0">
+                  Accedi
+                </Button>
+              </Form>
+              <div className="text-center mt-3">
+                <span style={{ fontSize: "0.9rem", color: "#666" }}>
+                  Non hai un account?{" "}
+                </span>
+                <Button
+                  variant="link"
+                  className="p-0"
+                  style={{
+                    textDecoration: "none",
+                    color: "#0a66c2",
+                    fontWeight: "600",
+                  }}
+                  onClick={() => setShowModal(true)}
+                >
+                  Registrati
+                </Button>
+              </div>
+            </Card>
           </div>
-        </Card>
+
+          {/*Immagine */}
+          <div className="d-none d-lg-block" style={{ maxWidth: "500px" }}>
+            <img
+              src="https://static.licdn.com/aero-v1/sc/h/dxf91zhqd2z6b0bwg85ktm5s4"
+              alt="LinkedIn"
+              style={{ width: "100%", objectFit: "contain" }}
+            />
+          </div>
+        </div>
       </Container>
       <RegistrationModal
         show={showModal}

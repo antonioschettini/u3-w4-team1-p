@@ -1,5 +1,6 @@
 import { Container, Card, Image, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 // Importiamo le funzioni per le PERSONE
 import {
@@ -17,6 +18,7 @@ import LeftSidebar from "../home/LeftSidebar";
 
 const Notification = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //  Recuperiamo entrambe le liste
   const userNotifications =
@@ -36,6 +38,7 @@ const Notification = () => {
       dispatch(markJobAsRead(item._id));
     } else {
       dispatch(markUserAsRead(item._id));
+      navigate(`/profile/${item._id}`); // reindirizza al profilo utente
     }
   };
 
@@ -69,13 +72,13 @@ const Notification = () => {
   };
 
   return (
-    <Container className="mt-4" style={{ maxWidth: "1100px" }}>
-      <Row>
+    <Container className="mt-4 " style={{ maxWidth: "1100px" }}>
+      <Row className="justify-content-between">
         <Col md={3} className="d-none d-md-block mb-3">
           <LeftSidebar />
         </Col>
 
-        <Col xs={12} md={9}>
+        <Col xs={12} md={8}>
           <Card className="shadow-sm border-0">
             <Card.Body className="p-0">
               <h5 className="p-3 border-bottom mb-0 fw-bold">Notifiche</h5>

@@ -2,7 +2,11 @@ import { useMemo } from "react";
 import { Image } from "react-bootstrap";
 import { Plus, Check } from "react-bootstrap-icons";
 import { useSelector, useDispatch } from "react-redux";
-import { salvaFollowedJobAction } from "../../../redux/actions";
+import {
+  salvaFollowedJobAction,
+  showHideJobModal,
+  visualizedJob,
+} from "../../../redux/actions";
 
 const InterestsCard = ({ job }) => {
   const dispatch = useDispatch();
@@ -15,8 +19,8 @@ const InterestsCard = ({ job }) => {
   );
 
   const randomProfile = useMemo(() => {
-    // eslint-disable-next-line react-hooks/purity
     const randomIndex = Math.floor(
+      // eslint-disable-next-line react-hooks/purity
       Math.random() * ((profiles || []).length + 1),
     );
     return profiles[randomIndex];
@@ -30,7 +34,13 @@ const InterestsCard = ({ job }) => {
   };
 
   return (
-    <div className="d-flex justify-content-start align-items-start border-bottom border-1 border-tertiary pt-3 mb-2 text-break">
+    <div
+      className="d-flex justify-content-start align-items-start border-bottom border-1 border-tertiary pt-3 mb-2 text-break"
+      onClick={() => {
+        dispatch(visualizedJob(job));
+        dispatch(showHideJobModal(true));
+      }}
+    >
       <Image
         src={job.company_logo_url}
         onError={(e) => {
@@ -72,7 +82,10 @@ const InterestsCard = ({ job }) => {
 
         {/* Bottone Segui */}
         <button
-          onClick={handleSeguiClick}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleSeguiClick();
+          }}
           disabled={isAlreadyFollowed}
           className="visualizza-btn rounded-pill px-2 py-1 d-flex align-items-center"
           style={{ opacity: isAlreadyFollowed ? 0.6 : 1 }} // cambio effetto bottone più sbiadito

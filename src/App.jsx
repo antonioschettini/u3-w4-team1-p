@@ -15,10 +15,13 @@ import { useSelector } from "react-redux"
 import Network from "./components/pages/network/Network"
 import MyNetwork from "./components/pages/myNetwork/MyNetwork"
 import Notification from "./components/pages/notification/Notification"
+import JobModal from "./components/pages/jobs/JobModal"
 
 function App() {
   const dispatch = useDispatch()
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  const isJobModalShowing = useSelector((rs) => rs.profilo.isJobModalShowing)
+  const visualizedJob = useSelector((rs) => rs.profilo.visualizedJob)
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchSavedProfiles())
@@ -45,6 +48,7 @@ function App() {
             <Route path="/notification" element={<Notification />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <JobModal isShown={isJobModalShowing} job={visualizedJob} />
           <Messaggistica />
         </div>
       )}

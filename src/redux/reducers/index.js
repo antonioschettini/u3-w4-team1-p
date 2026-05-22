@@ -11,6 +11,8 @@ const initialState = {
   loadingPost: false,
   errorPost: null,
   listaCommenti: [],
+  isJobModalShowing: false,
+  visualizedJob: null,
 };
 
 // creazione dello slice
@@ -58,6 +60,14 @@ const profiloSlice = createSlice({
     salvaCommento: (state, action) => {
       state.listaCommenti = action.payload;
     },
+    // mostra o nasconde modale lavoro
+    setIsJobModalShowing: (state, action) => {
+      state.isJobModalShowing = action.payload;
+    },
+
+    setVisualizedJob: (state, action) => {
+      state.visualizedJob = action.payload;
+    },
   },
 });
 // esporto le azioni generate da createslice
@@ -70,6 +80,8 @@ export const {
   salvaPost,
   errorePost,
   salvaCommento,
+  setIsJobModalShowing,
+  setVisualizedJob,
 } = profiloSlice.actions;
 
 //esporto il reducer
