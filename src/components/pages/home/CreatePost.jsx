@@ -1,43 +1,43 @@
-import { useState } from "react";
-import { Modal, Button, Form } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react"
+import { Modal, Button, Form } from "react-bootstrap"
+import { useSelector, useDispatch } from "react-redux"
 import {
   PersonFill,
   CameraVideoFill,
   ImageFill,
   PencilSquare,
-} from "react-bootstrap-icons";
-import { creaNuovoPost } from "../../../redux/actions";
-import EmojiPicker from "emoji-picker-react";
+} from "react-bootstrap-icons"
+import { creaNuovoPost } from "../../../redux/actions"
+import EmojiPicker from "emoji-picker-react"
 
 function CreatePost() {
-  const profilo = useSelector((state) => state.profilo.mioProfilo);
-  const [show, setShow] = useState(false);
-  const dispatch = useDispatch();
-  const [showEmoji, setShowEmoji] = useState(false);
+  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const [show, setShow] = useState(false)
+  const dispatch = useDispatch()
+  const [showEmoji, setShowEmoji] = useState(false)
 
   // Memoria per quello che scrivi e per la foto che carichi
-  const [testoPost, setTestoPost] = useState("");
-  const [immagineSelezionata, setImmagineSelezionata] = useState(null);
+  const [testoPost, setTestoPost] = useState("")
+  const [immagineSelezionata, setImmagineSelezionata] = useState(null)
 
   // Funzione che parte quando premi "Pubblica"
   const gestisciPubblicazione = () => {
     if (testoPost.trim() === "") {
-      alert("Scrivi qualcosa prima di pubblicare!");
-      return;
+      alert("Scrivi qualcosa prima di pubblicare!")
+      return
     }
 
     // Mandiamo testo e immagine a Redux
-    dispatch(creaNuovoPost(testoPost, immagineSelezionata));
+    dispatch(creaNuovoPost(testoPost, immagineSelezionata))
 
     // Ripuliamo tutto e chiudiamo la finestrella
-    setTestoPost("");
-    setImmagineSelezionata(null);
-    setShow(false);
-  };
+    setTestoPost("")
+    setImmagineSelezionata(null)
+    setShow(false)
+  }
 
   return (
-    <div style={{ maxWidth: 800 }}>
+    <div style={{ maxWidth: 800 }} className="d-none d-sm-block">
       <div className="card shadow-sm mb-3">
         <div className="card-body">
           <div className="d-flex align-items-center gap-2 mb-3">
@@ -130,8 +130,8 @@ function CreatePost() {
             <div className="mt-2">
               <EmojiPicker
                 onEmojiClick={(e) => {
-                  setTestoPost((prev) => prev + e.emoji);
-                  setShowEmoji(false);
+                  setTestoPost((prev) => prev + e.emoji)
+                  setShowEmoji(false)
                 }}
                 width="100%"
                 height={350}
@@ -188,7 +188,7 @@ function CreatePost() {
         </Modal.Footer>
       </Modal>
     </div>
-  );
+  )
 }
 
-export default CreatePost;
+export default CreatePost
