@@ -1,9 +1,9 @@
-import { useState } from "react"
-import { Modal, Button, Image } from "react-bootstrap"
-import { GeoAlt } from "react-bootstrap-icons"
+import { useState } from "react";
+import { Modal, Button, Image } from "react-bootstrap";
+import { GeoAlt } from "react-bootstrap-icons";
 
 function JobsCard({ job }) {
-  const [show, setShow] = useState(false)
+  const [show, setShow] = useState(false);
 
   return (
     <>
@@ -82,7 +82,7 @@ function JobsCard({ job }) {
         </Modal.Footer>
       </Modal>
     </>
-  )
+  );
 }
 
-export default JobsCard
+export default JobsCard;
