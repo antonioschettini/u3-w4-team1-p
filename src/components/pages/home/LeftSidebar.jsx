@@ -19,6 +19,7 @@ function LeftSidebar() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const profilo = useSelector((state) => state.profilo.mioProfilo);
+  const followed = useSelector((state) => state.network.followed) || [];
 
   // Stato per salvare l'ultima esperienza trovata
   const [ultimaEsperienza, setUltimaEsperienza] = useState(null);
@@ -144,7 +145,7 @@ function LeftSidebar() {
             </p>
             <p className="text-muted small mb-0">Amplia la tua rete</p>
           </div>
-          <span className="text-primary fw-bold">0</span>
+         <span className="text-primary fw-bold">{followed.length}</span>
         </div>
       </div>
 
