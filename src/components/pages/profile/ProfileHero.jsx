@@ -12,6 +12,7 @@ const ProfileHero = () => {
   const [showInfoModal, setShowInfoModal] = useState(false);
   // Questo è l'interruttore del modale per il cambio foto profilo
   const [showPicModal, setShowPicModal] = useState(false);
+  const followed = useSelector((state) => state.network.followed) || [];
 
   // // appena la pagina di carica parte la fetch
   // useEffect(() => {
@@ -92,7 +93,7 @@ const ProfileHero = () => {
             </p>
             {/* collegamenti */}
             <p className="text-primary small fw-semibold mt-1">
-              100 collegamenti
+              {followed.length} collegamenti
             </p>
           </Col>
           {/* parte destra occupazione lavoro/studio */}

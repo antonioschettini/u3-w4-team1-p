@@ -1,13 +1,15 @@
 import { PlusCircle, Pencil, ChatLeftTextFill } from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
 
 function Attività() {
+    const followed = useSelector((state) => state.network.followed) || [];
   return (
     <div className="card mb-3 shadow-sm">
       <div className="card-body">
         <div className="d-flex justify-content-between align-items-center">
           <div>
             <h5 className="card-title mb-0">Attività</h5>
-            <span className="text-primary small">10 followers</span>
+            <span className="text-primary small">{followed.length} Follower </span>
           </div>
           <div className="d-flex align-items-center gap-2">
             <button className="btn btn-outline-primary btn-sm rounded-pill">
