@@ -37,7 +37,7 @@ const MyNetwork = () => {
 
             <>
               {/* Sezione centrale main */}
-              <Col xs={12} md={8}>
+              <Col xs={12} md={8} className="mb-3">
                 <div style={{ flex: 1 }}>
                   {loading && <p>Caricamento...</p>}
 
