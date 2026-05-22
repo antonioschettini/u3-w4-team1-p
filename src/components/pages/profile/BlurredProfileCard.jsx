@@ -20,7 +20,10 @@ const BlurredProfileCard = (props) => {
 
       <div className="d-flex flex-column">
         <p className="fw-semibold m-0">{"Qualcuno presso " + title}</p>
-        <button className="visualizza-btn rounded-pill px-2 py-1 mt-2">
+        <button
+          className="visualizza-btn rounded-pill px-2 py-1 mt-2"
+          onClick={() => props.setModal()}
+        >
           Visualizza
         </button>
       </div>
