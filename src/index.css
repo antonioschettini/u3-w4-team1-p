@@ -193,3 +193,86 @@
   min-height: 100vh;
 }
 /* Fine stile login e modale */
+
+@keyframes electric {
+  0% {
+    transform: translate(0, 0) skewX(0deg);
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    border-color: rgba(0, 123, 255, 0.5);
+  }
+  10% {
+    transform: translate(-3px, 2px) rotate(-1deg);
+    box-shadow:
+      0 0 15px #00d2ff,
+      0 0 30px #007bff;
+    background-color: #f0faff;
+  }
+  20% {
+    transform: translate(2px, -1px) skewX(2deg);
+    border-color: #00d2ff;
+  }
+  30% {
+    transform: translate(-1px, 2px) rotate(1deg);
+    box-shadow:
+      0 0 25px #00d2ff,
+      0 0 40px #007bff;
+  }
+  40% {
+    transform: translate(3px, -1px) skewX(-2deg);
+    background-color: #e6f7ff;
+  }
+  50% {
+    transform: translate(-2px, 3px) rotate(-1deg);
+    box-shadow: 0 0 10px #00d2ff;
+  }
+  60% {
+    transform: translate(2px, 1px) skewX(1deg);
+    border-color: #0056b3;
+  }
+  70% {
+    transform: translate(-3px, -2px) rotate(1deg);
+    box-shadow:
+      0 0 30px #00d2ff,
+      0 0 50px #2896a7;
+  }
+  80% {
+    transform: translate(1px, 2px) skewX(0deg);
+  }
+  90% {
+    transform: translate(-2px, -1px) rotate(-1deg);
+    background-color: transparent;
+  }
+  100% {
+    transform: translate(0, 0) skewX(0deg);
+    box-shadow: none;
+  }
+}
+
+.electric-shock {
+  animation: electric 0.5s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.electric-shock::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 210, 255, 0.15);
+  pointer-events: none;
+  z-index: 10;
+  animation: flash 0.1s ease infinite;
+}
+
+@keyframes flash {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+}

@@ -363,8 +363,10 @@ export const modificaCommentoServer = (commentId, nuovoTesto, postId) => {
 // Bell audio action!
 
 const bell = new Audio("/Bell-Sound.mp3")
+const elettric = new Audio("/Elettric-Sound.mp3")
 
 export const playBell = () => bell.play()
+export const playElettric = () => elettric.play()
 
 // Funzioni Network
 

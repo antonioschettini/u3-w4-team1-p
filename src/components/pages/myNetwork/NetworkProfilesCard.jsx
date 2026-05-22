@@ -1,7 +1,8 @@
+import { useState } from "react"
 import { Button, Card, Col, Image } from "react-bootstrap"
 import { PersonPlusFill } from "react-bootstrap-icons"
 import { useDispatch, useSelector } from "react-redux"
-import { followUser, removeUser } from "../../../redux/actions"
+import { followUser, playElettric, removeUser } from "../../../redux/actions"
 import { Link } from "react-router"
 
 const NetworkProfileCard = (props) => {
@@ -14,10 +15,25 @@ const NetworkProfileCard = (props) => {
   const followed = useSelector((rs) => rs.network.followed)
   const isFollowed = followed.some((user) => user._id === props.profile._id)
 
+  const [isElectrified, setIsElectrified] = useState(false)
+
+  const handleRemove = (e) => {
+    e.stopPropagation()
+
+    playElettric()
+
+    setTimeout(() => {
+      setIsElectrified(true)
+    }, 180)
+
+    setTimeout(() => {
+      dispatch(removeUser(props.profile))
+    }, 700)
+  }
+
   return (
     <Col xs={6} sm={4} md={3}>
-      <Card className="h-100 w-100">
-        {/* Sfondo Copertina */}
+      <Card className={`h-100 w-100 ${isElectrified ? "electric-shock" : ""}`}>
         <Card.Img as="div" style={{ height: "64px" }} className="w-100">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +57,7 @@ const NetworkProfileCard = (props) => {
           </svg>
         </Card.Img>
 
-        {/* 1. CONTENITORE AD ALTEZZA ZERO: permette alla foto di fluttuare tra SVG e Body */}
+        {/* CONTENITORE FOTO */}
         <Link
           to={`/profile/${_id}`}
           className="position-relative d-flex justify-content-center"
@@ -91,7 +107,7 @@ const NetworkProfileCard = (props) => {
             <Button
               className={
                 isFollowed
-                  ? " btn btn-light btn-outline-primary visualizza-btn rounded-pill d-flex align-items-center justify-content-center w-100"
+                  ? "btn btn-light btn-outline-primary visualizza-btn rounded-pill d-flex align-items-center justify-content-center w-100"
                   : "visualizza-btn rounded-pill d-flex align-items-center justify-content-center w-100"
               }
               onClick={
@@ -100,10 +116,7 @@ const NetworkProfileCard = (props) => {
                       e.stopPropagation()
                       dispatch(followUser(props.profile))
                     }
-                  : (e) => {
-                      e.stopPropagation()
-                      dispatch(removeUser(props.profile))
-                    }
+                  : handleRemove
               }
             >
               {!isFollowed && <PersonPlusFill />}

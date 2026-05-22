@@ -79,7 +79,7 @@ const Notification = () => {
   }
 
   return (
-    <Container className="mt-4 " style={{ maxWidth: "1100px" }}>
+    <Container className="mt-4 container-mw">
       <Row className="justify-content-between">
         <Col md={3} className="d-none d-md-block mb-3">
           <LeftSidebar />
