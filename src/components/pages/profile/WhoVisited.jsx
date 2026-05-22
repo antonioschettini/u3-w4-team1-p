@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import BlurredProfileCard from "./BlurredProfileCard";
 import { Spinner } from "react-bootstrap";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import PremiumModal from "../../navbar/RemiumModal";
 
 const WhoVisited = () => {
