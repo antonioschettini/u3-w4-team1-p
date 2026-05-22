@@ -1,37 +1,37 @@
-import { useMemo } from "react"
-import { Image } from "react-bootstrap"
-import { Plus, Check } from "react-bootstrap-icons"
-import { useSelector, useDispatch } from "react-redux"
+import { useMemo } from "react";
+import { Image } from "react-bootstrap";
+import { Plus, Check } from "react-bootstrap-icons";
+import { useSelector, useDispatch } from "react-redux";
 import {
   salvaFollowedJobAction,
   showHideJobModal,
   visualizedJob,
-} from "../../../redux/actions"
+} from "../../../redux/actions";
 
 const InterestsCard = ({ job }) => {
-  const dispatch = useDispatch()
-  const profiles = useSelector((rs) => rs.profilo.usersData)
+  const dispatch = useDispatch();
+  const profiles = useSelector((rs) => rs.profilo.usersData);
 
   // Recuperiamo i lavori seguiti per capire se lo abbiamo già cliccato
-  const followedJobs = useSelector((state) => state.jobs.followedJobs)
+  const followedJobs = useSelector((state) => state.jobs.followedJobs);
   const isAlreadyFollowed = (followedJobs || []).some(
     (savedJob) => savedJob._id === job._id,
-  )
+  );
 
   const randomProfile = useMemo(() => {
     const randomIndex = Math.floor(
       // eslint-disable-next-line react-hooks/purity
-      Math.random() * ((profiles || []).length + 1),
-    )
-    return profiles[randomIndex]
-  }, [profiles])
+      Math.random() * (profiles || []).length,
+    );
+    return profiles[randomIndex];
+  }, [profiles]);
 
   // Funzione del click
   const handleSeguiClick = () => {
     if (!isAlreadyFollowed) {
-      dispatch(salvaFollowedJobAction(job))
+      dispatch(salvaFollowedJobAction(job));
     }
-  }
+  };
 
   return (
     <div className="d-flex justify-content-start align-items-start border-bottom border-1 border-tertiary pt-3 mb-2 text-break">
@@ -39,15 +39,15 @@ const InterestsCard = ({ job }) => {
         src={job.company_logo_url}
         onError={(e) => {
           e.target.src =
-            "https://pixabay.com/it/illustrations/valigetta-icona-attivit%c3%a0-commerciale-2558671/"
+            "https://pixabay.com/it/illustrations/valigetta-icona-attivit%c3%a0-commerciale-2558671/";
         }}
         rounded
         width={"40px"}
         height={"40px"}
         className="me-2 pointer"
         onClick={() => {
-          dispatch(visualizedJob(job))
-          dispatch(showHideJobModal(true))
+          dispatch(visualizedJob(job));
+          dispatch(showHideJobModal(true));
         }}
       />
 
@@ -55,8 +55,8 @@ const InterestsCard = ({ job }) => {
         <p
           className="fw-semibold m-0 pointer"
           onClick={() => {
-            dispatch(visualizedJob(job))
-            dispatch(showHideJobModal(true))
+            dispatch(visualizedJob(job));
+            dispatch(showHideJobModal(true));
           }}
         >
           {job.company_name}
@@ -73,7 +73,7 @@ const InterestsCard = ({ job }) => {
               src={randomProfile?.image}
               onError={(e) => {
                 e.target.src =
-                  "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+                  "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png";
               }}
               alt=""
               className="w-100 h-100 object-fit-cover d-block"
@@ -89,8 +89,8 @@ const InterestsCard = ({ job }) => {
         {/* Bottone Segui */}
         <button
           onClick={(e) => {
-            e.stopPropagation()
-            handleSeguiClick()
+            e.stopPropagation();
+            handleSeguiClick();
           }}
           disabled={isAlreadyFollowed}
           className="visualizza-btn rounded-pill px-2 py-1 d-flex align-items-center"
@@ -103,7 +103,7 @@ const InterestsCard = ({ job }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default InterestsCard
+export default InterestsCard;
