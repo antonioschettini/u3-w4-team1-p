@@ -1,42 +1,42 @@
-import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchJobs } from "../../../redux/actions";
-import { Container } from "react-bootstrap";
-import JobsCard from "./jobsCard";
-import JobsLeftSidebar from "./JobsLeftSideBar";
-import SmallFooter from "../../SmallFooter";
-import InfiniteScroll from "react-infinite-scroll-component";
-import Caricamento from "../../status/Caricamento";
+import { useEffect, useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { fetchJobs } from "../../../redux/actions"
+import { Container } from "react-bootstrap"
+import JobsCard from "./jobsCard"
+import JobsLeftSidebar from "./JobsLeftSideBar"
+import SmallFooter from "../../SmallFooter"
+import InfiniteScroll from "react-infinite-scroll-component"
+import Caricamento from "../../status/Caricamento"
 
 function Jobs() {
-  const dispatch = useDispatch();
-  const jobs = useSelector((state) => state.jobs.jobs);
-  const loading = useSelector((state) => state.jobs.loading);
+  const dispatch = useDispatch()
+  const jobs = useSelector((state) => state.jobs.jobs)
+  const loading = useSelector((state) => state.jobs.loading)
 
   useEffect(() => {
-    dispatch(fetchJobs());
-  }, [dispatch]);
+    dispatch(fetchJobs())
+  }, [dispatch])
 
-  const principali = jobs.slice(0, 3);
-  const altre = jobs.slice(3);
+  const principali = jobs.slice(0, 3)
+  const altre = jobs.slice(3)
 
   // Logica infinite scroll
 
-  const [visibleItems, setVisibleItems] = useState([]);
+  const [visibleItems, setVisibleItems] = useState([])
 
   const loadMore = () => {
     setTimeout(() => {
       const moreJobs = altre.slice(
         visibleItems.length,
         visibleItems.length + 10,
-      );
+      )
 
-      setVisibleItems((prev) => [...prev, ...moreJobs]);
-    }, 1200);
-  };
+      setVisibleItems((prev) => [...prev, ...moreJobs])
+    }, 1200)
+  }
 
   return (
-    <Container>
+    <Container className="container-mw">
       <div className="d-flex gap-3 mt-3">
         <div
           className="d-none d-sm-block"
@@ -89,7 +89,7 @@ function Jobs() {
         </div>
       </div>
     </Container>
-  );
+  )
 }
 
-export default Jobs;
+export default Jobs
