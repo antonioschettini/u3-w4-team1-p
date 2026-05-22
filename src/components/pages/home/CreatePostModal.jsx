@@ -3,6 +3,7 @@ import { Modal, Button, Form } from "react-bootstrap"
 import { useSelector, useDispatch } from "react-redux"
 import { PersonFill, ImageFill } from "react-bootstrap-icons"
 import { creaNuovoPost } from "../../../redux/actions"
+import EmojiPicker from "emoji-picker-react"
 
 function CreatePostModal({ show, onClose }) {
   const profilo = useSelector((state) => state.profilo.mioProfilo)
@@ -35,6 +36,8 @@ function CreatePostModal({ show, onClose }) {
     resetForm()
     onClose()
   }
+
+  const [showEmoji, setShowEmoji] = useState(false)
 
   return (
     <Modal show={show} onHide={gestisciChiudi} centered size="lg">
@@ -71,12 +74,46 @@ function CreatePostModal({ show, onClose }) {
           value={testoPost}
           onChange={(e) => setTestoPost(e.target.value)}
         />
+        <div className="d-flex justify-content-start mb-1">
+          <label
+            style={{ cursor: "pointer" }}
+            className="p-2 rounded-circle bg-light"
+            onClick={() => setShowEmoji(!showEmoji)}
+          >
+            😊
+          </label>
+        </div>
+
+        {/* Emoji picker*/}
+        {showEmoji && (
+          <div className="mt-2">
+            <EmojiPicker
+              onEmojiClick={(e) => {
+                setTestoPost((prev) => prev + e.emoji)
+                setShowEmoji(false)
+              }}
+              width="100%"
+              height={350}
+            />
+          </div>
+        )}
 
         {/* Mostriamo un'anteprima se l'utente sceglie una foto */}
         {immagineSelezionata && (
-          <p className="text-success small mt-2">
-            ✅ Immagine caricata pronta per l'invio
-          </p>
+          <div className="mt-3 position-relative d-inline-block">
+            <img
+              src={URL.createObjectURL(immagineSelezionata)}
+              alt="anteprima"
+              className="rounded-3"
+              style={{ maxWidth: "100%", maxHeight: 100, objectFit: "cover" }}
+            />
+            <button
+              className="btn btn-sm btn-dark position-absolute top-0 end-0 m-1 rounded-circle"
+              onClick={() => setImmagineSelezionata(null)}
+            >
+              ✕
+            </button>
+          </div>
         )}
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between align-items-center">
@@ -89,6 +126,7 @@ function CreatePostModal({ show, onClose }) {
           >
             <ImageFill size={24} color="#5f9b41" />
           </label>
+
           {/* Catturiamo il file scelto */}
           <input
             id="upload-foto"
