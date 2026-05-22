@@ -6,6 +6,8 @@ import {
   salvaPost,
   errorePost,
   salvaCommento,
+  setIsJobModalShowing,
+  setVisualizedJob,
 } from "../reducers";
 
 // Token di autenticazione
@@ -94,6 +96,20 @@ export const postNewExperience = async (formData, userId) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+// Funzione per showHide Modale Lavori
+
+export const showHideJobModal = (value) => {
+  return (dispatch) => {
+    dispatch(setIsJobModalShowing(value));
+  };
+};
+
+export const visualizedJob = (job) => {
+  return (dispatch) => {
+    dispatch(setVisualizedJob(job));
+  };
 };
 
 // --- FUNZIONI POST ---
