@@ -73,7 +73,7 @@ const MyNetwork = () => {
               </Col>
 
               {/* Colonna a Destra (aside) */}
-              <Col xs={12} md={4} className="d-flex flex-column">
+              <Col xs={12} md={4} className="d-flex flex-column mb-4">
                 <NetworkSideBar />
                 <SmallFooter />
               </Col>
