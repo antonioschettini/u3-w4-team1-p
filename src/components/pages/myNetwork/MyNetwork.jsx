@@ -5,12 +5,11 @@ import AvvisoErrore from "../../status/AvvisoErrore"
 import SmallFooter from "../../SmallFooter"
 import NetworkPeopleYouMayKnow from "./NetworkPeopleYouMayKnow"
 import NetworkSideBar from "./NetworkSideBar"
-import FollowedCard from "../network/FollowedCard"
+import NetworkProfileCard from "./NetworkProfilesCard"
 
 const MyNetwork = () => {
   // Leggiamo lo stato del caricamento, dell'errore e del profilo da Redux
   const errore = useSelector((state) => state.profilo.error)
-  const profilo = useSelector((state) => state.profilo.usersData)
   const loading = useSelector((state) => state.profilo.loadingUsers)
   const allFollowed = useSelector((rs) => rs.network.followed)
 
@@ -42,25 +41,35 @@ const MyNetwork = () => {
                 <div style={{ flex: 1 }}>
                   {loading && <p>Caricamento...</p>}
 
-                  <div className="card shadow-sm mb-3 p-4">
-                    <h4 className="fw-bold mb-1">La tua rete</h4>
+                  <div className="card shadow-sm mb-3 p-2">
+                    <h4 className="fw-bold mb-0 mt-1">La tua rete</h4>
                     <Row
-                      className="g-2 mt-4"
+                      className="g-2 mt-1"
                       xs={1}
                       sm={1}
                       md={2}
                       lg={3}
                       xl={4}
                     >
-                      {!allFollowed.length
-                        ? "Aggiungi qualcuno alla tua rete per visualizzarlo qui!"
-                        : allFollowed.map((profile) => (
-                            <FollowedCard key={profile._id} profile={profile} />
-                          ))}
+                      {!allFollowed.length ? (
+                        <>
+                          <h6 className="p-1 w-100">
+                            Aggiungi qualcuno alla tua rete per visualizzarlo
+                            qui!
+                          </h6>
+                        </>
+                      ) : (
+                        allFollowed.map((profile) => (
+                          <NetworkProfileCard
+                            key={profile._id}
+                            profile={profile}
+                          />
+                        ))
+                      )}
                     </Row>
                   </div>
                 </div>
-                {!loading && profilo && <NetworkPeopleYouMayKnow />}
+                <NetworkPeopleYouMayKnow />
               </Col>
 
               {/* Colonna a Destra (aside) */}

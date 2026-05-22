@@ -1,10 +1,12 @@
 import { Button, Card, Col, Image } from "react-bootstrap"
 import { PersonPlusFill } from "react-bootstrap-icons"
 import { useDispatch, useSelector } from "react-redux"
-import { followUser } from "../../../redux/actions"
+import { followUser, removeUser } from "../../../redux/actions"
+import { Link } from "react-router"
 
 const NetworkProfileCard = (props) => {
-  const { image, name, surname, title } = props.profile
+  const { name, surname, title, _id } = props.profile
+  const { profile } = props
   // eslint-disable-next-line react-hooks/purity
   const randomCollegamenti = Math.floor(Math.random() * 97) + 4
 
@@ -40,13 +42,16 @@ const NetworkProfileCard = (props) => {
         </Card.Img>
 
         {/* 1. CONTENITORE AD ALTEZZA ZERO: permette alla foto di fluttuare tra SVG e Body */}
-        <div className="position-relative d-flex justify-content-center">
+        <Link
+          to={`/profile/${_id}`}
+          className="position-relative d-flex justify-content-center"
+        >
           <Image
-            src={
-              image
-                ? image
-                : "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
-            }
+            src={profile?.image}
+            onError={(e) => {
+              e.target.src =
+                "https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png"
+            }}
             roundedCircle
             className="border border-white border-3 shadow-sm position-absolute object-fit-cover z-3"
             alt="Foto profilo"
@@ -56,18 +61,23 @@ const NetworkProfileCard = (props) => {
             width={72}
             height={72}
           />
-        </div>
+        </Link>
 
         {/* Corpo della Card */}
         <Card.Body className="d-flex flex-column pt-5">
           {/* Informazioni profilo */}
           <div className="d-flex flex-column align-items-center justify-content-center mt-1">
-            <h5 className="fw-bold m-0 text-center text-truncate w-100 fs-6">
-              {name}
-            </h5>
-            <h5 className="fw-bold m-0 text-center text-truncate w-100 fs-6">
-              {surname}
-            </h5>
+            <Link
+              to={`/profile/${_id}`}
+              className=" text-decoration-none text-black"
+            >
+              <h5 className="fw-bold m-0 text-center text-truncate w-100 fs-6">
+                {name}
+              </h5>
+              <h5 className="fw-bold m-0 text-center text-truncate w-100 fs-6">
+                {surname}
+              </h5>
+            </Link>
             <p className="small text-muted mt-1 mb-2 text-center">
               {title || "Nessuna qualifica inserita"}
             </p>
@@ -81,18 +91,24 @@ const NetworkProfileCard = (props) => {
             <Button
               className={
                 isFollowed
-                  ? "followed-btn rounded-pill d-flex align-items-center justify-content-center w-100"
+                  ? " btn btn-light btn-outline-primary visualizza-btn rounded-pill d-flex align-items-center justify-content-center w-100"
                   : "visualizza-btn rounded-pill d-flex align-items-center justify-content-center w-100"
               }
-              disabled={isFollowed}
-              onClick={(e) => {
-                e.stopPropagation()
-                dispatch(followUser(props.profile))
-              }}
+              onClick={
+                !isFollowed
+                  ? (e) => {
+                      e.stopPropagation()
+                      dispatch(followUser(props.profile))
+                    }
+                  : (e) => {
+                      e.stopPropagation()
+                      dispatch(removeUser(props.profile))
+                    }
+              }
             >
               {!isFollowed && <PersonPlusFill />}
               <span className="ms-1">
-                {isFollowed ? "Segui già" : "Aggiungi"}
+                {isFollowed ? "Rimuovi" : "Aggiungi"}
               </span>
             </Button>
           </div>
