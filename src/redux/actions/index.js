@@ -379,7 +379,6 @@ export const followUser = (user) => {
 export const removeUser = (user) => {
   return (dispatch) => {
     dispatch(removeFollowed(user))
-    playElettric()
   }
 }
 
