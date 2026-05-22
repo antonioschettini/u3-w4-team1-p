@@ -1,21 +1,23 @@
 import { useSelector } from "react-redux";
 import BlurredProfileCard from "./BlurredProfileCard";
 import { Spinner } from "react-bootstrap";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import PremiumModal from "../../navbar/RemiumModal";
 
 const WhoVisited = () => {
   const isLoading = useSelector((rs) => rs.profilo.loadingUsers);
   const profiles = useSelector((rs) => rs.profilo.usersData);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const randomProfiles = useMemo(() => {
-    if (!profiles?.length) return [];
+  const [randomProfiles, setRandomProfiles] = useState([]);
 
-    // eslint-disable-next-line react-hooks/purity
+  useEffect(() => {
+    if (!profiles?.length || randomProfiles.length) return;
+
     const start = Math.floor(Math.random() * Math.max(1, profiles.length - 5));
 
-    return profiles.slice(start, start + 5);
-  }, [profiles]);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setRandomProfiles(profiles.slice(start, start + 5));
+  }, [profiles, randomProfiles]);
   return (
     <div className="d-none d-md-flex flex-column border border-1 border-secondary-subtle rounded-2 p-3 my-2 bg-white shadow-sm">
       <div className="d-flex flex-column">
