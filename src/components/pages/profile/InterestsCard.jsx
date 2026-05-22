@@ -21,7 +21,7 @@ const InterestsCard = ({ job }) => {
   const randomProfile = useMemo(() => {
     const randomIndex = Math.floor(
       // eslint-disable-next-line react-hooks/purity
-      Math.random() * ((profiles || []).length + 1),
+      Math.random() * (profiles || []).length,
     );
     return profiles[randomIndex];
   }, [profiles]);
@@ -34,13 +34,7 @@ const InterestsCard = ({ job }) => {
   };
 
   return (
-    <div
-      className="d-flex justify-content-start align-items-start border-bottom border-1 border-tertiary pt-3 mb-2 text-break"
-      onClick={() => {
-        dispatch(visualizedJob(job));
-        dispatch(showHideJobModal(true));
-      }}
-    >
+    <div className="d-flex justify-content-start align-items-start border-bottom border-1 border-tertiary pt-3 mb-2 text-break">
       <Image
         src={job.company_logo_url}
         onError={(e) => {
@@ -50,11 +44,23 @@ const InterestsCard = ({ job }) => {
         rounded
         width={"40px"}
         height={"40px"}
-        className="me-2"
+        className="me-2 pointer"
+        onClick={() => {
+          dispatch(visualizedJob(job));
+          dispatch(showHideJobModal(true));
+        }}
       />
 
       <div className="d-flex flex-column mb-3">
-        <p className="fw-semibold m-0">{job.company_name}</p>
+        <p
+          className="fw-semibold m-0 pointer"
+          onClick={() => {
+            dispatch(visualizedJob(job));
+            dispatch(showHideJobModal(true));
+          }}
+        >
+          {job.company_name}
+        </p>
         <p className="m-0" style={{ fontSize: "0.8rem" }}>
           {job.title}
         </p>

@@ -7,7 +7,7 @@ import {
   Linkedin,
   PeopleFill,
   Search,
-} from "react-bootstrap-icons";
+} from "react-bootstrap-icons"
 import {
   Form,
   Container,
@@ -18,48 +18,48 @@ import {
   Button,
   Spinner,
   Badge,
-} from "react-bootstrap";
-import { Link, useNavigate, useLocation } from "react-router";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import PeolpleLinkCard from "./PeopleLinkCard";
-import JobsLinkCard from "./JobsLinkCard";
-import PremiumModal from "./RemiumModal";
-import VerificationModal from "./VerificationModal";
-import { useDispatch } from "react-redux";
-import { effettuaLogout } from "../../redux/reducers/authReducer";
-import LogoutModal from "./LogoutModal";
+} from "react-bootstrap"
+import { Link, useNavigate, useLocation } from "react-router"
+import { useState } from "react"
+import { useSelector } from "react-redux"
+import PeolpleLinkCard from "./PeopleLinkCard"
+import JobsLinkCard from "./JobsLinkCard"
+import PremiumModal from "./RemiumModal"
+import VerificationModal from "./VerificationModal"
+import { useDispatch } from "react-redux"
+import { effettuaLogout } from "../../redux/reducers/authReducer"
+import LogoutModal from "./LogoutModal"
 
 function DesktopNavbar() {
-  const location = useLocation();
-  const [isSearchFocused, setIsSearchFocused] = useState(false);
-  const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block";
-  const profilo = useSelector((state) => state.profilo.mioProfilo);
-  const navigate = useNavigate();
-  const loadingUsers = useSelector((rs) => rs.profilo.loadingUsers);
-  const loadingJobs = useSelector((rs) => rs.jobs.loading);
-  const isLoading = location.pathname === "/jobs" ? loadingUsers : loadingJobs;
-  const profiles = useSelector((rs) => rs.profilo.usersData);
-  const jobs = useSelector((rs) => rs.jobs.jobs);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false);
-  const dispatch = useDispatch();
-  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
+  const location = useLocation()
+  const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const visibilityClass = isSearchFocused ? "d-md-none" : "d-md-block"
+  const profilo = useSelector((state) => state.profilo.mioProfilo)
+  const navigate = useNavigate()
+  const loadingUsers = useSelector((rs) => rs.profilo.loadingUsers)
+  const loadingJobs = useSelector((rs) => rs.jobs.loading)
+  const isLoading = location.pathname === "/jobs" ? loadingUsers : loadingJobs
+  const profiles = useSelector((rs) => rs.profilo.usersData)
+  const jobs = useSelector((rs) => rs.jobs.jobs)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isVerifyModalOpen, setIsVerifyModalOpen] = useState(false)
+  const dispatch = useDispatch()
+  const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false)
 
   // Sommiamo le notifiche degli utenti e dei lavori
-  const allFollowedUsers = useSelector((state) => state.network.followed);
-  const allFollowedJobs = useSelector((state) => state.jobs.followedJobs);
+  const allFollowedUsers = useSelector((state) => state.network.followed)
+  const allFollowedJobs = useSelector((state) => state.jobs.followedJobs)
 
   const unreadUsersCount = (allFollowedUsers || []).filter(
     (user) => !user.isRead,
-  ).length;
+  ).length
   const unreadJobsCount = (allFollowedJobs || []).filter(
     (job) => !job.isRead,
-  ).length;
+  ).length
 
   // Il totale è la somma dei due numeri
-  const unreadCount = unreadUsersCount + unreadJobsCount;
+  const unreadCount = unreadUsersCount + unreadJobsCount
 
   return (
     <Navbar expand="lg" className="bg-white py-1">
@@ -71,7 +71,7 @@ function DesktopNavbar() {
           title={
             <Form
               onSubmit={(e) => {
-                e.preventDefault();
+                e.preventDefault()
               }}
             >
               <InputGroup className="d-flex flex-nowrap focus-input-width">
@@ -90,7 +90,7 @@ function DesktopNavbar() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === " ") {
-                      e.stopPropagation();
+                      e.stopPropagation()
                     }
                   }}
                 />
@@ -108,16 +108,16 @@ function DesktopNavbar() {
             jobs &&
             jobs
               .filter((job) => {
-                if (!searchQuery) return true;
+                if (!searchQuery) return true
 
-                const query = searchQuery.toLowerCase().trim();
-                const company_name = job.company_name?.toLowerCase() || "";
-                const title = job.title?.toLowerCase() || "";
+                const query = searchQuery.toLowerCase().trim()
+                const company_name = job.company_name?.toLowerCase() || ""
+                const title = job.title?.toLowerCase() || ""
 
-                const search = `${company_name} ${title}`;
-                const reverseSearch = `${title} ${company_name}`;
+                const search = `${company_name} ${title}`
+                const reverseSearch = `${title} ${company_name}`
 
-                return search.includes(query) || reverseSearch.includes(query);
+                return search.includes(query) || reverseSearch.includes(query)
               })
               .slice(0, 5)
               .map((job) => (
@@ -131,18 +131,18 @@ function DesktopNavbar() {
             profiles &&
             profiles
               .filter((profile) => {
-                if (!searchQuery) return true;
+                if (!searchQuery) return true
 
-                const query = searchQuery.toLowerCase().trim();
-                const name = profile.name?.toLowerCase() || "";
-                const surname = profile.surname?.toLowerCase() || "";
+                const query = searchQuery.toLowerCase().trim()
+                const name = profile.name?.toLowerCase() || ""
+                const surname = profile.surname?.toLowerCase() || ""
 
-                const fullName = `${name} ${surname}`;
-                const reverseFullName = `${surname} ${name}`;
+                const fullName = `${name} ${surname}`
+                const reverseFullName = `${surname} ${name}`
 
                 return (
                   fullName.includes(query) || reverseFullName.includes(query)
-                );
+                )
               })
               .slice(0, 5)
               .map((profile) => (
@@ -206,7 +206,7 @@ function DesktopNavbar() {
             to="/notification"
           >
             <div className="position-relative d-inline-block">
-              <BellFill size={24} className="text-secondary" />
+              <BellFill size={24} className="nav-link-color-e" />
 
               {/* Se ci sono notifiche,*/}
               {unreadCount > 0 && (
@@ -275,8 +275,8 @@ function DesktopNavbar() {
                   variant="outline-primary"
                   className="rounded-pill fw-semibold text-start"
                   onClick={(e) => {
-                    e.preventDefault();
-                    navigate("/profile");
+                    e.preventDefault()
+                    navigate("/profile")
                   }}
                 >
                   Visualizza Profilo
@@ -346,12 +346,12 @@ function DesktopNavbar() {
         show={isLogoutModalOpen}
         onHide={() => setIsLogoutModalOpen(false)}
         onConfirm={() => {
-          dispatch(effettuaLogout());
-          setIsLogoutModalOpen(false);
+          dispatch(effettuaLogout())
+          setIsLogoutModalOpen(false)
         }}
       />
     </Navbar>
-  );
+  )
 }
 
-export default DesktopNavbar;
+export default DesktopNavbar

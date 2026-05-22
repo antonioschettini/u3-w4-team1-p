@@ -1,75 +1,82 @@
-import { Container, Card, Image, Row, Col } from "react-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router";
+import { Container, Card, Image, Row, Col } from "react-bootstrap"
+import { useSelector, useDispatch } from "react-redux"
+import { useNavigate } from "react-router"
 
 // Importiamo le funzioni per le PERSONE
 import {
   markAsRead as markUserAsRead,
   removeNotification as removeUserNotification,
-} from "../../../redux/reducers/networkReducer";
+} from "../../../redux/reducers/networkReducer"
 // Importiamo le funzioni per i LAVORI
 import {
   markJobAsRead,
   removeJobNotification,
-} from "../../../redux/reducers/jobsReducer";
+} from "../../../redux/reducers/jobsReducer"
 
-import { X } from "react-bootstrap-icons";
-import LeftSidebar from "../home/LeftSidebar";
+import { X } from "react-bootstrap-icons"
+import LeftSidebar from "../home/LeftSidebar"
+import { showHideJobModal, visualizedJob } from "../../../redux/actions"
 
 const Notification = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   //  Recuperiamo entrambe le liste
-  const userNotifications =
-    useSelector((state) => state.network.followed) || [];
-  const jobNotifications =
-    useSelector((state) => state.jobs.followedJobs) || [];
+  const userNotifications = useSelector((state) => state.network.followed) || []
+  const jobNotifications = useSelector((state) => state.jobs.followedJobs) || []
   // Le uniamo in un'unica grande lista e le ordiniamo dalla più recente alla più vecchia
-  const allNotifications = [...userNotifications, ...jobNotifications];
+  const allNotifications = [...userNotifications, ...jobNotifications]
   const notificheInvertite = allNotifications.sort(
     (a, b) => new Date(b.createdAt) - new Date(a.createdAt),
-  );
+  )
 
   // Gestisce il click sulla riga
   const handleNotificationClick = (item) => {
     // Se c'è 'company_name' significa che è un lavoro, altrimenti è un utente
     if (item.company_name) {
-      dispatch(markJobAsRead(item._id));
+      dispatch(markJobAsRead(item._id))
     } else {
-      dispatch(markUserAsRead(item._id));
-      navigate(`/profile/${item._id}`); // reindirizza al profilo utente
+      dispatch(markUserAsRead(item._id))
     }
-  };
+  }
+  const handleNotificationClickNavigate = (item) => {
+    // Se c'è 'company_name' significa che è un lavoro, altrimenti è un utente
+    if (item.company_name) {
+      dispatch(visualizedJob(item))
+      dispatch(showHideJobModal(true))
+    } else {
+      navigate(`/profile/${item._id}`) // reindirizza al profilo utente
+    }
+  }
 
   // Gestisce l'eliminazione con la X
   const handleRimuoviClick = (e, item) => {
-    e.stopPropagation();
+    e.stopPropagation()
     if (item.company_name) {
-      dispatch(removeJobNotification(item._id));
+      dispatch(removeJobNotification(item._id))
     } else {
-      dispatch(removeUserNotification(item._id));
+      dispatch(removeUserNotification(item._id))
     }
-  };
+  }
 
   const calcolaTempoPassato = (dataCreazione) => {
-    if (!dataCreazione) return "Di recente";
-    const adesso = new Date();
-    const dataNotifica = new Date(dataCreazione);
-    const differenzaInMillisecondi = adesso - dataNotifica;
-    const minuti = Math.floor(differenzaInMillisecondi / 1000 / 60);
-    const ore = Math.floor(minuti / 60);
+    if (!dataCreazione) return "Di recente"
+    const adesso = new Date()
+    const dataNotifica = new Date(dataCreazione)
+    const differenzaInMillisecondi = adesso - dataNotifica
+    const minuti = Math.floor(differenzaInMillisecondi / 1000 / 60)
+    const ore = Math.floor(minuti / 60)
 
     if (minuti < 1) {
-      return "Adesso";
+      return "Adesso"
     } else if (minuti < 60) {
-      return `${minuti} min fa`;
+      return `${minuti} min fa`
     } else if (ore < 24) {
-      return `${ore} o fa`;
+      return `${ore} o fa`
     } else {
-      return dataNotifica.toLocaleDateString();
+      return dataNotifica.toLocaleDateString()
     }
-  };
+  }
 
   return (
     <Container className="mt-4 " style={{ maxWidth: "1100px" }}>
@@ -90,7 +97,7 @@ const Notification = () => {
               ) : (
                 notificheInvertite.map((item) => {
                   // condizionale se ha company_name è un lavoro
-                  const isJob = !!item.company_name;
+                  const isJob = !!item.company_name
 
                   return (
                     <div
@@ -117,10 +124,15 @@ const Notification = () => {
                           height="50"
                           className="me-3"
                           style={{ objectFit: "cover" }}
+                          onClick={() => handleNotificationClickNavigate(item)}
                         />
                         <div>
                           <p className="mb-0">
-                            <strong>
+                            <strong
+                              onClick={() =>
+                                handleNotificationClickNavigate(item)
+                              }
+                            >
                               {/* Se è un lavoro mostra il nome dell'azienda, altrimenti Nome e Cognome utente */}
                               {isJob
                                 ? item.company_name
@@ -152,7 +164,7 @@ const Notification = () => {
                         />
                       </div>
                     </div>
-                  );
+                  )
                 })
               )}
             </Card.Body>
@@ -160,7 +172,7 @@ const Notification = () => {
         </Col>
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default Notification;
+export default Notification
