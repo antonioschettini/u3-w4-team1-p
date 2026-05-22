@@ -367,7 +367,7 @@ export const removeUser = (user) => {
 
 export const salvaFollowedJobAction = (job) => {
   return (dispatch) => {
+    playBell();
     dispatch(salvaFollowedJob(job));
-    alert(`Hai iniziato a seguire l'offerta di lavoro di: ${job.company_name}`);
   };
 };
