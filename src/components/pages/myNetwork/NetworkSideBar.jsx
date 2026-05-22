@@ -1,4 +1,4 @@
-import { Card } from "react-bootstrap"
+import { Card } from "react-bootstrap";
 import {
   Calendar3,
   FileEarmark,
@@ -6,9 +6,11 @@ import {
   PeopleFill,
   PersonBadge,
   PersonFill,
-} from "react-bootstrap-icons"
+} from "react-bootstrap-icons";
+import { useSelector } from "react-redux";
 
 const NetworkSideBar = () => {
+  const followed = useSelector((state) => state.network.followed) || [];
   return (
     <Card className="shadow-sm rounded-3 mt-4 mt-md-0 mb-4">
       <Card.Title className="p-4 border-bottom">
@@ -18,7 +20,7 @@ const NetworkSideBar = () => {
         <Card.Text className="fs-5 p-1 fw-medium text-muted d-flex align-items-center">
           <PeopleFill className="me-2" width={22} />
           <span className="text-truncate m-0">Collegamenti</span>
-          <span className="ms-auto">55</span>
+          <span className="ms-auto">{followed.length}</span>
         </Card.Text>
         <Card.Text className="fs-5 p-1 fw-medium text-muted d-flex align-items-center">
           <PersonBadge className="me-2" width={22} />
@@ -49,7 +51,7 @@ const NetworkSideBar = () => {
         </Card.Text>
       </Card.Body>
     </Card>
-  )
-}
+  );
+};
 
-export default NetworkSideBar
+export default NetworkSideBar;
