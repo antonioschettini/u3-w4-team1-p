@@ -1,5 +1,6 @@
 import { Container, Card, Image, Row, Col } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
 
 // Importiamo le funzioni per le PERSONE
 import {
@@ -17,6 +18,7 @@ import LeftSidebar from "../home/LeftSidebar";
 
 const Notification = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   //  Recuperiamo entrambe le liste
   const userNotifications =
@@ -36,6 +38,7 @@ const Notification = () => {
       dispatch(markJobAsRead(item._id));
     } else {
       dispatch(markUserAsRead(item._id));
+      navigate(`/profile/${item._id}`); // reindirizza al profilo utente
     }
   };
 
